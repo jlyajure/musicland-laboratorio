@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=no">
-    <title>Music Land</title>
+    <title>Music Land Lab</title>
     <meta name="theme-color" content="#000000">
     <link rel="icon" type="image/png" href="logo.png?v=2">
     <link rel="apple-touch-icon" href="logo.png?v=2">
@@ -46,7 +46,7 @@
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 
     <style>
-        :root { --neon: #00d2ff; --bg: #050505; --card: #121212; }
+        :root { --neon: #00d2ff; --bg: #050505; --card: #121212; --edit: #a68a44; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         html, body { height: 100%; margin: 0; background: var(--bg); color: #e2e8f0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
         
@@ -56,7 +56,6 @@
         .brand-title { color: var(--neon); font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
         .btn-salir-app { background: transparent; border: 1.5px solid #ff4444; color: #ff4444; padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; cursor: pointer; }
 
-        /* 🛠️ AHORA SÍ: BARRA DE SCROLL VISIBLE Y CON ESTILO NEÓN PARA PC */
         .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 15px; background: #080808; border-bottom: 1px solid #222; -webkit-overflow-scrolling: touch; }
         .filter-bar::-webkit-scrollbar { height: 6px; }
         .filter-bar::-webkit-scrollbar-track { background: #111; border-radius: 10px; }
@@ -65,7 +64,8 @@
         .filter-btn { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; user-select: none; }
         .filter-btn.active { background: var(--neon); color: black; border-color: var(--neon); }
 
-        #admin-panel { display: none; background: #111; padding: 20px; border-radius: 15px; margin: 15px; border: 1px dashed var(--neon); }
+        #admin-panel { display: none; background: #111; padding: 20px; border-radius: 15px; margin: 15px; border: 1px dashed var(--neon); transition: 0.3s; }
+        .admin-edit-mode { border: 1px dashed var(--edit) !important; box-shadow: 0 0 15px rgba(166, 138, 68, 0.2); }
         .input-box, .select-box { width: 100%; padding: 12px; margin-bottom: 10px; background: #0a0a0a; border: 1px solid #333; color: white; border-radius: 8px; font-family: inherit; }
         .btn-subir { width: 100%; background: var(--neon); color: black; padding: 12px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 5px; }
 
@@ -141,14 +141,15 @@
 
 <div class="container">
     <div id="admin-panel">
-        <h3 style="color:var(--neon); text-align:center; font-size:14px; margin-bottom:15px;">NUEVA CANCIÓN</h3>
+        <input type="hidden" id="edit-id">
+        <h3 id="panel-title" style="color:var(--neon); text-align:center; font-size:14px; margin-bottom:15px; font-weight:900;">NUEVA CANCIÓN</h3>
         <input type="text" id="t-titulo" class="input-box" placeholder="Título">
         <input type="text" id="t-artista" class="input-box" placeholder="Artista">
         <input type="text" id="t-url" class="input-box" placeholder="Link MP3">
         <input type="text" id="t-img" class="input-box" placeholder="Link Portada">
         <select id="t-categoria" class="select-box"></select>
         <button id="btn-guardar-pista" class="btn-subir">📻 SUBIR PISTA</button>
-        <button onclick="window.salirAdmin()" style="width:100%; background:#222; color:#ff4444; border:none; padding:10px; border-radius:8px; margin-top:10px; font-weight:800; cursor:pointer;">CERRAR PANEL</button>
+        <button onclick="window.salirAdmin()" style="width:100%; background:#222; color:#888; border:none; padding:10px; border-radius:8px; margin-top:10px; font-weight:800; cursor:pointer;">❌ CANCELAR / CERRAR</button>
     </div>
     <div id="tracks-feed"></div>
 </div>
@@ -193,7 +194,7 @@
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBwBq4gLgv4DSfUidzUuC7Irmvj_4pCTtI",
@@ -222,7 +223,6 @@
     const filterBar = document.getElementById('filter-bar');
     const selectCat = document.getElementById('t-categoria');
     
-    // Generar botones
     categorias.forEach(cat => {
         const btn = document.createElement('button');
         btn.className = 'filter-btn'; btn.innerText = cat;
@@ -254,26 +254,80 @@
         } else { alert("Clave Incorrecta"); }
     };
 
-    window.salirAdmin = () => { modoAdmin = false; document.getElementById('admin-panel').style.display = 'none'; render(); };
+    window.salirAdmin = () => { 
+        document.getElementById('edit-id').value = "";
+        document.getElementById('t-titulo').value = "";
+        document.getElementById('t-artista').value = "";
+        document.getElementById('t-url').value = "";
+        document.getElementById('t-img').value = "";
+        
+        document.getElementById('admin-panel').classList.remove('admin-edit-mode');
+        document.getElementById('panel-title').innerText = "NUEVA CANCIÓN";
+        document.getElementById('panel-title').style.color = "var(--neon)";
+        const btn = document.getElementById('btn-guardar-pista');
+        btn.innerText = "📻 SUBIR PISTA";
+        btn.style.background = "var(--neon)";
+        
+        modoAdmin = false; 
+        document.getElementById('admin-panel').style.display = 'none'; 
+        render(); 
+    };
+    
     window.confirmarSalida = () => { if(confirm("¿Cerrar App?")) { window.close(); window.location.href = "about:blank"; } };
+
+    window.prepararEdicion = (id) => {
+        const c = canciones.find(x => x.id === id);
+        document.getElementById('edit-id').value = c.id;
+        document.getElementById('t-titulo').value = c.titulo;
+        document.getElementById('t-artista').value = c.artista;
+        document.getElementById('t-url').value = c.mp3Url;
+        document.getElementById('t-img').value = c.imagenUrl;
+        document.getElementById('t-categoria').value = c.categoria;
+        
+        const panel = document.getElementById('admin-panel');
+        panel.classList.add('admin-edit-mode');
+        document.getElementById('panel-title').innerText = "🖋️ EDITANDO CANCIÓN";
+        document.getElementById('panel-title').style.color = "var(--edit)";
+        
+        const btn = document.getElementById('btn-guardar-pista');
+        btn.innerText = "💾 ACTUALIZAR CANCIÓN";
+        btn.style.background = "var(--edit)";
+        
+        panel.style.display = 'block';
+        window.scrollTo({top:0, behavior:'smooth'});
+    };
 
     document.getElementById('btn-guardar-pista').onclick = async () => {
         const btn = document.getElementById('btn-guardar-pista');
         btn.disabled = true; btn.innerText = "...";
+        
+        const id = document.getElementById('edit-id').value;
+        const data = {
+            titulo: document.getElementById('t-titulo').value, 
+            artista: document.getElementById('t-artista').value,
+            mp3Url: document.getElementById('t-url').value, 
+            imagenUrl: document.getElementById('t-img').value || "logo.png",
+            categoria: document.getElementById('t-categoria').value, 
+            fecha: new Date().getTime()
+        };
+
         try {
-            await addDoc(collection(db, coleccionDB), {
-                titulo: document.getElementById('t-titulo').value, artista: document.getElementById('t-artista').value,
-                mp3Url: document.getElementById('t-url').value, imagenUrl: document.getElementById('t-img').value || "logo.png",
-                categoria: document.getElementById('t-categoria').value, fecha: new Date().getTime()
-            });
-            alert("¡Canción subida!");
-            document.getElementById('t-titulo').value = ""; document.getElementById('t-artista').value = "";
-            document.getElementById('t-url').value = ""; document.getElementById('t-img').value = "";
-        } catch(e) { alert("Error al subir"); }
-        btn.disabled = false; btn.innerText = "📻 SUBIR PISTA";
+            if(id) {
+                await updateDoc(doc(db, coleccionDB, id), data);
+                alert("¡Canción actualizada!");
+            } else {
+                await addDoc(collection(db, coleccionDB), data);
+                alert("¡Canción subida!");
+            }
+            window.salirAdmin();
+            modoAdmin = true; 
+            document.getElementById('admin-panel').style.display = 'block';
+        } catch(e) { alert("Error al guardar"); }
+        
+        btn.disabled = false;
     };
 
-    window.borrarPista = async (id) => { if(confirm("¿Borrar?")) await deleteDoc(doc(db, coleccionDB, id)); };
+    window.borrarPista = async (id) => { if(confirm("¿Borrar definitivamente?")) await deleteDoc(doc(db, coleccionDB, id)); };
 
     onSnapshot(query(collection(db, coleccionDB), orderBy("fecha", "desc")), (snap) => {
         canciones = []; snap.forEach(d => canciones.push({id: d.id, ...d.data()})); render();
@@ -298,7 +352,10 @@
                     </div>
                     <button class="btn-play-mini">${isPlaying ? SVG_PAUSE : SVG_PLAY}</button>
                 </div>
-                ${modoAdmin ? `<button onclick="window.borrarPista('${c.id}')" style="margin-top:12px; background:transparent; border:1px solid #ff4444; color:#ff4444; font-size:10px; font-weight:800; padding:6px; border-radius:8px; width:100%; cursor:pointer;">🗑️ BORRAR CANCIÓN</button>` : ''}
+                ${modoAdmin ? `<div style="display:flex; gap:10px; margin-top:12px; border-top:1px solid #222; padding-top:12px;">
+                    <button onclick="window.prepararEdicion('${c.id}')" style="flex:1; background:transparent; border:1px solid var(--edit); color:var(--edit); font-size:10px; font-weight:800; padding:8px; border-radius:8px; cursor:pointer;">🖋️ EDITAR</button>
+                    <button onclick="window.borrarPista('${c.id}')" style="flex:1; background:transparent; border:1px solid #ff4444; color:#ff4444; font-size:10px; font-weight:800; padding:8px; border-radius:8px; cursor:pointer;">🗑️ BORRAR</button>
+                </div>` : ''}
             `;
             feed.appendChild(div);
         });
