@@ -47,37 +47,49 @@
         #login-screen { position: fixed; inset: 0; background: black; z-index: 6000; display: flex; align-items: center; justify-content: center; }
         .login-card { width: 85%; max-width: 320px; text-align: center; background: #111; padding: 40px 30px; border-radius: 25px; border: 1px solid #222; box-shadow: 0 0 30px rgba(0, 210, 255, 0.1); }
         
-        /* HEADER FIJO */
         header { background: rgba(8,8,8,0.98); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; width: 100%; z-index: 100; border-bottom: 1px solid #222; height: 70px; }
         .header-logo { width: 35px; height: 35px; border-radius: 8px; border: 1px solid var(--neon); object-fit: cover; }
         .brand-title { color: var(--neon); font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-left: 10px; }
-        .btn-salir-app { background: rgba(0,0,0,0.5); border: 1.5px solid #ff4444; color: #ff4444; padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; cursor: pointer; }
+        .btn-salir-app { background: rgba(0,0,0,0.5); border: 1.5px solid #ff4444; color: #ff4444; padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; cursor: pointer; backdrop-filter: blur(5px); }
 
-        /* BUSCADOR FIJO (DEBAJO DEL HEADER) */
+        /* BUSCADOR COMPACTO Y CENTRADO */
         .search-container { 
             position: fixed; 
-            top: 70px; 
-            left: 0; 
-            width: 100%; 
-            padding: 10px 15px; 
-            background: rgba(8,8,8,0.95); 
+            top: 80px; /* Un poco más separado del header */
+            left: 50%; /* Centrado absoluto */
+            transform: translateX(-50%); /* Corrección de centrado */
+            width: 90%; 
+            max-width: 500px; /* ANCHO MÁXIMO REDUCIDO */
+            padding: 0;
             z-index: 90; 
             display: flex; 
             gap: 10px; 
             align-items: center; 
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid #222;
         }
         .search-wrapper { position: relative; width: 100%; flex: 1; }
-        .search-box { width: 100%; background: #1a1a1a; border: 1px solid #333; color: white; padding: 10px 15px 10px 40px; border-radius: 30px; font-family: inherit; font-size: 14px; outline: none; transition: 0.3s; height: 40px; }
-        .search-box:focus { border-color: var(--neon); }
+        .search-box { 
+            width: 100%; 
+            background: rgba(20,20,20,0.95); 
+            backdrop-filter: blur(10px); 
+            border: 1px solid #333; 
+            color: white; 
+            padding: 10px 15px 10px 40px; 
+            border-radius: 50px; /* MÁS REDONDO */
+            font-family: inherit; 
+            font-size: 14px; 
+            outline: none; 
+            transition: 0.3s; 
+            height: 45px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+        .search-box:focus { border-color: var(--neon); box-shadow: 0 5px 20px rgba(0, 210, 255, 0.2); }
         .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #666; pointer-events: none; }
         
-        .btn-cancel-search { display: none; background: #222; border: 1px solid #ff4444; color: #ff4444; border-radius: 30px; padding: 0 15px; height: 40px; font-size: 11px; font-weight: 800; cursor: pointer; white-space: nowrap; }
+        .btn-cancel-search { display: none; background: #111; border: 1px solid #ff4444; color: #ff4444; border-radius: 50px; padding: 0 20px; height: 45px; font-size: 11px; font-weight: 800; cursor: pointer; white-space: nowrap; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         .search-active .btn-cancel-search { display: block; }
 
-        /* CONTENIDO PRINCIPAL (Para que no se esconda bajo el header) */
-        #home-view { display: block; padding-top: 130px; padding-bottom: 150px; }
+        /* CONTENIDO PRINCIPAL */
+        #home-view { display: block; padding-top: 140px; padding-bottom: 150px; }
         
         /* HERO SECTION */
         #hero-section { min-height: 50vh; position: relative; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; margin-bottom: 20px; border-radius: 0 0 20px 20px; }
@@ -99,17 +111,16 @@
         .hero-btn-like { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
         .hero-btn-like.liked { color: var(--red); border-color: var(--red); background: rgba(255, 68, 68, 0.1); animation: pop 0.3s ease; }
 
-        /* RESULTADOS DE BÚSQUEDA (CON MARGEN SUPERIOR CORREGIDO) */
+        /* RESULTADOS DE BÚSQUEDA */
         #search-results { 
             display: none; 
             padding: 15px; 
-            padding-top: 140px; /* CLAVE PARA QUE NO SE ESCONDA */
+            padding-top: 150px; /* Espacio suficiente para bajar */
             max-width: 900px; 
             margin: 0 auto; 
             padding-bottom: 150px; 
         }
         
-        /* BOTÓN VOLVER (ESTILO FORZADO) */
         .back-msg { 
             display: flex; 
             justify-content: space-between; 
@@ -122,7 +133,7 @@
             border-left: 4px solid var(--neon); 
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
             position: relative;
-            z-index: 500;
+            z-index: 50;
         }
         .back-btn-link { 
             background: var(--neon) !important; 
@@ -217,7 +228,7 @@
 <div class="search-container" id="search-container">
     <div class="search-wrapper">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-box" placeholder="Buscar artista, canción o género..." oninput="window.debounceSearch()">
+        <input type="text" id="search-input" class="search-box" placeholder="Buscar artista, canción..." oninput="window.debounceSearch()">
     </div>
     <button class="btn-cancel-search" onclick="window.clearSearch()">✖ CANCELAR</button>
 </div>
