@@ -50,7 +50,6 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         html, body { height: 100%; margin: 0; background: var(--bg); color: #e2e8f0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
         
-        /* LOGIN SCREEN: AHORA VISIBLE SIEMPRE AL INICIO */
         #login-screen { position: fixed; inset: 0; background: black; z-index: 5000; display: flex; align-items: center; justify-content: center; }
         .login-card { width: 85%; max-width: 320px; text-align: center; background: #111; padding: 40px 30px; border-radius: 25px; border: 1px solid #222; box-shadow: 0 0 30px rgba(0, 210, 255, 0.1); }
         
@@ -62,18 +61,13 @@
         .brand-title { color: var(--neon); font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; text-shadow: 0 0 10px rgba(0, 210, 255, 0.5); }
         .btn-salir-app { background: rgba(0,0,0,0.5); border: 1.5px solid #ff4444; color: #ff4444; padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; cursor: pointer; backdrop-filter: blur(5px); }
 
-        /* HERO SECTION REDISEÑADO (CARÁTULA GIGANTE) */
         #hero-section { min-height: 65vh; position: relative; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; padding-top: 80px; padding-bottom: 20px; }
         .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(30px) brightness(0.3); transform: scale(1.2); z-index: 0; transition: background-image 0.5s ease; }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.2) 0%, var(--bg) 95%); z-index: 1; }
         
         .hero-content { position: relative; z-index: 2; width: 100%; max-width: 800px; padding: 20px; display: flex; flex-direction: column; gap: 25px; align-items: center; text-align: center; }
-        
-        @media (min-width: 600px) {
-            .hero-content { flex-direction: row; text-align: left; align-items: flex-end; }
-        }
+        @media (min-width: 600px) { .hero-content { flex-direction: row; text-align: left; align-items: flex-end; } }
 
-        /* AQUI ESTA EL CAMBIO DE TAMAÑO: 220px */
         .hero-cover { width: 220px; height: 220px; border-radius: 15px; background-size: cover; background-position: center; box-shadow: 0 20px 50px rgba(0,0,0,0.7); border: 2px solid rgba(255,255,255,0.1); flex-shrink: 0; background-color: #222; }
         
         .hero-info { flex: 1; display: flex; flex-direction: column; gap: 8px; width: 100%; }
@@ -92,7 +86,6 @@
 
         .filter-bar { display: flex; gap: 10px; overflow-x: auto; padding: 15px; background: transparent; -webkit-overflow-scrolling: touch; position: sticky; top: 60px; z-index: 90; margin-bottom: 10px; }
         .filter-bar::-webkit-scrollbar { height: 0px; }
-        
         .filter-btn { background: #1a1a1a; border: 1px solid #333; color: #fff; padding: 8px 16px; border-radius: 20px; font-size: 11px; font-weight: 700; cursor: pointer; white-space: nowrap; flex-shrink: 0; user-select: none; transition: 0.2s; }
         .filter-btn.active { background: var(--neon); color: black; border-color: var(--neon); box-shadow: 0 0 10px rgba(0, 210, 255, 0.2); }
 
@@ -144,7 +137,7 @@
         <h2 style="color:var(--neon); margin:0; font-size:18px;">ACCESO PRIVADO</h2>
         <input type="password" id="passInput" class="input-box" style="margin-top:20px;" placeholder="Contraseña">
         <button onclick="window.doLogin()" class="btn-subir">ENTRAR</button>
-        </div>
+    </div>
 </div>
 
 <header id="main-header">
@@ -164,9 +157,7 @@
             <div id="hero-tag" class="hero-tag">ESTRENO</div>
             <h1 id="hero-title" class="hero-title">Cargando...</h1>
             <p id="hero-artist" class="hero-artist">...</p>
-            
             <div id="hero-bio" class="hero-bio">Escoge una canción para ver más información aquí.</div>
-            
             <button id="hero-play-btn" class="hero-btn-play">
                 <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
             </button>
@@ -186,9 +177,7 @@
         <input type="text" id="t-artista" class="input-box" placeholder="Artista">
         <input type="text" id="t-url" class="input-box" placeholder="Link MP3">
         <input type="text" id="t-img" class="input-box" placeholder="Link Portada">
-        
         <textarea id="t-bio" style="height:100px;" class="input-box" placeholder="📝 Biografía / Datos Curiosos del Artista (Pega aquí info de Google)"></textarea>
-        
         <select id="t-categoria" class="select-box"></select>
         <button id="btn-guardar-pista" class="btn-subir">📻 SUBIR PISTA</button>
         <button onclick="window.salirAdmin()" style="width:100%; background:#222; color:#888; border:none; padding:10px; border-radius:8px; margin-top:10px; font-weight:800; cursor:pointer;">❌ CANCELAR</button>
@@ -250,6 +239,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const coleccionDB = "musicland_canciones";
+    const LOGO_URL = "https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp";
 
     const categorias = ["MIX", "SALSA", "MERENGUE", "BALADAS EN ESPAÑOL", "BALADAS EN INGLES", "FUNK", "POP", "SOUL", "R&B", "ROCK", "MUSICA TROPICAL", "CLASICOS BAILABLES", "PODCAST", "I.A.", "HOUSE", "DANCE", "RANCHERAS", "LLANERAS", "ROCK EN ESPAÑOL"];
     
@@ -318,8 +308,6 @@
         const btn = document.getElementById('btn-guardar-pista');
         btn.innerText = "📻 SUBIR PISTA";
         btn.style.background = "var(--neon)";
-        
-        // NO cerramos sesión, solo ocultamos el panel de edición
         document.getElementById('admin-panel').style.display = 'none'; 
         render(); 
     };
@@ -333,7 +321,7 @@
         document.getElementById('t-artista').value = c.artista;
         document.getElementById('t-url').value = c.mp3Url;
         document.getElementById('t-img').value = c.imagenUrl;
-        document.getElementById('t-bio').value = c.bio || ""; // CARGAR BIO
+        document.getElementById('t-bio').value = c.bio || ""; 
         document.getElementById('t-categoria').value = c.categoria;
         
         const panel = document.getElementById('admin-panel');
@@ -358,8 +346,8 @@
             titulo: document.getElementById('t-titulo').value, 
             artista: document.getElementById('t-artista').value,
             mp3Url: document.getElementById('t-url').value, 
-            imagenUrl: document.getElementById('t-img').value || "logo.png",
-            bio: document.getElementById('t-bio').value, // GUARDAR BIO
+            imagenUrl: document.getElementById('t-img').value || LOGO_URL,
+            bio: document.getElementById('t-bio').value, 
             categoria: document.getElementById('t-categoria').value, 
             fecha: new Date().getTime()
         };
@@ -373,7 +361,6 @@
                 alert("¡Canción subida!");
             }
             window.salirAdmin();
-            // Mantener panel visible para seguir subiendo si es nuevo, o cerrar si es edit
             if(id) document.getElementById('admin-panel').style.display = 'none';
             else document.getElementById('admin-panel').style.display = 'block';
         } catch(e) { alert("Error al guardar"); }
@@ -389,18 +376,22 @@
         render(); 
     });
 
+    // FUNCIÓN SEGURA PARA VERIFICAR IMAGENES
+    function getSafeImg(url) {
+        if(!url || !url.startsWith('http')) return LOGO_URL;
+        return url;
+    }
+
     function renderHero() {
         if(canciones.length === 0) return;
-        
-        // AHORA MUESTRA SIEMPRE LA ÚLTIMA CANCIÓN (Posición 0)
         const featured = canciones[0]; 
         
         const safeTit = (featured.titulo || "").replace(/'/g, "\\'");
         const safeArt = (featured.artista || "").replace(/'/g, "\\'");
         const safeUrl = (featured.mp3Url || "").replace(/'/g, "\\'");
-        const safeImg = (featured.imagenUrl || "logo.png?v=2").replace(/'/g, "\\'");
         
-        // Texto por defecto si no hay Bio
+        // AQUI ESTÁ EL DETECTOR DE LINK ROTO
+        const safeImg = getSafeImg(featured.imagenUrl);
         const safeBio = featured.bio ? featured.bio : "🎵 Lo más nuevo en Music Land. Disfruta de este estreno exclusivo.";
 
         document.getElementById('hero-bg').style.backgroundImage = `url('${safeImg}')`;
@@ -408,7 +399,6 @@
         document.getElementById('hero-tag').innerText = featured.categoria || "ESTRENO";
         document.getElementById('hero-title').innerText = featured.titulo;
         document.getElementById('hero-artist').innerText = featured.artista;
-        
         document.getElementById('hero-bio').innerText = safeBio;
         
         const btn = document.getElementById('hero-play-btn');
@@ -426,7 +416,9 @@
             const safeTit = (c.titulo || "").replace(/'/g, "\\'");
             const safeArt = (c.artista || "").replace(/'/g, "\\'");
             const safeUrl = (c.mp3Url || "").replace(/'/g, "\\'");
-            const safeImg = (c.imagenUrl || "logo.png?v=2").replace(/'/g, "\\'");
+            
+            // DETECTOR DE LINK ROTO TAMBIEN EN LA LISTA
+            const safeImg = getSafeImg(c.imagenUrl);
 
             const div = document.createElement('div');
             div.className = `track-card ${isPlaying ? 'is-playing' : ''}`;
