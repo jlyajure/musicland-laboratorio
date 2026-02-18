@@ -47,45 +47,96 @@
         #login-screen { position: fixed; inset: 0; background: black; z-index: 6000; display: flex; align-items: center; justify-content: center; }
         .login-card { width: 85%; max-width: 320px; text-align: center; background: #111; padding: 40px 30px; border-radius: 25px; border: 1px solid #222; box-shadow: 0 0 30px rgba(0, 210, 255, 0.1); }
         
-        header { background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; width: 100%; z-index: 100; transition: 0.3s; }
-        header.scrolled { background: rgba(8,8,8,0.98); border-bottom: 1px solid #222; }
+        /* HEADER FIJO */
+        header { background: rgba(8,8,8,0.98); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; width: 100%; z-index: 100; border-bottom: 1px solid #222; height: 70px; }
         .header-logo { width: 35px; height: 35px; border-radius: 8px; border: 1px solid var(--neon); object-fit: cover; }
         .brand-title { color: var(--neon); font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-left: 10px; }
-        .btn-salir-app { background: rgba(0,0,0,0.5); border: 1.5px solid #ff4444; color: #ff4444; padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; cursor: pointer; backdrop-filter: blur(5px); }
+        .btn-salir-app { background: rgba(0,0,0,0.5); border: 1.5px solid #ff4444; color: #ff4444; padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; cursor: pointer; }
 
-        #hero-section { min-height: 60vh; position: relative; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; padding-top: 80px; padding-bottom: 20px; }
-        .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(30px) brightness(0.4); transform: scale(1.2); z-index: 0; transition: background-image 0.5s ease; }
+        /* BUSCADOR FIJO (DEBAJO DEL HEADER) */
+        .search-container { 
+            position: fixed; 
+            top: 70px; 
+            left: 0; 
+            width: 100%; 
+            padding: 10px 15px; 
+            background: rgba(8,8,8,0.95); 
+            z-index: 90; 
+            display: flex; 
+            gap: 10px; 
+            align-items: center; 
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid #222;
+        }
+        .search-wrapper { position: relative; width: 100%; flex: 1; }
+        .search-box { width: 100%; background: #1a1a1a; border: 1px solid #333; color: white; padding: 10px 15px 10px 40px; border-radius: 30px; font-family: inherit; font-size: 14px; outline: none; transition: 0.3s; height: 40px; }
+        .search-box:focus { border-color: var(--neon); }
+        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #666; pointer-events: none; }
+        
+        .btn-cancel-search { display: none; background: #222; border: 1px solid #ff4444; color: #ff4444; border-radius: 30px; padding: 0 15px; height: 40px; font-size: 11px; font-weight: 800; cursor: pointer; white-space: nowrap; }
+        .search-active .btn-cancel-search { display: block; }
+
+        /* CONTENIDO PRINCIPAL (Para que no se esconda bajo el header) */
+        #home-view { display: block; padding-top: 130px; padding-bottom: 150px; }
+        
+        /* HERO SECTION */
+        #hero-section { min-height: 50vh; position: relative; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; margin-bottom: 20px; border-radius: 0 0 20px 20px; }
+        .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(30px) brightness(0.4); transform: scale(1.2); z-index: 0; }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, var(--bg) 95%); z-index: 1; }
         .hero-content { position: relative; z-index: 2; width: 100%; max-width: 900px; padding: 20px; display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center; }
         @media (min-width: 600px) { .hero-content { flex-direction: row; text-align: left; align-items: flex-end; } }
-        .hero-cover { width: 200px; height: 200px; border-radius: 12px; background-size: cover; background-position: center; box-shadow: 0 20px 60px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); flex-shrink: 0; background-color: #222; }
+        .hero-cover { width: 180px; height: 180px; border-radius: 12px; background-size: cover; background-position: center; box-shadow: 0 20px 60px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); flex-shrink: 0; background-color: #222; }
         .hero-info { flex: 1; display: flex; flex-direction: column; width: 100%; }
         .hero-tag { align-self: center; background: var(--neon); color: black; padding: 4px 10px; border-radius: 4px; font-size: 10px; font-weight: 900; letter-spacing: 1px; margin-bottom: 10px; }
         @media (min-width: 600px) { .hero-tag { align-self: flex-start; } }
-        .hero-title { font-size: 28px; font-weight: 900; line-height: 1.1; margin: 0; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
+        .hero-title { font-size: 26px; font-weight: 900; line-height: 1.1; margin: 0; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
         .hero-artist { font-size: 16px; color: #ccc; font-weight: 700; margin: 5px 0 0 0; text-transform: uppercase; letter-spacing: 1px; }
         .hero-bio { font-size: 13px; color: #aaa; line-height: 1.4; max-height: 80px; overflow-y: auto; margin-top: 15px; padding-left: 10px; border-left: 2px solid var(--neon); text-align: left; }
         
         .hero-actions { display: flex; align-items: center; gap: 20px; margin-top: 20px; justify-content: center; }
         @media (min-width: 600px) { .hero-actions { justify-content: flex-start; } }
-        .hero-btn-play { background: var(--neon); color: black; border: none; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; box-shadow: 0 0 30px rgba(0, 210, 255, 0.4); transition: transform 0.2s; }
-        .hero-btn-play:active { transform: scale(0.9); }
-        .hero-btn-like { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
+        .hero-btn-play { background: var(--neon); color: black; border: none; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; box-shadow: 0 0 30px rgba(0, 210, 255, 0.4); transition: transform 0.2s; }
+        .hero-btn-like { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
         .hero-btn-like.liked { color: var(--red); border-color: var(--red); background: rgba(255, 68, 68, 0.1); animation: pop 0.3s ease; }
 
-        /* BUSCADOR */
-        .search-container { padding: 0 15px; margin-bottom: 20px; position: sticky; top: 70px; z-index: 90; max-width: 800px; margin: 0 auto 20px auto; display: flex; gap: 10px; align-items: center; }
-        .search-wrapper { position: relative; width: 100%; flex: 1; }
-        .search-box { width: 100%; background: rgba(20,20,20,0.95); backdrop-filter: blur(10px); border: 1px solid #333; color: white; padding: 12px 15px 12px 40px; border-radius: 30px; font-family: inherit; font-size: 14px; outline: none; transition: 0.3s; height: 45px; }
-        .search-box:focus { border-color: var(--neon); box-shadow: 0 0 15px rgba(0, 210, 255, 0.1); }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #666; pointer-events: none; }
+        /* RESULTADOS DE BÚSQUEDA (CON MARGEN SUPERIOR CORREGIDO) */
+        #search-results { 
+            display: none; 
+            padding: 15px; 
+            padding-top: 140px; /* CLAVE PARA QUE NO SE ESCONDA */
+            max-width: 900px; 
+            margin: 0 auto; 
+            padding-bottom: 150px; 
+        }
         
-        .btn-cancel-search { display: none; background: #222; border: 1px solid #ff4444; color: #ff4444; border-radius: 30px; padding: 0 15px; height: 45px; font-size: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; }
-        .search-active .btn-cancel-search { display: block; }
-
-        /* MENSAJE DE RETORNO (HEADER FIJO EN RESULTADOS) */
-        .back-msg { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: #111; padding: 12px 15px; border-radius: 10px; border-left: 3px solid var(--neon); max-width: 900px; margin: 0 auto 20px auto; }
-        .back-btn-link { background: var(--neon); color: black; font-weight: 800; font-size: 11px; cursor: pointer; text-decoration: none; padding: 8px 15px; border-radius: 20px; border: none; box-shadow: 0 0 10px rgba(0,210,255,0.3); }
+        /* BOTÓN VOLVER (ESTILO FORZADO) */
+        .back-msg { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            margin-bottom: 20px; 
+            background: #111; 
+            padding: 15px; 
+            border-radius: 12px; 
+            border: 1px solid #333;
+            border-left: 4px solid var(--neon); 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            position: relative;
+            z-index: 500;
+        }
+        .back-btn-link { 
+            background: var(--neon) !important; 
+            color: black !important; 
+            font-weight: 800 !important; 
+            font-size: 12px !important; 
+            cursor: pointer !important; 
+            border: none !important; 
+            padding: 10px 20px !important; 
+            border-radius: 30px !important; 
+            box-shadow: 0 0 15px rgba(0,210,255,0.4) !important;
+            display: inline-block;
+        }
+        .back-btn-link:active { transform: scale(0.95); }
 
         .section-title { font-size: 18px; font-weight: 900; color: white; margin: 30px 0 15px 15px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; max-width: 900px; margin-left: auto; margin-right: auto; padding-left: 15px; }
         .section-title span { color: var(--neon); font-size: 14px; }
@@ -103,18 +154,14 @@
         
         .n-title { font-size: 13px; font-weight: 700; color: white; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .n-artist { font-size: 11px; color: #888; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        
         .n-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 2px; }
         .n-like { background: none; border: none; font-size: 14px; cursor: pointer; color: #555; padding: 0; display: flex; align-items: center; gap: 4px; }
         .n-like.liked { color: var(--red); animation: pop 0.3s ease; }
         .n-like-count { font-size: 10px; font-weight: 700; }
         .n-edit { font-size: 10px; color: var(--edit); text-decoration: none; border: 1px solid var(--edit); padding: 2px 6px; border-radius: 4px; }
-
         @keyframes pop { 0%{transform:scale(1)} 50%{transform:scale(1.4)} 100%{transform:scale(1.1)} }
 
-        #search-results { display: none; padding: 15px; max-width: 900px; margin: 0 auto; padding-bottom: 150px; }
         #results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
-        #home-view { display: block; padding-bottom: 150px; }
 
         #admin-panel { display: none; background: #111; padding: 20px; border-radius: 15px; margin: 15px auto; max-width: 600px; border: 1px dashed var(--neon); }
         .admin-edit-mode { border: 1px dashed var(--edit) !important; }
@@ -167,6 +214,14 @@
     <button onclick="window.doLogout()" class="btn-salir-app">SALIR</button>
 </header>
 
+<div class="search-container" id="search-container">
+    <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" class="search-box" placeholder="Buscar artista, canción o género..." oninput="window.debounceSearch()">
+    </div>
+    <button class="btn-cancel-search" onclick="window.clearSearch()">✖ CANCELAR</button>
+</div>
+
 <div id="home-view">
     <div id="hero-section">
         <div id="hero-bg" class="hero-bg"></div>
@@ -184,14 +239,6 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div class="search-container" id="search-container">
-        <div class="search-wrapper">
-            <span class="search-icon">🔍</span>
-            <input type="text" id="search-input" class="search-box" placeholder="Buscar artista, canción o género..." oninput="window.debounceSearch()">
-        </div>
-        <button class="btn-cancel-search" onclick="window.clearSearch()">✖ CANCELAR</button>
     </div>
 
     <div id="admin-panel">
@@ -227,7 +274,7 @@
 
 <div id="search-results">
     <div class="back-msg">
-        <span style="color:#888; font-size:12px;">Resultados de la búsqueda:</span>
+        <span style="color:#ddd; font-size:13px; font-weight:600;">Resultados de tu búsqueda:</span>
         <button class="back-btn-link" onclick="window.clearSearch()">⬅️ VOLVER AL MENÚ</button>
     </div>
     <div id="results-grid"></div>
@@ -431,15 +478,14 @@
         searchTimeout = setTimeout(window.doSearch, 300);
     };
 
-    // --- FUNCIÓN CORREGIDA: LIMPIAR Y SALIR ---
     window.clearSearch = () => {
         document.getElementById('search-input').value = "";
         document.getElementById('search-container').classList.remove('search-active');
         document.getElementById('home-view').style.display = 'block';
         document.getElementById('search-results').style.display = 'none';
+        window.scrollTo({top:0, behavior:'smooth'});
     };
 
-    // --- FUNCIÓN CORREGIDA: BUSCAR SIN BORRAR EL BOTÓN ---
     window.doSearch = () => {
         const query = document.getElementById('search-input').value.toLowerCase().trim();
         const home = document.getElementById('home-view');
