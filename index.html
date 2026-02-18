@@ -9,7 +9,6 @@
     <link rel="apple-touch-icon" href="logo.png?v=2">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     
-    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     <script>
         window.castUrl = ""; window.castTitle = ""; window.castCover = ""; window.lastTvTime = 0;
         window['__onGCastApiAvailable'] = function(isAvailable) {
@@ -38,6 +37,7 @@
             }
         };
     </script>
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
 
     <style>
         :root { --neon: #00d2ff; --bg: #080808; --card: #121212; --edit: #a68a44; --red: #ff4444; }
@@ -45,10 +45,10 @@
         html, body { height: 100%; margin: 0; background: var(--bg); color: #e2e8f0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
         
         /* LOGIN */
-        #login-screen { position: fixed; inset: 0; background: black; z-index: 5000; display: flex; align-items: center; justify-content: center; }
+        #login-screen { position: fixed; inset: 0; background: black; z-index: 6000; display: flex; align-items: center; justify-content: center; }
         .login-card { width: 85%; max-width: 320px; text-align: center; background: #111; padding: 40px 30px; border-radius: 25px; border: 1px solid #222; box-shadow: 0 0 30px rgba(0, 210, 255, 0.1); }
         
-        /* HEADER FLOTANTE */
+        /* HEADER */
         header { background: linear-gradient(180deg, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; width: 100%; z-index: 100; transition: 0.3s; }
         header.scrolled { background: rgba(8,8,8,0.98); border-bottom: 1px solid #222; }
         .header-logo { width: 35px; height: 35px; border-radius: 8px; border: 1px solid var(--neon); object-fit: cover; }
@@ -82,21 +82,22 @@
         .search-box:focus { border-color: var(--neon); box-shadow: 0 0 15px rgba(0, 210, 255, 0.1); }
         .search-icon { position: absolute; left: 30px; top: 50%; transform: translateY(-50%); color: #666; pointer-events: none; }
 
-        /* SECCIONES NETFLIX (CARRUSELES) */
+        /* SECCIONES (CARRUSELES) */
         .section-title { font-size: 18px; font-weight: 900; color: white; margin: 30px 0 15px 15px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; max-width: 900px; margin-left: auto; margin-right: auto; padding-left: 15px; }
         .section-title span { color: var(--neon); font-size: 14px; }
         
         .carousel { display: flex; overflow-x: auto; padding: 0 15px 20px 15px; gap: 15px; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; max-width: 900px; margin: 0 auto; }
         .carousel::-webkit-scrollbar { display: none; }
         
-        /* TARJETA VERTICAL (NETFLIX STYLE) */
+        /* TARJETA VERTICAL */
         .n-card { min-width: 140px; width: 140px; display: flex; flex-direction: column; gap: 8px; position: relative; cursor: pointer; }
         .n-img { width: 140px; height: 140px; border-radius: 12px; background-size: cover; background-position: center; border: 1px solid #222; position: relative; overflow: hidden; transition: 0.3s; background-color: #1a1a1a; }
         .n-card:hover .n-img { transform: scale(1.03); border-color: var(--neon); }
         .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; }
         .n-card:hover .n-overlay, .n-card.is-playing .n-overlay { opacity: 1; }
         .n-play-icon { width: 40px; height: 40px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        .n-play-icon svg { width: 18px; height: 18px; fill: black; margin-left: 2px; }
+        /* CORRECCIÓN ICONO NEGRO */
+        .n-play-icon svg { width: 18px; height: 18px; fill: black !important; margin-left: 2px; }
         
         .n-title { font-size: 13px; font-weight: 700; color: white; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .n-artist { font-size: 11px; color: #888; margin: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -109,9 +110,9 @@
 
         @keyframes pop { 0%{transform:scale(1)} 50%{transform:scale(1.4)} 100%{transform:scale(1.1)} }
 
-        /* GRID DE RESULTADOS (CUANDO BUSCAS) */
-        #search-results { display: none; padding: 15px; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; max-width: 900px; margin: 0 auto; }
-        #home-view { display: block; }
+        /* RESULTADOS DE BÚSQUEDA */
+        #search-results { display: none; padding: 15px; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; max-width: 900px; margin: 0 auto; padding-bottom: 150px; }
+        #home-view { display: block; padding-bottom: 150px; }
 
         /* ADMIN PANEL */
         #admin-panel { display: none; background: #111; padding: 20px; border-radius: 15px; margin: 15px auto; max-width: 600px; border: 1px dashed var(--neon); }
@@ -119,17 +120,18 @@
         .input-box, .select-box, textarea { width: 100%; padding: 12px; margin-bottom: 10px; background: #0a0a0a; border: 1px solid #333; color: white; border-radius: 8px; font-family: inherit; }
         .btn-subir { width: 100%; background: var(--neon); color: black; padding: 12px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; margin-top: 5px; }
 
-        /* PLAYER BAR */
-        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(8,8,8,0.98); border-top: 1px solid #333; padding: 10px 15px; display: none; z-index: 1000; align-items: center; gap: 12px; backdrop-filter: blur(10px); }
-        .mini-art { width: 45px; height: 45px; border-radius: 6px; background-size: cover; cursor: pointer; }
+        /* MINI PLAYER CORREGIDO */
+        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); border-top: 1px solid #333; padding: 12px 15px; display: none; z-index: 5000; align-items: center; gap: 12px; backdrop-filter: blur(10px); }
+        .mini-art { width: 45px; height: 45px; border-radius: 6px; background-size: cover; cursor: pointer; border: 1px solid #333; }
         .mini-info { flex: 1; overflow: hidden; cursor: pointer; }
         .mini-title { margin: 0; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-weight: 700; }
         .mini-artist { font-size: 11px; color: var(--neon); margin-top: 2px; }
-        .btn-mini-play { background: none; border: none; cursor: pointer; padding: 0 10px; }
-        .btn-mini-play svg { width: 28px; height: 28px; fill: white; }
+        .btn-mini-play { background: none; border: none; cursor: pointer; padding: 0 10px; display: flex; align-items: center; }
+        /* CORRECCIÓN ICONO BLANCO */
+        .btn-mini-play svg { width: 32px; height: 32px; fill: white !important; }
 
-        /* FULL PLAYER */
-        #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #111 0%, #000 100%); z-index: 2000; transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; padding: 20px; }
+        /* FULL PLAYER CORREGIDO */
+        #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #111 0%, #000 100%); z-index: 6000; transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; padding: 20px; }
         #full-player.active { top: 0; }
         .fp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; padding-top: 10px; }
         .btn-down { background: none; border: none; color: white; font-size: 28px; cursor: pointer; }
@@ -141,8 +143,9 @@
         .fp-seek { width: 100%; -webkit-appearance: none; background: #222; height: 6px; border-radius: 3px; cursor: pointer; }
         .fp-seek::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 10px var(--neon); }
         .fp-controls { display: flex; justify-content: space-around; align-items: center; padding-bottom: 40px; }
-        .fp-btn-main { width: 70px; height: 70px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px rgba(0,210,255,0.3); }
-        .fp-btn-main svg { width: 30px; height: 30px; fill: black; margin-left: 3px; }
+        /* CORRECCIÓN ICONO NEGRO */
+        .fp-btn-main { width: 75px; height: 75px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 20px rgba(0,210,255,0.3); }
+        .fp-btn-main svg { width: 35px; height: 35px; fill: black !important; margin-left: 3px; }
         .fp-btn-sec { background: #1a1a1a; border: 1px solid #333; color: white; width: 45px; height: 45px; border-radius: 50%; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         
         google-cast-launcher { width: 30px; height: 30px; --disconnected-color: var(--neon); cursor: pointer; display: inline-block; }
@@ -188,7 +191,7 @@
 
     <div class="search-container">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-box" placeholder="Buscar artista, canción o género..." onkeyup="window.doSearch()">
+        <input type="text" id="search-input" class="search-box" placeholder="Buscar artista, canción o género..." oninput="window.doSearch()">
     </div>
 
     <div id="admin-panel">
@@ -286,6 +289,7 @@
     const media = document.getElementById('main-media'); 
     const fpSeek = document.getElementById('fp-seek');
     
+    // DEFINICION DE ICONOS SVG
     const SVG_PLAY = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
     const SVG_PAUSE = `<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
 
@@ -351,6 +355,8 @@
     onSnapshot(query(collection(db, coleccionDB), orderBy("fecha", "desc")), (snap) => {
         canciones = []; snap.forEach(d => canciones.push({id: d.id, ...d.data()})); 
         renderHero(); renderFeeds(); 
+        // Si hay una búsqueda activa, refrescarla
+        if(document.getElementById('search-input').value.length >= 2) window.doSearch();
     });
 
     function getSafeImg(url) { if(!url || !url.startsWith('http')) return LOGO_URL; return url; }
@@ -411,7 +417,7 @@
         // 1. Novedades (First 10)
         renderList(canciones.slice(0, 10), 'carousel-new');
         
-        // 2. Latin (Salsa, Merengue, Tropical)
+        // 2. Latin
         renderList(canciones.filter(c => ['SALSA','MERENGUE','MUSICA TROPICAL','LLANERAS','RANCHERAS'].includes(c.categoria)), 'carousel-latin');
         
         // 3. Retro
@@ -422,11 +428,17 @@
         
         // 5. All
         renderList(canciones, 'carousel-all');
+        
+        // Update Buttons States
+        const miniBtn = document.getElementById('mini-play-btn');
+        const fpBtn = document.getElementById('fp-play-btn');
+        if(miniBtn) miniBtn.innerHTML = media.paused ? SVG_PLAY : SVG_PAUSE;
+        if(fpBtn) fpBtn.innerHTML = media.paused ? SVG_PLAY : SVG_PAUSE;
     }
 
-    // --- BUSCADOR ---
+    // --- BUSCADOR CORREGIDO ---
     window.doSearch = () => {
-        const query = document.getElementById('search-input').value.toLowerCase();
+        const query = document.getElementById('search-input').value.toLowerCase().trim();
         const home = document.getElementById('home-view');
         const results = document.getElementById('search-results');
         
@@ -439,11 +451,17 @@
         home.style.display = 'none';
         results.style.display = 'grid';
         
-        const hits = canciones.filter(c => c.titulo.toLowerCase().includes(query) || c.artista.toLowerCase().includes(query) || c.categoria.toLowerCase().includes(query));
+        // Filtro exacto
+        const hits = canciones.filter(c => 
+            (c.titulo || "").toLowerCase().includes(query) || 
+            (c.artista || "").toLowerCase().includes(query) || 
+            (c.categoria || "").toLowerCase().includes(query)
+        );
         
         if(hits.length === 0) {
             results.innerHTML = "<p style='grid-column:1/-1; text-align:center; color:#666;'>No hay resultados.</p>";
         } else {
+            // Reutilizamos el diseño de tarjeta
             results.innerHTML = hits.map(c => {
                 const isPlaying = idActual === c.id && !media.paused;
                 const safeUrl = (c.mp3Url || "").replace(/'/g, "\\'");
@@ -470,7 +488,6 @@
     window.doLike = async (id, el) => {
         if(localStorage.getItem('liked_ml_' + id)) return;
         el.classList.add('liked');
-        // Update UI
         if(el.querySelector('.n-like-count')) {
             const span = el.querySelector('.n-like-count');
             span.innerText = parseInt(span.innerText || 0) + 1;
@@ -489,10 +506,14 @@
             document.getElementById('mini-title').innerText = tit;
             document.getElementById('mini-artist').innerText = art;
             document.getElementById('mini-art').style.backgroundImage = `url('${img}')`;
-            document.getElementById('mini-player').style.display = 'flex';
+            document.getElementById('mini-player').style.display = 'flex'; // FORCE FLEX
             document.getElementById('fp-title').innerText = tit;
             document.getElementById('fp-artist').innerText = art;
             document.getElementById('fp-art').style.backgroundImage = `url('${img}')`;
+            
+            // RESET ICON
+            document.getElementById('fp-play-btn').innerHTML = SVG_PLAY;
+
             media.src = url;
             media.play().catch(err => alert("Error link."));
             window.openFullPlayer();
