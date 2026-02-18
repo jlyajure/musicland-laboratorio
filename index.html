@@ -73,20 +73,19 @@
         .hero-btn-like { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
         .hero-btn-like.liked { color: var(--red); border-color: var(--red); background: rgba(255, 68, 68, 0.1); animation: pop 0.3s ease; }
 
-        /* BUSCADOR CORREGIDO (FLEXBOX) */
+        /* BUSCADOR */
         .search-container { padding: 0 15px; margin-bottom: 20px; position: sticky; top: 70px; z-index: 90; max-width: 800px; margin: 0 auto 20px auto; display: flex; gap: 10px; align-items: center; }
         .search-wrapper { position: relative; width: 100%; flex: 1; }
         .search-box { width: 100%; background: rgba(20,20,20,0.95); backdrop-filter: blur(10px); border: 1px solid #333; color: white; padding: 12px 15px 12px 40px; border-radius: 30px; font-family: inherit; font-size: 14px; outline: none; transition: 0.3s; height: 45px; }
         .search-box:focus { border-color: var(--neon); box-shadow: 0 0 15px rgba(0, 210, 255, 0.1); }
         .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #666; pointer-events: none; }
         
-        /* BOTÓN CANCELAR EXTERNO */
         .btn-cancel-search { display: none; background: #222; border: 1px solid #ff4444; color: #ff4444; border-radius: 30px; padding: 0 15px; height: 45px; font-size: 12px; font-weight: 800; cursor: pointer; white-space: nowrap; }
         .search-active .btn-cancel-search { display: block; }
 
-        /* VOLVER ARRIBA */
-        .back-msg { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: #111; padding: 10px 15px; border-radius: 10px; border-left: 3px solid var(--neon); }
-        .back-btn-link { color: var(--neon); font-weight: 800; font-size: 12px; cursor: pointer; text-decoration: none; border: 1px solid var(--neon); padding: 5px 10px; border-radius: 5px; }
+        /* MENSAJE DE RETORNO (HEADER FIJO EN RESULTADOS) */
+        .back-msg { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: #111; padding: 12px 15px; border-radius: 10px; border-left: 3px solid var(--neon); max-width: 900px; margin: 0 auto 20px auto; }
+        .back-btn-link { background: var(--neon); color: black; font-weight: 800; font-size: 11px; cursor: pointer; text-decoration: none; padding: 8px 15px; border-radius: 20px; border: none; box-shadow: 0 0 10px rgba(0,210,255,0.3); }
 
         .section-title { font-size: 18px; font-weight: 900; color: white; margin: 30px 0 15px 15px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; max-width: 900px; margin-left: auto; margin-right: auto; padding-left: 15px; }
         .section-title span { color: var(--neon); font-size: 14px; }
@@ -113,7 +112,8 @@
 
         @keyframes pop { 0%{transform:scale(1)} 50%{transform:scale(1.4)} 100%{transform:scale(1.1)} }
 
-        #search-results { display: none; padding: 15px; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; max-width: 900px; margin: 0 auto; padding-bottom: 150px; }
+        #search-results { display: none; padding: 15px; max-width: 900px; margin: 0 auto; padding-bottom: 150px; }
+        #results-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px; }
         #home-view { display: block; padding-bottom: 150px; }
 
         #admin-panel { display: none; background: #111; padding: 20px; border-radius: 15px; margin: 15px auto; max-width: 600px; border: 1px dashed var(--neon); }
@@ -228,9 +228,9 @@
 <div id="search-results">
     <div class="back-msg">
         <span style="color:#888; font-size:12px;">Resultados de la búsqueda:</span>
-        <div class="back-btn-link" onclick="window.clearSearch()">⬅️ VOLVER AL MENÚ</div>
+        <button class="back-btn-link" onclick="window.clearSearch()">⬅️ VOLVER AL MENÚ</button>
     </div>
-    <div id="results-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 15px;"></div>
+    <div id="results-grid"></div>
 </div>
 
 <audio id="main-media" crossorigin="anonymous"></audio>
@@ -422,7 +422,6 @@
         if(fpBtn) fpBtn.innerHTML = media.paused ? SVG_PLAY : SVG_PAUSE;
     }
 
-    // --- BUSCADOR CORREGIDO (BOTÓN CANCELAR) ---
     window.debounceSearch = () => {
         const container = document.getElementById('search-container');
         if(document.getElementById('search-input').value.length > 0) container.classList.add('search-active');
@@ -432,6 +431,7 @@
         searchTimeout = setTimeout(window.doSearch, 300);
     };
 
+    // --- FUNCIÓN CORREGIDA: LIMPIAR Y SALIR ---
     window.clearSearch = () => {
         document.getElementById('search-input').value = "";
         document.getElementById('search-container').classList.remove('search-active');
@@ -439,6 +439,7 @@
         document.getElementById('search-results').style.display = 'none';
     };
 
+    // --- FUNCIÓN CORREGIDA: BUSCAR SIN BORRAR EL BOTÓN ---
     window.doSearch = () => {
         const query = document.getElementById('search-input').value.toLowerCase().trim();
         const home = document.getElementById('home-view');
