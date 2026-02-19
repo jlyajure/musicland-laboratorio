@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC Master V91</title>
+    <title>Music Land Pro - PC Master V92</title>
+    
+    <link rel="icon" href="logo.jpg" type="image/jpeg">
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="apple-touch-icon" href="logo.jpg">
+
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     
     <script>
@@ -154,9 +159,9 @@
         <div class="logo-box">
             <svg class="logo-svg" id="svg-respaldo" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
             
-            <img src="logo.png?v=91" class="header-logo" alt="ML" 
+            <img src="logo.jpg?v=92" class="header-logo" alt="ML" 
                  onload="document.getElementById('svg-respaldo').style.display='none'" 
-                 onerror="this.style.display='none'">
+                 onerror="this.src='logo.png?v=92'; this.onerror=null;">
         </div>
         <div class="brand-title">Music Land</div>
     </div>
@@ -225,6 +230,7 @@
     const db = getFirestore(app);
     const media = document.getElementById('main-media');
     let canciones = []; let idActual = null;
+    let misFavoritos = JSON.parse(localStorage.getItem('ml_favoritos')) || [];
 
     const SVG_PLAY = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
     const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
