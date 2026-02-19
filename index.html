@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC Master V85</title>
+    <title>Music Land Pro - PC Master V86</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
@@ -16,47 +16,58 @@
                     autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED 
                 });
 
-                // SENSOR DE EVENTOS TV
                 context.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, function(event) {
                     const media = document.getElementById('main-media');
                     
                     if (event.sessionState === cast.framework.SessionState.SESSION_STARTED || event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
-                        // 1. La TV arranca -> La PC se silencia
                         media.pause(); 
                         if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(true); 
+                        const btn = document.getElementById('btn-cast-fijo');
+                        if(btn) btn.classList.add('cast-active');
                     } 
                     else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED) {
-                        // 2. La TV se apaga -> La PC vuelve a sonar
                         media.play();
                         if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(false);
+                        const btn = document.getElementById('btn-cast-fijo');
+                        if(btn) btn.classList.remove('cast-active');
                     }
                 });
             }
         };
 
-        window.startCast = () => {
-            const context = cast.framework.CastContext.getInstance();
-            const session = context.getCurrentSession();
-            const media = document.getElementById('main-media');
-            
-            if(session) {
-                if(confirm("¿Desconectar la TV?")) {
-                    // Rescatar el segundo exacto de la TV antes de matarla
-                    const castMedia = session.getMediaSession();
-                    if(castMedia) media.currentTime = castMedia.getEstimatedTime();
-                    session.endSession(true);
-                }
-            } else {
-                context.requestSession().then(() => {
-                    // CONEXIÓN EXITOSA -> ENVIAR MÚSICA Y TIEMPO
+        // FUNCIÓN BLINDADA PARA QUE NO SE CONGELE EL BOTÓN
+        window.startCast = async () => {
+            if (!window.cast || !window.cast.framework || !window.cast.framework.CastContext) {
+                alert("El sistema de TV aún se está conectando a tu navegador. Espera unos segundos y vuelve a intentar.");
+                return;
+            }
+
+            try {
+                const context = cast.framework.CastContext.getInstance();
+                const session = context.getCurrentSession();
+                const media = document.getElementById('main-media');
+                
+                if (session) {
+                    if(confirm("¿Desconectar la TV?")) {
+                        const castMedia = session.getMediaSession();
+                        if(castMedia) media.currentTime = castMedia.getEstimatedTime();
+                        session.endSession(true);
+                    }
+                } else {
+                    await context.requestSession();
+                    // SI SE CONECTA, ENVIAMOS LA MÚSICA CON EL CRONÓMETRO
                     if(media && media.src) {
                         const mediaInfo = new chrome.cast.media.MediaInfo(media.src, 'audio/mp3');
                         const request = new chrome.cast.media.LoadRequest(mediaInfo);
                         request.autoplay = true;
-                        request.currentTime = media.currentTime; // <-- AQUÍ SE SINCRONIZA EL TIEMPO
+                        request.currentTime = media.currentTime; 
                         context.getCurrentSession().loadMedia(request);
                     }
-                }).catch(e => console.log("Transmisión cancelada"));
+                }
+            } catch (error) {
+                if (error !== 'cancel') {
+                    console.log("Transmisión interrumpida o no disponible:", error);
+                }
             }
         };
     </script>
@@ -72,7 +83,6 @@
         
         header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid #222; height: 75px; }
         
-        /* 👑 LOGO DIRECTO DE GITHUB */
         .header-logo { width: 45px; height: 45px; border-radius: 10px; border: 2px solid var(--neon); object-fit: cover; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); cursor: pointer; }
         .brand-title { color: var(--neon); font-size: 22px; font-weight: 900; text-transform: uppercase; margin-left: 12px; letter-spacing: 2px; }
 
@@ -110,13 +120,17 @@
         .fp-art { width: 350px; height: 350px; border-radius: 30px; background-size: cover; box-shadow: 0 30px 60px rgba(0,0,0,0.8); border: 2px solid #333; }
         .fp-controls { display: flex; align-items: center; gap: 45px; margin-top: 30px; }
         .fp-btn-main { width: 85px; height: 85px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 30px var(--neon); color: black; }
+        
+        /* ILUMINACIÓN DEL BOTÓN DE CAST AL CONECTAR */
+        .btn-cast-pc { transition: 0.3s; }
+        .btn-cast-pc.cast-active { background: rgba(0, 210, 255, 0.1); color: var(--neon); border-color: var(--neon); box-shadow: 0 0 20px var(--neon); }
     </style>
 </head>
 <body>
 
 <header>
     <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
-        <img src="logo.png" class="header-logo" alt="Logo Music Land" onerror="this.src='https://i.postimg.cc/k47Zt644/Music-Land.png'">
+        <img src="logo.png" class="header-logo" alt="ML" onerror="this.src='https://i.postimg.cc/k47Zt644/Music-Land.png'">
         <div class="brand-title">Music Land</div>
     </div>
     <button onclick="window.confirmarSalida()" style="background:transparent; border:1px solid #ff4444; color:#ff4444; padding:5px 15px; border-radius:20px; cursor:pointer;">SALIR</button>
@@ -168,7 +182,8 @@
             <svg viewBox="0 0 24 24"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.01,19.86 21,16.28 21,12C21,7.72 18.01,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/></svg>
         </button>
         <button onclick="window.toggleMainPlay()" id="fp-play-btn" class="fp-btn-main"></button>
-        <button onclick="window.startCast()" class="btn-round" style="width:55px; height:55px;">
+        
+        <button onclick="window.startCast()" id="btn-cast-fijo" class="btn-round btn-cast-pc" style="width:55px; height:55px;">
             <svg viewBox="0 0 24 24"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg>
         </button>
     </div>
@@ -183,6 +198,7 @@
     const db = getFirestore(app);
     const media = document.getElementById('main-media');
     let canciones = []; let idActual = null;
+    let misFavoritos = JSON.parse(localStorage.getItem('ml_favoritos')) || [];
 
     const SVG_PLAY = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
     const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
@@ -231,11 +247,13 @@
     window.gestionarPlay = (id) => {
         const s = canciones.find(c => c.id === id);
         if(idActual !== id) {
-            idActual = id; window.castUrl = s.mp3Url; window.castTitle = s.titulo; window.castCover = s.imagenUrl;
-            document.getElementById('mini-title').innerText = s.titulo; document.getElementById('mini-artist').innerText = s.artista;
+            idActual = id; 
+            document.getElementById('mini-title').innerText = s.titulo; 
+            document.getElementById('mini-artist').innerText = s.artista;
             document.getElementById('mini-art').style.backgroundImage = `url('${s.imagenUrl}')`;
             document.getElementById('mini-player').style.display = 'flex';
-            document.getElementById('fp-title').innerText = s.titulo; document.getElementById('fp-artist').innerText = s.artista;
+            document.getElementById('fp-title').innerText = s.titulo; 
+            document.getElementById('fp-artist').innerText = s.artista;
             document.getElementById('fp-art').style.backgroundImage = `url('${s.imagenUrl}')`;
             media.src = s.mp3Url; 
             media.play();
