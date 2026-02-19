@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - V71</title>
+    <title>Music Land Pro - PC Master V72</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     
@@ -12,51 +12,41 @@
         * { box-sizing: border-box; outline: none; }
         body { background: var(--bg); color: #e2e8f0; margin: 0; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
         
-        /* 🔵 BARRA DESLIZADORA NEÓN AZUL (Sugerencia del Director) */
+        /* 🔵 BARRA DESLIZADORA NEÓN AZUL */
         ::-webkit-scrollbar { height: 10px; width: 10px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; box-shadow: 0 0 15px var(--neon); border: 2px solid #000; }
         
         header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid #222; height: 75px; }
         
-        /* 🎨 LOGO HÍBRIDO INFALIBLE */
-        .logo-box { 
-            width: 48px; height: 48px; 
-            background: #000; 
-            border: 2px solid var(--neon); 
-            border-radius: 12px; 
-            display: flex; align-items: center; justify-content: center; 
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.5);
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-        }
-        /* La nota musical está escrita en el código, no se puede borrar */
-        .logo-svg-base { position: absolute; width: 28px; height: 28px; fill: var(--neon); z-index: 1; filter: drop-shadow(0 0 5px var(--neon)); }
-        .header-logo-img { position: relative; width: 100%; height: 100%; object-fit: cover; z-index: 2; }
+        /* LOGO REFORZADO */
+        .logo-box { width: 45px; height: 45px; background: #000; border: 2.5px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 210, 255, 0.5); cursor: pointer; overflow: hidden; position: relative; }
+        .logo-svg-fallback { position: absolute; width: 25px; fill: var(--neon); z-index: 1; }
+        .header-logo { position: relative; width: 100%; height: 100%; object-fit: cover; z-index: 2; }
         
-        .brand-title { color: var(--neon); font-size: 24px; font-weight: 900; text-transform: uppercase; margin-left: 15px; letter-spacing: 2px; }
+        .brand-title { color: var(--neon); font-size: 22px; font-weight: 900; text-transform: uppercase; margin-left: 15px; letter-spacing: 2px; }
 
         .search-container { position: fixed; top: 75px; left: 0; width: 100%; z-index: 1000; padding: 15px 0; background: linear-gradient(180deg, black, transparent); }
         .search-wrapper { position: relative; width: 90%; max-width: 500px; margin: 0 auto; }
         .search-box { width: 100%; background: #111; border: 1px solid #333; color: white; padding: 12px 45px; border-radius: 50px; font-size: 14px; }
         .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--neon); }
 
-        #home-view { padding-top: 170px; padding-bottom: 160px; }
+        #home-view { padding-top: 160px; padding-bottom: 160px; }
         
-        /* PORTADA HERO PC */
+        /* 🚀 PORTADA HERO PC */
         #hero-section { min-height: 480px; width: 100%; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 0 0 40px 40px; margin-bottom: 40px; border-bottom: 1px solid #222; background: #000; }
         .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(60px) brightness(0.2); }
         .hero-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, var(--bg) 10%, transparent 100%); }
         .hero-content { position: relative; z-index: 2; width: 90%; max-width: 1100px; display: flex; flex-direction: row; align-items: center; gap: 50px; padding: 20px; }
-        .hero-cover { width: 300px; height: 300px; border-radius: 20px; background-size: cover; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; background-color: #111; }
+        .hero-cover { width: 300px; height: 300px; border-radius: 20px; background-size: cover; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+        
         .hero-info { flex: 1; text-align: left; }
-        .hero-title { font-size: 42px; font-weight: 900; color: white; margin: 0; line-height: 1.1; }
+        .hero-title { font-size: 42px; font-weight: 900; color: white; margin: 0; }
         .hero-bio { font-size: 15px; color: #ccc; line-height: 1.6; margin-top: 15px; border-left: 3px solid var(--neon); padding-left: 15px; max-height: 120px; overflow-y: auto; }
-        .hero-actions { display: flex; align-items: center; gap: 20px; margin-top: 30px; }
+        
         .hero-btn-play { background: var(--neon); border: none; width: 65px; height: 65px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px var(--neon); }
 
-        /* LISTAS Y CARDS */
+        /* LISTAS */
         .section-title { font-size: 22px; font-weight: 900; color: white; margin: 50px auto 25px auto; max-width: 1100px; padding-left: 20px; border-left: 5px solid var(--neon); }
         .carousel { display: flex; overflow-x: auto; padding: 0 20px 30px 20px; gap: 25px; max-width: 1100px; margin: 0 auto; }
         .n-card { min-width: 160px; transition: 0.3s; cursor: pointer; }
@@ -65,12 +55,22 @@
         .n-card:hover .n-overlay, .n-card.is-playing .n-overlay { opacity: 1; }
         .n-play-icon { width: 50px; height: 50px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
-        /* MINI PLAYER */
+        /* 🔊 MINI PLAYER CORREGIDO (BOTONES RECAPTURADOS) */
         #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(20px); border-top: 1px solid #222; padding: 12px 40px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
         .mini-main { display: flex; align-items: center; gap: 15px; }
-        .mini-art { width: 55px; height: 55px; border-radius: 8px; border: 1px solid #333; background-size: cover; }
-        .mini-controls { display: flex; align-items: center; gap: 30px; }
-        .mini-btn { background: none; border: none; cursor: pointer; color: white; font-size: 28px; }
+        .mini-art { width: 55px; height: 55px; border-radius: 8px; border: 1px solid #333; background-size: cover; cursor: pointer; }
+        .mini-controls { display: flex; align-items: center; gap: 20px; }
+        .mini-btn { background: none; border: none; cursor: pointer; color: white; font-size: 26px; display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; }
+
+        /* 🖼️ FULL PLAYER (LA "OTRA PÁGINA") */
+        #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a, #000); z-index: 6000; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); display: flex; flex-direction: column; padding: 40px; align-items: center; overflow-y: auto; }
+        #full-player.active { top: 0; }
+        .btn-down { background: none; border: none; color: white; font-size: 40px; cursor: pointer; align-self: flex-start; }
+        .fp-art { width: 380px; height: 380px; border-radius: 30px; background-size: cover; background-position: center; box-shadow: 0 40px 80px rgba(0,0,0,0.9); border: 2px solid #333; margin-top: 20px; }
+        .fp-info { text-align: center; margin: 30px 0; }
+        .fp-controls { display: flex; align-items: center; gap: 50px; margin-top: 20px; }
+        .fp-btn-main { width: 90px; height: 90px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 30px var(--neon); }
+        .fp-btn-sec { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.2); color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -78,22 +78,15 @@
 <header>
     <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
         <div class="logo-box">
-            <svg class="logo-svg-base" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            <svg class="logo-svg-fallback" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
             <img src="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp" 
-                 class="header-logo-img" 
+                 class="header-logo" 
                  onerror="this.style.display='none'">
         </div>
         <div class="brand-title">Music Land</div>
     </div>
     <button onclick="window.confirmarSalida()" style="background:transparent; border:1px solid #ff4444; color:#ff4444; padding:5px 15px; border-radius:20px; cursor:pointer;">SALIR</button>
 </header>
-
-<div class="search-container">
-    <div class="search-wrapper">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-box" placeholder="Busca tu música favorita..." oninput="window.debounceSearch()">
-    </div>
-</div>
 
 <div id="home-view">
     <div id="hero-section">
@@ -103,7 +96,7 @@
             <div id="hero-cover" class="hero-cover"></div>
             <div class="hero-info">
                 <div id="hero-title" class="hero-title">Cargando...</div>
-                <div id="hero-artist" style="color:var(--neon); font-size:22px; font-weight:700;">...</div>
+                <div id="hero-artist" style="color:var(--neon); font-size:22px; font-weight:700; margin:10px 0;">...</div>
                 <div id="hero-bio" class="hero-bio"></div>
                 <div class="hero-actions">
                     <button id="hero-play-btn" class="hero-btn-play"></button>
@@ -116,23 +109,37 @@
     <div id="feed-container">
         <div id="fav-section" style="display:none;"><h3 class="section-title">⭐ Tus Favoritas</h3><div id="carousel-favs" class="carousel"></div></div>
         <h3 class="section-title">🔥 Novedades</h3><div id="carousel-new" class="carousel"></div>
-        <h3 class="section-title">📂 Todo el Catálogo</h3><div id="carousel-all" class="carousel" style="flex-wrap:wrap; justify-content:center;"></div>
+        <h3 class="section-title">📂 Catálogo Completo</h3><div id="carousel-all" class="carousel" style="flex-wrap:wrap; justify-content:center;"></div>
     </div>
 </div>
 
 <audio id="main-media" crossorigin="anonymous"></audio>
 
 <div id="mini-player">
-    <div class="mini-main">
+    <div class="mini-main" onclick="window.openFullPlayer()" style="cursor:pointer;">
         <div id="mini-art" class="mini-art"></div>
         <div>
-            <div id="mini-title" style="font-size:16px; font-weight:900; color:white;">...</div>
-            <div id="mini-artist" style="font-size:13px; color:var(--neon); font-weight:700;">...</div>
+            <div id="mini-title" style="font-size:15px; font-weight:800; color:white;">...</div>
+            <div id="mini-artist" style="font-size:12px; color:var(--neon); font-weight:700;">...</div>
         </div>
     </div>
     <div class="mini-controls">
-        <button onclick="window.toggleMute()" class="mini-btn" id="mini-vol-btn">🔊</button>
+        <button onclick="window.toggleMute()" class="mini-btn" id="mini-vol-btn" style="font-size:20px;">🔊</button>
         <button onclick="window.toggleMainPlay()" id="mini-play-btn" class="mini-btn"></button>
+    </div>
+</div>
+
+<div id="full-player">
+    <button onclick="window.closeFullPlayer()" class="btn-down">🔽</button>
+    <div id="fp-art" class="fp-art"></div>
+    <div class="fp-info">
+        <div id="fp-title" style="font-size:32px; font-weight:900; color:white;">...</div>
+        <div id="fp-artist" style="font-size:20px; color:var(--neon); font-weight:700; margin-top:10px;">...</div>
+    </div>
+    <div class="fp-controls">
+        <button onclick="window.toggleMute()" class="fp-btn-sec" id="btn-vol">🔊</button>
+        <button onclick="window.toggleMainPlay()" id="fp-play-btn" class="fp-btn-main"></button>
+        <button onclick="window.startCast()" id="btn-cast-fijo" class="fp-btn-sec"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg></button>
     </div>
 </div>
 
@@ -147,8 +154,8 @@
     let canciones = []; let idActual = null;
     let misFavoritos = JSON.parse(localStorage.getItem('ml_favoritos')) || [];
 
-    const SVG_PLAY = `<svg viewBox="0 0 24 24" width="40" height="40" fill="black"><path d="M8 5v14l11-7z"/></svg>`;
-    const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="40" height="40" fill="black"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+    const SVG_PLAY = `<svg viewBox="0 0 24 24" width="35" height="35" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
+    const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="35" height="35" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
 
     onSnapshot(query(collection(db, "musicland_canciones"), orderBy("fecha", "desc")), (snap) => {
         canciones = []; snap.forEach(d => canciones.push({id: d.id, ...d.data()})); 
@@ -166,9 +173,6 @@
         document.getElementById('hero-bio').innerText = f.bio || "Lo mejor de Music Land.";
         document.getElementById('hero-play-btn').innerHTML = isPlaying ? SVG_PAUSE : SVG_PLAY;
         document.getElementById('hero-play-btn').onclick = () => window.gestionarPlay(f.id);
-        const fBtn = document.getElementById('hero-fav-btn');
-        fBtn.innerHTML = misFavoritos.includes(f.id) ? '❤️' : '🤍';
-        fBtn.onclick = () => window.toggleFavorito(f.id);
     }
 
     function renderFeeds() {
@@ -179,10 +183,10 @@
                 <div class="n-img" style="background-image:url('${c.imagenUrl}')" onclick="window.gestionarPlay('${c.id}')">
                     <div class="n-overlay"><div class="n-play-icon">${isPlaying ? SVG_PAUSE : SVG_PLAY}</div></div>
                 </div>
-                <div style="font-size:15px; font-weight:800; color:white; margin-top:10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${c.titulo}</div>
+                <div style="font-size:14px; font-weight:700; color:white; margin-top:8px;">${c.titulo}</div>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-size:12px; color:var(--neon); font-weight:700;">${c.artista}</div>
-                    <div style="cursor:pointer; font-size:18px;" onclick="window.toggleFavorito('${c.id}')">${isFav?'❤️':'🤍'}</div>
+                    <div style="font-size:12px; color:var(--neon);">${c.artista}</div>
+                    <div style="cursor:pointer;" onclick="window.toggleFavorito('${c.id}')">${isFav?'❤️':'🤍'}</div>
                 </div>
             </div>`;
         };
@@ -191,35 +195,47 @@
         document.getElementById('carousel-favs').innerHTML = favs.map(c => createCard(c)).join('');
         document.getElementById('carousel-new').innerHTML = canciones.slice(0, 10).map(c => createCard(c)).join('');
         document.getElementById('carousel-all').innerHTML = canciones.map(c => createCard(c)).join('');
-        const btns = [document.getElementById('mini-play-btn'), document.getElementById('hero-play-btn')];
-        btns.forEach(b => { if(b) b.innerHTML = media.paused ? SVG_PLAY : SVG_PAUSE; });
+        
+        const updateBtns = [document.getElementById('mini-play-btn'), document.getElementById('fp-play-btn'), document.getElementById('hero-play-btn')];
+        updateBtns.forEach(b => { if(b) b.innerHTML = media.paused ? SVG_PLAY : SVG_PAUSE; });
     }
-
-    window.toggleFavorito = (id) => {
-        const i = misFavoritos.indexOf(id);
-        if(i > -1) misFavoritos.splice(i, 1); else misFavoritos.push(id);
-        localStorage.setItem('ml_favoritos', JSON.stringify(misFavoritos));
-        renderFeeds(); renderHero();
-    };
 
     window.gestionarPlay = (id) => {
         const s = canciones.find(c => c.id === id);
-        if(idActual === id) { media.paused ? media.play() : media.pause(); } 
-        else {
+        if(idActual === id) {
+            media.paused ? media.play() : media.pause();
+        } else {
             idActual = id;
             document.getElementById('mini-title').innerText = s.titulo;
             document.getElementById('mini-artist').innerText = s.artista;
             document.getElementById('mini-art').style.backgroundImage = `url('${s.imagenUrl}')`;
             document.getElementById('mini-player').style.display = 'flex';
+            document.getElementById('fp-title').innerText = s.titulo;
+            document.getElementById('fp-artist').innerText = s.artista;
+            document.getElementById('fp-art').style.backgroundImage = `url('${s.imagenUrl}')`;
             media.src = s.mp3Url; media.play();
         }
+        window.openFullPlayer(); // SIEMPRE ABRE LA PORTADA GRANDE
         renderFeeds(); renderHero();
     };
 
     media.onplay = () => renderFeeds();
     media.onpause = () => renderFeeds();
     window.toggleMainPlay = () => { media.paused ? media.play() : media.pause(); };
-    window.toggleMute = () => { media.muted = !media.muted; document.getElementById('mini-vol-btn').innerText = media.muted ? "🔇" : "🔊"; };
+    window.toggleMute = () => { 
+        media.muted = !media.muted; 
+        const icon = media.muted ? "🔇" : "🔊";
+        document.getElementById('btn-vol').innerText = icon;
+        document.getElementById('mini-vol-btn').innerText = icon;
+    };
+    window.toggleFavorito = (id) => {
+        const i = misFavoritos.indexOf(id);
+        if(i > -1) misFavoritos.splice(i, 1); else misFavoritos.push(id);
+        localStorage.setItem('ml_favoritos', JSON.stringify(misFavoritos));
+        renderFeeds(); renderHero();
+    };
+    window.openFullPlayer = () => document.getElementById('full-player').classList.add('active');
+    window.closeFullPlayer = () => document.getElementById('full-player').classList.remove('active');
     window.confirmarSalida = () => { if(confirm("¿Salir?")) window.location.href = "about:blank"; };
 </script>
 </body>
