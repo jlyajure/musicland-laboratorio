@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC Master V84</title>
+    <title>Music Land Pro - PC Master V85</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     <script>
         window['__onGCastApiAvailable'] = function(isAvailable) {
             if (isAvailable) {
@@ -15,66 +16,68 @@
                     autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED 
                 });
 
-                // SENSOR: SI LA TV SUENA, LA PC SE CALLA
+                // SENSOR DE EVENTOS TV
                 context.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, function(event) {
+                    const media = document.getElementById('main-media');
+                    
                     if (event.sessionState === cast.framework.SessionState.SESSION_STARTED || event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
-                        const media = document.getElementById('main-media');
+                        // 1. La TV arranca -> La PC se silencia
                         media.pause(); 
                         if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(true); 
+                    } 
+                    else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED) {
+                        // 2. La TV se apaga -> La PC vuelve a sonar
+                        media.play();
+                        if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(false);
                     }
                 });
             }
         };
 
         window.startCast = () => {
-            if (!cast || !cast.framework) {
-                alert("El sistema de TV se está conectando, intenta en 2 segundos...");
-                return;
-            }
-            
             const context = cast.framework.CastContext.getInstance();
             const session = context.getCurrentSession();
+            const media = document.getElementById('main-media');
             
             if(session) {
                 if(confirm("¿Desconectar la TV?")) {
+                    // Rescatar el segundo exacto de la TV antes de matarla
+                    const castMedia = session.getMediaSession();
+                    if(castMedia) media.currentTime = castMedia.getEstimatedTime();
                     session.endSession(true);
                 }
             } else {
                 context.requestSession().then(() => {
-                    // CONEXIÓN EXITOSA -> ENVIAR MÚSICA
-                    const media = document.getElementById('main-media');
+                    // CONEXIÓN EXITOSA -> ENVIAR MÚSICA Y TIEMPO
                     if(media && media.src) {
                         const mediaInfo = new chrome.cast.media.MediaInfo(media.src, 'audio/mp3');
                         const request = new chrome.cast.media.LoadRequest(mediaInfo);
                         request.autoplay = true;
+                        request.currentTime = media.currentTime; // <-- AQUÍ SE SINCRONIZA EL TIEMPO
                         context.getCurrentSession().loadMedia(request);
                     }
-                }).catch(e => console.log("Transmisión cancelada o cerrada por el usuario."));
+                }).catch(e => console.log("Transmisión cancelada"));
             }
         };
     </script>
-    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     
     <style>
         :root { --neon: #00d2ff; --bg: #080808; --card: #121212; --red: #ff4444; }
         * { box-sizing: border-box; outline: none; }
         body { background: var(--bg); color: #e2e8f0; margin: 0; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
         
-        /* 🔵 SCROLLBAR NEÓN */
         ::-webkit-scrollbar { width: 10px; height: 10px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; box-shadow: 0 0 15px var(--neon); border: 2px solid #000; }
         
         header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid #222; height: 75px; }
         
-        /* 👑 LOGO CÓDIGO PURO (NO SE BLOQUEA NUNCA) */
-        .logo-box { width: 45px; height: 45px; background: #000; border: 2px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); cursor: pointer; }
-        .logo-svg { width: 26px; height: 26px; fill: var(--neon); filter: drop-shadow(0 0 5px var(--neon)); }
+        /* 👑 LOGO DIRECTO DE GITHUB */
+        .header-logo { width: 45px; height: 45px; border-radius: 10px; border: 2px solid var(--neon); object-fit: cover; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); cursor: pointer; }
         .brand-title { color: var(--neon); font-size: 22px; font-weight: 900; text-transform: uppercase; margin-left: 12px; letter-spacing: 2px; }
 
         #home-view { padding-top: 150px; padding-bottom: 150px; }
         
-        /* HERO PC */
         #hero-section { min-height: 480px; width: 100%; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 0 0 40px 40px; border-bottom: 1px solid #222; background: #000; }
         .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(60px) brightness(0.2); }
         .hero-content { position: relative; z-index: 2; width: 90%; max-width: 1000px; display: flex; flex-direction: row; align-items: center; gap: 50px; padding: 20px; }
@@ -91,7 +94,6 @@
         .n-card:hover .n-overlay { opacity: 1; }
         .n-play-icon { width: 45px; height: 45px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: black; }
 
-        /* MINI PLAYER & BOTONES REDONDOS */
         #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(20px); border-top: 1px solid #222; padding: 12px 40px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
         .mini-main { display: flex; align-items: center; gap: 15px; flex: 1; cursor: pointer; }
         .mini-art { width: 50px; height: 50px; border-radius: 8px; border: 1px solid #333; background-size: cover; }
@@ -101,7 +103,6 @@
         .btn-round:hover { transform: scale(1.1); color: var(--neon); border-color: var(--neon); }
         .btn-round svg { width: 22px; height: 22px; fill: currentColor; }
 
-        /* FULL PLAYER PC */
         #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a, #000); z-index: 6000; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1); display: flex; flex-direction: column; padding: 40px; align-items: center; }
         #full-player.active { top: 0; }
         .btn-modern-down { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; align-self: flex-start; }
@@ -115,9 +116,7 @@
 
 <header>
     <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
-        <div class="logo-box">
-            <svg class="logo-svg" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-        </div>
+        <img src="logo.png" class="header-logo" alt="Logo Music Land" onerror="this.src='https://i.postimg.cc/k47Zt644/Music-Land.png'">
         <div class="brand-title">Music Land</div>
     </div>
     <button onclick="window.confirmarSalida()" style="background:transparent; border:1px solid #ff4444; color:#ff4444; padding:5px 15px; border-radius:20px; cursor:pointer;">SALIR</button>
@@ -184,7 +183,6 @@
     const db = getFirestore(app);
     const media = document.getElementById('main-media');
     let canciones = []; let idActual = null;
-    let misFavoritos = JSON.parse(localStorage.getItem('ml_favoritos')) || [];
 
     const SVG_PLAY = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
     const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
@@ -210,7 +208,7 @@
         document.getElementById('hero-cover').style.backgroundImage = `url('${f.imagenUrl}')`;
         document.getElementById('hero-title').innerText = f.titulo;
         document.getElementById('hero-artist').innerText = f.artista;
-        document.getElementById('hero-bio').innerText = f.bio || "Música Land Radio";
+        document.getElementById('hero-bio').innerText = f.bio || "Descubre Music Land Radio.";
         document.getElementById('hero-play-btn').innerHTML = (idActual === f.id && !media.paused) ? SVG_PAUSE : SVG_PLAY;
         document.getElementById('hero-play-btn').onclick = () => window.gestionarPlay(f.id);
     }
@@ -233,13 +231,11 @@
     window.gestionarPlay = (id) => {
         const s = canciones.find(c => c.id === id);
         if(idActual !== id) {
-            idActual = id; 
-            document.getElementById('mini-title').innerText = s.titulo; 
-            document.getElementById('mini-artist').innerText = s.artista;
+            idActual = id; window.castUrl = s.mp3Url; window.castTitle = s.titulo; window.castCover = s.imagenUrl;
+            document.getElementById('mini-title').innerText = s.titulo; document.getElementById('mini-artist').innerText = s.artista;
             document.getElementById('mini-art').style.backgroundImage = `url('${s.imagenUrl}')`;
             document.getElementById('mini-player').style.display = 'flex';
-            document.getElementById('fp-title').innerText = s.titulo; 
-            document.getElementById('fp-artist').innerText = s.artista;
+            document.getElementById('fp-title').innerText = s.titulo; document.getElementById('fp-artist').innerText = s.artista;
             document.getElementById('fp-art').style.backgroundImage = `url('${s.imagenUrl}')`;
             media.src = s.mp3Url; 
             media.play();
