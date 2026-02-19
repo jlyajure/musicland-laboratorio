@@ -3,74 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC Master V86</title>
+    <title>Music Land Pro - PC Master V87</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     
-    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     <script>
         window['__onGCastApiAvailable'] = function(isAvailable) {
             if (isAvailable) {
-                const context = cast.framework.CastContext.getInstance();
-                context.setOptions({ 
+                cast.framework.CastContext.getInstance().setOptions({ 
                     receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID, 
                     autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED 
                 });
 
-                context.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, function(event) {
-                    const media = document.getElementById('main-media');
-                    
-                    if (event.sessionState === cast.framework.SessionState.SESSION_STARTED || event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
-                        media.pause(); 
-                        if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(true); 
-                        const btn = document.getElementById('btn-cast-fijo');
-                        if(btn) btn.classList.add('cast-active');
-                    } 
-                    else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED) {
-                        media.play();
-                        if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(false);
-                        const btn = document.getElementById('btn-cast-fijo');
-                        if(btn) btn.classList.remove('cast-active');
+                // Escuchar a la TV para silenciar/despertar la PC
+                cast.framework.CastContext.getInstance().addEventListener(
+                    cast.framework.CastContextEventType.SESSION_STATE_CHANGED, 
+                    function(event) {
+                        const media = document.getElementById('main-media');
+                        const btnCast = document.getElementById('btn-cast-fijo');
+
+                        if (event.sessionState === cast.framework.SessionState.SESSION_STARTED || event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
+                            media.pause(); // Silencia la PC
+                            if(btnCast) btnCast.classList.add('cast-active');
+                            if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(true);
+                        } 
+                        else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED) {
+                            if(btnCast) btnCast.classList.remove('cast-active');
+                            media.play(); // Despierta la PC automáticamente
+                            if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(false);
+                        }
                     }
-                });
+                );
             }
         };
 
-        // FUNCIÓN BLINDADA PARA QUE NO SE CONGELE EL BOTÓN
-        window.startCast = async () => {
-            if (!window.cast || !window.cast.framework || !window.cast.framework.CastContext) {
-                alert("El sistema de TV aún se está conectando a tu navegador. Espera unos segundos y vuelve a intentar.");
-                return;
-            }
-
-            try {
-                const context = cast.framework.CastContext.getInstance();
-                const session = context.getCurrentSession();
-                const media = document.getElementById('main-media');
-                
-                if (session) {
-                    if(confirm("¿Desconectar la TV?")) {
-                        const castMedia = session.getMediaSession();
-                        if(castMedia) media.currentTime = castMedia.getEstimatedTime();
-                        session.endSession(true);
-                    }
-                } else {
-                    await context.requestSession();
-                    // SI SE CONECTA, ENVIAMOS LA MÚSICA CON EL CRONÓMETRO
-                    if(media && media.src) {
+        // Función del botón (Pura y sin bloqueos)
+        window.startCast = () => {
+            const context = cast.framework.CastContext.getInstance();
+            const session = context.getCurrentSession();
+            const media = document.getElementById('main-media');
+            
+            if (session) {
+                if(confirm("¿Desconectar la TV?")) {
+                    session.endSession(true);
+                }
+            } else {
+                context.requestSession().then(function() {
+                    if (media && media.src) {
                         const mediaInfo = new chrome.cast.media.MediaInfo(media.src, 'audio/mp3');
                         const request = new chrome.cast.media.LoadRequest(mediaInfo);
                         request.autoplay = true;
+                        
+                        // ¡LA CLAVE DE LA SINCRONIZACIÓN!
                         request.currentTime = media.currentTime; 
+                        
                         context.getCurrentSession().loadMedia(request);
                     }
-                }
-            } catch (error) {
-                if (error !== 'cancel') {
-                    console.log("Transmisión interrumpida o no disponible:", error);
-                }
+                }, function(e) {
+                    if(e.code !== 'cancel') console.log("Error de red TV", e);
+                });
             }
         };
     </script>
+    
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     
     <style>
         :root { --neon: #00d2ff; --bg: #080808; --card: #121212; --red: #ff4444; }
@@ -83,7 +78,9 @@
         
         header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid #222; height: 75px; }
         
-        .header-logo { width: 45px; height: 45px; border-radius: 10px; border: 2px solid var(--neon); object-fit: cover; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); cursor: pointer; }
+        .logo-box { width: 45px; height: 45px; background: #000; border: 2px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); cursor: pointer; overflow: hidden; position: relative; }
+        .header-logo { width: 100%; height: 100%; object-fit: cover; z-index: 2; position: relative; }
+        .logo-svg { position: absolute; width: 26px; height: 26px; fill: var(--neon); z-index: 1; filter: drop-shadow(0 0 5px var(--neon)); }
         .brand-title { color: var(--neon); font-size: 22px; font-weight: 900; text-transform: uppercase; margin-left: 12px; letter-spacing: 2px; }
 
         #home-view { padding-top: 150px; padding-bottom: 150px; }
@@ -121,7 +118,6 @@
         .fp-controls { display: flex; align-items: center; gap: 45px; margin-top: 30px; }
         .fp-btn-main { width: 85px; height: 85px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 30px var(--neon); color: black; }
         
-        /* ILUMINACIÓN DEL BOTÓN DE CAST AL CONECTAR */
         .btn-cast-pc { transition: 0.3s; }
         .btn-cast-pc.cast-active { background: rgba(0, 210, 255, 0.1); color: var(--neon); border-color: var(--neon); box-shadow: 0 0 20px var(--neon); }
     </style>
@@ -130,7 +126,10 @@
 
 <header>
     <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
-        <img src="logo.png" class="header-logo" alt="ML" onerror="this.src='https://i.postimg.cc/k47Zt644/Music-Land.png'">
+        <div class="logo-box">
+            <svg class="logo-svg" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            <img src="logo.png" class="header-logo" alt="ML" onerror="this.style.display='none'">
+        </div>
         <div class="brand-title">Music Land</div>
     </div>
     <button onclick="window.confirmarSalida()" style="background:transparent; border:1px solid #ff4444; color:#ff4444; padding:5px 15px; border-radius:20px; cursor:pointer;">SALIR</button>
@@ -247,7 +246,7 @@
     window.gestionarPlay = (id) => {
         const s = canciones.find(c => c.id === id);
         if(idActual !== id) {
-            idActual = id; 
+            idActual = id; window.castTitle = s.titulo; window.castCover = s.imagenUrl;
             document.getElementById('mini-title').innerText = s.titulo; 
             document.getElementById('mini-artist').innerText = s.artista;
             document.getElementById('mini-art').style.backgroundImage = `url('${s.imagenUrl}')`;
