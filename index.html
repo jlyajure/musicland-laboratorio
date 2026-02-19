@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC Master V80</title>
+    <title>Music Land Pro - Premium V81</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
@@ -18,6 +18,15 @@
                     receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID, 
                     autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED 
                 });
+                
+                // 🛑 EL SENSOR QUE SILENCIA LA PC CUANDO LA TV ARRANCA 🛑
+                window.castContext.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, function(event) {
+                    const media = document.getElementById('main-media');
+                    if (event.sessionState === cast.framework.SessionState.SESSION_STARTED || event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
+                        media.pause(); // Apaga el sonido en la computadora
+                        actualizarBotonesPlay(true); // Cambia los iconos a Play en la PC
+                    }
+                });
             }
         };
 
@@ -25,10 +34,12 @@
             if (!window.castContext) return alert("Cargando sistema de TV...");
             const session = window.castContext.getCurrentSession();
             if(session) {
-                if(confirm("¿Detener transmisión?")) session.endSession(true);
+                if(confirm("¿Detener transmisión?")) {
+                    session.endSession(true);
+                }
             } else {
                 window.castContext.requestSession().then(() => {
-                    setTimeout(enviarMusicaALaTV, 1000); // Esperar 1 seg para asegurar conexión
+                    setTimeout(enviarMusicaALaTV, 1000); 
                 }, (e) => { if(e.code !== 'cancel') alert("TV no encontrada. Revisa tu Wi-Fi."); });
             }
         };
@@ -59,9 +70,9 @@
         
         header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid #222; height: 75px; }
         
-        /* 🎶 LOGO NEÓN REFORZADO */
-        .logo-box { width: 48px; height: 48px; background: #000; border: 2.5px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0, 210, 255, 0.6); cursor: pointer; }
-        .logo-svg { width: 32px; height: 32px; fill: var(--neon); filter: drop-shadow(0 0 5px var(--neon)); }
+        /* 👑 LOGO DIRECTO DESDE TU APP OFICIAL */
+        .logo-box { width: 45px; height: 45px; background: #000; border: 2px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0, 210, 255, 0.4); cursor: pointer; overflow: hidden; }
+        .header-logo { width: 100%; height: 100%; object-fit: cover; }
         .brand-title { color: var(--neon); font-size: 24px; font-weight: 900; text-transform: uppercase; margin-left: 15px; letter-spacing: 2px; }
 
         #home-view { padding-top: 150px; padding-bottom: 150px; }
@@ -70,19 +81,21 @@
         #hero-section { min-height: 480px; width: 100%; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 0 0 40px 40px; border-bottom: 1px solid #222; background: #000; }
         .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(60px) brightness(0.2); }
         .hero-content { position: relative; z-index: 2; width: 90%; max-width: 1000px; display: flex; flex-direction: row; align-items: center; gap: 50px; padding: 20px; }
-        .hero-cover { width: 300px; height: 300px; border-radius: 20px; background-size: cover; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
+        .hero-cover { width: 300px; height: 300px; border-radius: 20px; background-size: cover; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         .hero-title { font-size: 40px; font-weight: 900; color: white; margin: 0; }
         .hero-bio { font-size: 15px; color: #ccc; line-height: 1.6; margin-top: 15px; border-left: 3px solid var(--neon); padding-left: 15px; max-height: 100px; overflow-y: auto; }
-        .hero-btn-play { background: var(--neon); border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px var(--neon); }
+        .hero-btn-play { background: var(--neon); border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px var(--neon); color: black; }
 
         .carousel { display: flex; overflow-x: auto; padding: 0 20px 30px 20px; gap: 20px; max-width: 1100px; margin: 0 auto; }
-        .n-card { min-width: 155px; cursor: pointer; }
+        .n-card { min-width: 155px; cursor: pointer; transition: 0.3s; }
+        .n-card:hover { transform: translateY(-5px); }
         .n-img { width: 155px; height: 155px; border-radius: 15px; background-size: cover; border: 1px solid #222; position: relative; }
         .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; border-radius: 15px; }
         .n-card:hover .n-overlay { opacity: 1; }
+        .n-play-icon { width: 45px; height: 45px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: black; }
 
-        /* MINI PLAYER */
-        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(15px); border-top: 1px solid #222; padding: 12px 40px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
+        /* MINI PLAYER Y BOTONES REDONDOS */
+        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(20px); border-top: 1px solid #222; padding: 12px 40px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
         .mini-main { display: flex; align-items: center; gap: 15px; flex: 1; cursor: pointer; }
         .mini-art { width: 50px; height: 50px; border-radius: 8px; border: 1px solid #333; background-size: cover; }
         
@@ -98,7 +111,7 @@
         .btn-modern-down svg { width: 24px; height: 24px; fill: currentColor; }
         .fp-art { width: 350px; height: 350px; border-radius: 30px; background-size: cover; box-shadow: 0 40px 80px rgba(0,0,0,0.8); border: 2px solid #333; }
         .fp-controls { display: flex; align-items: center; gap: 45px; margin-top: 30px; }
-        .fp-btn-main { width: 85px; height: 85px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 30px var(--neon); }
+        .fp-btn-main { width: 85px; height: 85px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 30px var(--neon); color: black; }
     </style>
 </head>
 <body>
@@ -106,7 +119,7 @@
 <header>
     <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
         <div class="logo-box">
-            <svg class="logo-svg" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            <img src="https://familia-yajure-app.web.app/logo.png" class="header-logo" alt="Logo Music Land">
         </div>
         <div class="brand-title">Music Land</div>
     </div>
@@ -131,7 +144,7 @@
     </div>
     <div id="feed-container">
         <h3 style="margin-left:20px;">🔥 Novedades</h3><div id="carousel-new" class="carousel"></div>
-        <h3 style="margin-left:20px;">📂 Catálogo</h3><div id="carousel-all" class="carousel" style="flex-wrap:wrap; justify-content:center;"></div>
+        <h3 style="margin-left:20px;">📂 Todo el Catálogo</h3><div id="carousel-all" class="carousel" style="flex-wrap:wrap; justify-content:center;"></div>
     </div>
 </div>
 
@@ -178,6 +191,15 @@
 
     const SVG_PLAY = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
     const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+    const SVG_VOL_ON = `<path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.01,19.86 21,16.28 21,12C21,7.72 18.01,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/>`;
+    const SVG_VOL_OFF = `<path d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L4.27,3M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18.01,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.48,12.43 16.5,12.22 16.5,12Z"/>`;
+
+    window.actualizarBotonesPlay = (isPaused) => {
+        const icon = isPaused ? SVG_PLAY : SVG_PAUSE;
+        const btns = [document.getElementById('mini-play-btn'), document.getElementById('fp-play-btn'), document.getElementById('hero-play-btn')];
+        btns.forEach(b => { if(b) b.innerHTML = icon; });
+        renderFeeds();
+    };
 
     onSnapshot(query(collection(db, "musicland_canciones"), orderBy("fecha", "desc")), (snap) => {
         canciones = []; snap.forEach(d => canciones.push({id: d.id, ...d.data()})); 
@@ -191,7 +213,7 @@
         document.getElementById('hero-cover').style.backgroundImage = `url('${f.imagenUrl}')`;
         document.getElementById('hero-title').innerText = f.titulo;
         document.getElementById('hero-artist').innerText = f.artista;
-        document.getElementById('hero-bio').innerText = f.bio || "Música Land Radio";
+        document.getElementById('hero-bio').innerText = f.bio || "Descubre Music Land Radio.";
         document.getElementById('hero-play-btn').innerHTML = (idActual === f.id && !media.paused) ? SVG_PAUSE : SVG_PLAY;
         document.getElementById('hero-play-btn').onclick = () => window.gestionarPlay(f.id);
     }
@@ -201,16 +223,14 @@
             const isPlaying = idActual === c.id && !media.paused;
             return `<div class="n-card" onclick="window.gestionarPlay('${c.id}')">
                 <div class="n-img" style="background-image:url('${c.imagenUrl}')">
-                    <div class="n-overlay"><div style="background:var(--neon);border-radius:50%;padding:10px;">${isPlaying ? SVG_PAUSE : SVG_PLAY}</div></div>
+                    <div class="n-overlay"><div class="n-play-icon">${isPlaying ? SVG_PAUSE : SVG_PLAY}</div></div>
                 </div>
-                <div style="font-size:14px; font-weight:700; color:white; margin-top:8px;">${c.titulo}</div>
+                <div style="font-size:14px; font-weight:700; color:white; margin-top:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${c.titulo}</div>
                 <div style="font-size:12px; color:var(--neon);">${c.artista}</div>
             </div>`;
         };
         document.getElementById('carousel-new').innerHTML = canciones.slice(0, 10).map(c => createCard(c)).join('');
         document.getElementById('carousel-all').innerHTML = canciones.map(c => createCard(c)).join('');
-        const updateBtns = [document.getElementById('mini-play-btn'), document.getElementById('fp-play-btn'), document.getElementById('hero-play-btn')];
-        updateBtns.forEach(b => { if(b) b.innerHTML = media.paused ? SVG_PLAY : SVG_PAUSE; });
     }
 
     window.gestionarPlay = (id) => {
@@ -227,11 +247,18 @@
         } else {
             window.toggleMainPlay();
         }
-        renderFeeds(); renderHero();
+        actualizarBotonesPlay(media.paused);
     };
 
-    window.toggleMainPlay = () => { media.paused ? media.play() : media.pause(); renderFeeds(); renderHero(); };
-    window.toggleMute = () => { media.muted = !media.muted; };
+    window.toggleMainPlay = () => { media.paused ? media.play() : media.pause(); actualizarBotonesPlay(media.paused); };
+    
+    window.toggleMute = () => { 
+        media.muted = !media.muted; 
+        const iconPath = media.muted ? SVG_VOL_OFF : SVG_VOL_ON;
+        document.getElementById('vol-svg').innerHTML = iconPath;
+        document.getElementById('btn-vol-full').querySelector('svg').innerHTML = iconPath;
+    };
+
     window.openFullPlayer = () => document.getElementById('full-player').classList.add('active');
     window.closeFullPlayer = () => document.getElementById('full-player').classList.remove('active');
     window.confirmarSalida = () => { if(confirm("¿Salir?")) window.location.href = "about:blank"; };
