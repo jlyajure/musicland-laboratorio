@@ -2,11 +2,13 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
     <title>Music Land Pro</title>
     <meta name="theme-color" content="#000000">
-    <link rel="icon" type="image/png" href="logo.png?v=2">
-    <link rel="apple-touch-icon" href="logo.png?v=2">
+    
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp">
+    
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
@@ -31,16 +33,14 @@
                             case cast.framework.SessionState.SESSION_STARTED:
                             case cast.framework.SessionState.SESSION_RESUMED:
                                 media.pause(); 
-                                if(btn) { btn.classList.add('cast-active'); } 
+                                if(btn) btn.classList.add('cast-active'); 
                                 loadMediaOnCast(); 
                                 break;
-                                
                             case cast.framework.SessionState.SESSION_ENDED:
-                                if(btn) { btn.classList.remove('cast-active'); } 
+                                if(btn) btn.classList.remove('cast-active'); 
                                 if(window.lastTvTime > 0) media.currentTime = window.lastTvTime;
                                 setTimeout(() => {
                                     media.play().catch(e => console.log("Play error:", e));
-                                    if(window.actualizarUI) window.actualizarUI();
                                 }, 500);
                                 break;
                         }
@@ -51,6 +51,7 @@
                     controller.addEventListener(cast.framework.RemotePlayerEventType.CURRENT_TIME_CHANGED, () => {
                         window.lastTvTime = player.currentTime;
                     });
+                    window.remoteController = controller;
 
                 } catch (e) { console.error("Error Cast Init", e); }
             }
@@ -58,31 +59,33 @@
 
         window.startCast = () => {
             if (window.castContext) {
-                window.castContext.requestSession().then(
-                    () => console.log("Conectando..."),
-                    (e) => { if(e.code !== 'cancel') alert("No se encontró TV. Verifica tu Wi-Fi."); }
-                );
-            } else {
-                alert("El sistema Cast aún está cargando...");
+                const session = window.castContext.getCurrentSession();
+                if(session) {
+                    if(confirm("¿Deseas detener la transmisión en la TV?")) {
+                        if(window.remoteController) window.remoteController.stop();
+                        session.endSession(true);
+                    }
+                } else {
+                    window.castContext.requestSession().then(
+                        () => console.log("Conectando..."),
+                        (e) => { if(e.code !== 'cancel') alert("No se encontró TV."); }
+                    );
+                }
             }
         };
 
         function loadMediaOnCast() {
             const session = window.castContext.getCurrentSession();
             if (!session || !window.castUrl) return;
-
             const mediaInfo = new chrome.cast.media.MediaInfo(window.castUrl, 'audio/mp3');
             const meta = new chrome.cast.media.MusicTrackMediaMetadata();
             meta.title = window.castTitle;
-            meta.artist = "Music Land";
+            meta.artist = "Music Land Radio";
             meta.images = [new chrome.cast.Image(window.castCover)];
             mediaInfo.metadata = meta;
-
             const request = new chrome.cast.media.LoadRequest(mediaInfo);
-            const localMedia = document.getElementById('main-media');
-            request.currentTime = localMedia.currentTime;
+            request.currentTime = document.getElementById('main-media').currentTime;
             request.autoplay = true;
-
             session.loadMedia(request);
         }
     </script>
@@ -92,118 +95,125 @@
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         html, body { height: 100%; margin: 0; background: var(--bg); color: #e2e8f0; overflow-x: hidden; font-family: 'Outfit', sans-serif; }
         
-        header { background: rgba(8,8,8,0.98); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; width: 100%; z-index: 100; border-bottom: 1px solid #222; height: 70px; }
-        .header-logo { width: 35px; height: 35px; border-radius: 8px; border: 1px solid var(--neon); object-fit: cover; }
-        .brand-title { color: var(--neon); font-size: 18px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; margin-left: 10px; }
-        .btn-salir-app { display: block; background: rgba(0,0,0,0.5); border: 1.5px solid #ff4444; color: #ff4444; padding: 6px 12px; border-radius: 20px; font-size: 10px; font-weight: 800; cursor: pointer; backdrop-filter: blur(5px); }
+        header { background: rgba(8,8,8,0.95); backdrop-filter: blur(10px); padding: 15px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222; height: 70px; }
+        .header-logo { width: 35px; height: 35px; border-radius: 8px; border: 1.5px solid var(--neon); object-fit: cover; }
+        .brand-title { color: var(--neon); font-size: 18px; font-weight: 900; text-transform: uppercase; margin-left: 10px; }
+        .btn-salir-app { background: rgba(255,68,68,0.1); border: 1.5px solid var(--red); color: var(--red); padding: 6px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; cursor: pointer; }
 
-        .search-container { position: fixed; top: 80px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 500px; padding: 0; z-index: 90; display: flex; gap: 10px; align-items: center; }
-        .search-wrapper { position: relative; width: 100%; flex: 1; }
-        .search-box { width: 100%; background: rgba(20,20,20,0.95); backdrop-filter: blur(10px); border: 1px solid #333; color: white; padding: 10px 15px 10px 40px; border-radius: 50px; font-family: inherit; font-size: 14px; outline: none; transition: 0.3s; height: 45px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
-        .search-icon { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #666; pointer-events: none; }
-        .btn-cancel-search { display: none; background: #111; border: 1px solid #ff4444; color: #ff4444; border-radius: 50px; padding: 0 20px; height: 45px; font-size: 11px; font-weight: 800; cursor: pointer; white-space: nowrap; }
-        .search-active .btn-cancel-search { display: block; }
+        /* BUSCADOR ELEGANTE (CHAU FRANJA AZUL TOSCA) */
+        .search-container { position: fixed; top: 70px; left: 0; width: 100%; z-index: 900; background: linear-gradient(to bottom, var(--bg), transparent); padding: 15px 0; }
+        .search-wrapper { position: relative; width: 90%; max-width: 600px; margin: 0 auto; }
+        .search-box { width: 100%; background: rgba(30,30,30,0.6); backdrop-filter: blur(10px); border: 1px solid #333; color: white; padding: 10px 15px 10px 45px; border-radius: 50px; font-size: 14px; height: 45px; transition: 0.3s; }
+        .search-box:focus { border-color: var(--neon); background: rgba(30,30,30,0.9); box-shadow: 0 0 15px rgba(0, 210, 255, 0.2); }
+        .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--neon); font-size: 16px; }
 
-        #home-view { display: block; padding-top: 140px; padding-bottom: 150px; }
+        #home-view { padding-top: 150px; padding-bottom: 150px; }
         
-        #hero-section { min-height: 50vh; position: relative; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; margin-bottom: 20px; border-radius: 0 0 20px 20px; }
-        .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(30px) brightness(0.4); transform: scale(1.2); z-index: 0; }
-        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, var(--bg) 95%); z-index: 1; }
-        .hero-content { position: relative; z-index: 2; width: 100%; max-width: 900px; padding: 20px; display: flex; flex-direction: column; gap: 20px; align-items: center; text-align: center; }
-        @media (min-width: 600px) { .hero-content { flex-direction: row; text-align: left; align-items: flex-end; } }
-        .hero-cover { width: 180px; height: 180px; border-radius: 12px; background-size: cover; background-position: center; box-shadow: 0 20px 60px rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2); flex-shrink: 0; background-color: #222; }
+        #hero-section { min-height: 45vh; position: relative; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; margin-bottom: 20px; border-radius: 0 0 30px 30px; border-bottom: 1px solid #222; }
+        .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(40px) brightness(0.3); transform: scale(1.1); }
+        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 0%, var(--bg) 95%); }
+        .hero-content { position: relative; z-index: 2; width: 100%; max-width: 900px; padding: 30px; display: flex; flex-direction: column; gap: 25px; align-items: center; }
+        @media (min-width: 768px) { .hero-content { flex-direction: row; text-align: left; align-items: flex-end; } }
+        .hero-cover { width: 200px; height: 200px; border-radius: 15px; background-size: cover; border: 1.5px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         .hero-info { flex: 1; display: flex; flex-direction: column; width: 100%; }
-        .hero-title { font-size: 26px; font-weight: 900; line-height: 1.1; margin: 0; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.5); }
-        .hero-artist { font-size: 16px; color: #ccc; font-weight: 700; margin: 5px 0 0 0; text-transform: uppercase; }
-        .hero-bio { font-size: 13px; color: #aaa; line-height: 1.4; max-height: 80px; overflow-y: auto; margin-top: 15px; padding-left: 10px; border-left: 2px solid var(--neon); text-align: left; }
+        .hero-title { font-size: 28px; font-weight: 900; color: white; margin: 0; }
+        .hero-artist { font-size: 18px; color: var(--neon); font-weight: 700; margin: 5px 0; text-transform: uppercase; }
         
-        .hero-actions { display: flex; align-items: center; gap: 20px; margin-top: 20px; justify-content: center; }
-        @media (min-width: 600px) { .hero-actions { justify-content: flex-start; } }
-        .hero-btn-play { background: var(--neon); color: black; border: none; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; box-shadow: 0 0 30px rgba(0, 210, 255, 0.4); }
-        
-        /* CORAZONES ESTILO FAMILIA */
-        .btn-fav-star { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; transition: 0.3s; }
-        .btn-fav-star.is-fav { color: var(--red); border-color: var(--red); background: rgba(255, 68, 68, 0.1); text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+        .hero-actions { display: flex; align-items: center; gap: 20px; margin-top: 20px; }
+        .hero-btn-play { background: var(--neon); color: black; border: none; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; box-shadow: 0 0 25px rgba(0, 210, 255, 0.4); }
+        .btn-fav-star { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.2); color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; }
+        .btn-fav-star.is-fav { color: var(--red); border-color: var(--red); background: rgba(255, 68, 68, 0.1); }
 
-        .section-title { font-size: 18px; font-weight: 900; color: white; margin: 30px 0 15px 15px; letter-spacing: 0.5px; display: flex; align-items: center; gap: 10px; max-width: 900px; margin-left: auto; margin-right: auto; }
-        .section-title span { color: var(--neon); font-size: 14px; }
+        .section-title { font-size: 19px; font-weight: 900; color: white; margin: 40px 0 20px 20px; max-width: 1000px; margin-left: auto; margin-right: auto; border-left: 4px solid var(--neon); padding-left: 15px; }
+        .section-title span { color: var(--neon); font-size: 14px; opacity: 0.7; }
         
-        .carousel { display: flex; overflow-x: auto; padding: 0 15px 20px 15px; gap: 15px; -webkit-overflow-scrolling: touch; scroll-behavior: smooth; max-width: 900px; margin: 0 auto; }
-        .carousel::-webkit-scrollbar { display: none; }
+        .carousel { display: flex; overflow-x: auto; padding: 0 15px 25px 15px; gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .carousel::-webkit-scrollbar { height: 4px; }
+        .carousel::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
         
-        .n-card { min-width: 140px; width: 140px; display: flex; flex-direction: column; gap: 8px; position: relative; cursor: pointer; }
-        .n-img { width: 140px; height: 140px; border-radius: 12px; background-size: cover; background-position: center; border: 1px solid #222; position: relative; overflow: hidden; }
-        .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; }
+        .n-card { min-width: 150px; width: 150px; transition: 0.3s; }
+        .n-card:hover { transform: translateY(-5px); }
+        .n-img { width: 150px; height: 150px; border-radius: 14px; background-size: cover; border: 1px solid #222; position: relative; overflow: hidden; cursor: pointer; }
+        .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; }
         .n-card:hover .n-overlay, .n-card.is-playing .n-overlay { opacity: 1; }
-        .n-play-icon { width: 40px; height: 40px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .n-play-icon { width: 45px; height: 45px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
         
-        .n-title { font-size: 13px; font-weight: 700; color: white; margin: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .n-artist { font-size: 11px; color: #888; margin: 0; }
-        .n-actions { display: flex; justify-content: space-between; align-items: center; }
-        
-        /* BOTÓN FAVORITO MINI EN CARD */
-        .n-fav-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: #555; padding: 0; transition: 0.3s; }
-        .n-fav-btn.is-fav { color: var(--red); transform: scale(1.1); }
+        .n-title { font-size: 14px; font-weight: 700; color: white; margin: 8px 0 2px 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .n-artist { font-size: 12px; color: #777; margin: 0; }
+        .n-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 5px; }
+        .n-fav-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: rgba(255,255,255,0.2); }
+        .n-fav-btn.is-fav { color: var(--red); }
 
-        #admin-panel { display: none; background: #111; padding: 20px; border-radius: 15px; margin: 15px auto; max-width: 600px; border: 1px dashed var(--neon); }
-        .input-box, .select-box, textarea { width: 100%; padding: 12px; margin-bottom: 10px; background: #0a0a0a; border: 1px solid #333; color: white; border-radius: 8px; font-family: inherit; }
-        .btn-subir { width: 100%; background: var(--neon); color: black; padding: 12px; border: none; border-radius: 8px; font-weight: 800; cursor: pointer; }
+        #admin-panel { display: none; background: #111; padding: 25px; border-radius: 20px; margin: 20px auto; max-width: 600px; border: 1px dashed var(--neon); }
+        .input-box, .select-box, textarea { width: 100%; padding: 12px; margin-bottom: 12px; background: #000; border: 1px solid #333; color: white; border-radius: 10px; font-family: inherit; }
+        .btn-subir { width: 100%; background: var(--neon); color: black; padding: 14px; border: none; border-radius: 10px; font-weight: 800; cursor: pointer; }
 
-        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); border-top: 1px solid #333; padding: 12px 15px; display: none; z-index: 5000; align-items: center; gap: 12px; backdrop-filter: blur(10px); }
-        .mini-art { width: 45px; height: 45px; border-radius: 6px; background-size: cover; border: 1px solid #333; }
-        .mini-info { flex: 1; overflow: hidden; }
-        .mini-title { margin: 0; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: white; font-weight: 700; }
-        .mini-artist { font-size: 11px; color: var(--neon); }
-        .btn-mini-play { background: none; border: none; cursor: pointer; padding: 0 10px; display: flex; align-items: center; }
-        .btn-mini-play svg { width: 32px; height: 32px; fill: white !important; }
+        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.95); backdrop-filter: blur(15px); border-top: 1px solid #222; padding: 15px 20px; display: none; z-index: 5000; align-items: center; gap: 15px; }
+        .mini-art { width: 50px; height: 50px; border-radius: 8px; background-size: cover; border: 1px solid #333; cursor: pointer; }
+        .mini-title { margin: 0; font-size: 14px; color: white; font-weight: 800; }
+        .mini-artist { font-size: 12px; color: var(--neon); }
+        .btn-mini-play { background: none; border: none; cursor: pointer; padding: 0 5px; }
 
-        #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, #111 0%, #000 100%); z-index: 6000; transition: top 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); display: flex; flex-direction: column; padding: 20px; }
+        #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at top, #1a1a1a 0%, #000 100%); z-index: 6000; transition: top 0.4s cubic-bezier(0.17, 0.84, 0.44, 1); display: flex; flex-direction: column; padding: 40px 20px; }
         #full-player.active { top: 0; }
-        .fp-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .fp-art { width: 80vw; max-width: 320px; height: 80vw; max-height: 320px; border-radius: 20px; background-size: cover; background-position: center; border: 1px solid #333; margin: 0 auto; }
-        .fp-info { text-align: center; margin: 30px 0; }
-        .fp-title { font-size: 22px; font-weight: 900; margin: 0; color: white; }
-        .fp-artist { font-size: 16px; color: var(--neon); font-weight: 700; margin: 5px 0 0 0; }
-        .fp-progress { width: 100%; margin-bottom: 30px; }
-        .fp-seek { width: 100%; -webkit-appearance: none; background: #222; height: 6px; border-radius: 3px; }
-        .fp-seek::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; background: var(--neon); border-radius: 50%; }
+        .btn-down { background: none; border: none; color: white; font-size: 32px; cursor: pointer; }
+        .fp-art { width: 75vw; max-width: 350px; height: 75vw; max-height: 350px; border-radius: 25px; background-size: cover; border: 2px solid #222; margin: 0 auto; box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
+        .fp-info { text-align: center; margin: 40px 0; }
+        .fp-title { font-size: 26px; font-weight: 900; color: white; margin: 0; }
+        .fp-artist { font-size: 18px; color: var(--neon); font-weight: 700; margin-top: 5px; }
+        .fp-progress { width: 100%; max-width: 500px; margin: 0 auto 40px auto; }
+        .fp-seek { width: 100%; -webkit-appearance: none; background: #333; height: 6px; border-radius: 3px; cursor: pointer; }
+        .fp-seek::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 15px var(--neon); }
         
-        .fp-controls { display: flex; justify-content: space-around; align-items: center; width: 100%; padding-bottom: 40px; }
-        .fp-btn-main { width: 75px; height: 75px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; }
-        .fp-btn-main svg { width: 35px; height: 35px; fill: black !important; }
-        .fp-btn-sec { background: #1a1a1a; border: 1px solid #333; color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .fp-controls { display: flex; justify-content: center; align-items: center; gap: 40px; width: 100%; }
+        .fp-btn-main { width: 85px; height: 85px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 30px rgba(0,210,255,0.3); }
+        .fp-btn-main svg { width: 40px; height: 40px; fill: black !important; }
         
-        #btn-cast-fijo { background: #1a1a1a; border: 1px solid #333; color: white; width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
-        #btn-cast-fijo.cast-active { background: rgba(0, 210, 255, 0.2); border-color: var(--neon); color: var(--neon); }
+        /* BOTÓN DE CAST - ¡AHORA SÍ SE VE! */
+        #btn-cast-fijo { 
+            background: rgba(255,255,255,0.05); 
+            border: 2px solid white; 
+            color: white; 
+            width: 55px; height: 55px; 
+            border-radius: 50%; 
+            display: flex; align-items: center; justify-content: center; 
+            cursor: pointer; transition: 0.3s; 
+        }
+        #btn-cast-fijo svg { width: 28px; height: 28px; fill: currentColor; }
+        #btn-cast-fijo.cast-active { 
+            background: rgba(0, 210, 255, 0.2); 
+            border-color: var(--neon); 
+            color: var(--neon); 
+            box-shadow: 0 0 25px rgba(0, 210, 255, 0.6); 
+        }
 
-        #fav-section { display: none; } /* Se activa solo si hay favoritos */
+        #fav-section { display: none; }
     </style>
 </head>
 <body>
 
 <div id="login-screen">
-    <div class="login-card">
-        <h2 style="color:var(--neon); margin:0; font-size:18px;">ACCESO DIRECTOR</h2>
-        <input type="password" id="passInput" class="input-box" style="margin-top:20px;" placeholder="Clave de Cabina">
+    <div class="login-card" style="background:#111; padding:40px; border-radius:30px; border:1px solid #222; text-align:center;">
+        <h2 style="color:var(--neon); margin:0; font-size:20px;">ACCESO DIRECTOR</h2>
+        <input type="password" id="passInput" class="input-box" style="margin-top:25px;" placeholder="Clave de Cabina">
         <button onclick="window.doLogin()" class="btn-subir">ENTRAR</button>
-        <button onclick="document.getElementById('login-screen').style.display='none'" style="background:transparent; border:none; color:#666; margin-top:15px; cursor:pointer;">Cancelar</button>
+        <button onclick="document.getElementById('login-screen').style.display='none'" style="background:transparent; border:none; color:#666; margin-top:20px; cursor:pointer;">Cancelar</button>
     </div>
 </div>
 
 <header id="main-header">
     <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
-        <img src="logo.png?v=2" class="header-logo" alt="Logo">
+        <img src="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp" class="header-logo" id="main-logo-img">
         <div class="brand-title">Music Land</div>
     </div>
     <button onclick="window.confirmarSalida()" class="btn-salir-app">SALIR</button>
 </header>
 
-<div class="search-container" id="search-container">
+<div class="search-container">
     <div class="search-wrapper">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-box" placeholder="Buscar artista, canción..." oninput="window.debounceSearch()">
+        <input type="text" id="search-input" class="search-box" placeholder="Buscar artista, canción, género..." oninput="window.debounceSearch()">
     </div>
-    <button class="btn-cancel-search" onclick="window.clearSearch()">✖</button>
 </div>
 
 <div id="home-view">
@@ -226,20 +236,20 @@
 
     <div id="admin-panel">
         <input type="hidden" id="edit-id">
-        <h3 id="panel-title" style="color:var(--neon); text-align:center; font-size:14px; margin-bottom:15px; font-weight:900;">NUEVA CANCIÓN</h3>
+        <h3 style="color:var(--neon); text-align:center; font-size:16px; margin-bottom:20px; font-weight:900;">GESTIÓN DE PISTAS</h3>
         <input type="text" id="t-titulo" class="input-box" placeholder="Título">
         <input type="text" id="t-artista" class="input-box" placeholder="Artista">
         <input type="text" id="t-url" class="input-box" placeholder="Link MP3">
         <input type="text" id="t-img" class="input-box" placeholder="Link Portada">
-        <textarea id="t-bio" style="height:100px;" class="input-box" placeholder="📝 Biografía"></textarea>
+        <textarea id="t-bio" style="height:100px;" class="input-box" placeholder="Biografía / Datos Curiosos"></textarea>
         <select id="t-categoria" class="select-box"></select>
-        <button id="btn-guardar-pista" class="btn-subir">SUBIR PISTA</button>
-        <button onclick="window.salirAdmin()" style="width:100%; background:#222; color:#888; border:none; padding:10px; border-radius:8px; margin-top:10px; font-weight:800; cursor:pointer;">CERRAR</button>
+        <button id="btn-guardar-pista" class="btn-subir">GUARDAR CAMBIOS</button>
+        <button onclick="window.salirAdmin()" style="width:100%; background:#222; color:#888; border:none; padding:12px; border-radius:10px; margin-top:15px; font-weight:800; cursor:pointer;">CERRAR PANEL</button>
     </div>
 
     <div id="feed-container">
         <div id="fav-section">
-            <h3 class="section-title">⭐ Tus Favoritas <span>(Lo que más te gusta)</span></h3>
+            <h3 class="section-title">⭐ Tus Favoritas <span>(Exclusivo para ti)</span></h3>
             <div id="carousel-favs" class="carousel"></div>
         </div>
 
@@ -252,24 +262,24 @@
         <h3 class="section-title">📼 Clásicos <span>(Pop, Rock, Retro)</span></h3>
         <div id="carousel-retro" class="carousel"></div>
         
-        <h3 class="section-title">📂 Todo el Catálogo</h3>
-        <div id="carousel-all" class="carousel" style="flex-wrap:wrap;"></div>
+        <h3 class="section-title">📂 Catálogo Completo</h3>
+        <div id="carousel-all" class="carousel" style="flex-wrap:wrap; justify-content: center;"></div>
     </div>
 </div>
 
-<div id="search-results">
-    <div class="back-msg">
-        <span style="color:#ddd; font-size:13px;">Resultados:</span>
-        <button class="back-btn-link" onclick="window.clearSearch()">⬅️ VOLVER</button>
+<div id="search-results" style="display:none; padding-top:160px; padding-bottom:150px;">
+    <div style="padding:15px; max-width:900px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; background:rgba(255,255,255,0.05); border-radius:15px;">
+        <span style="color:var(--neon); font-weight:800; font-size:18px;">Resultados de Búsqueda:</span>
+        <button onclick="window.clearSearch()" style="background:var(--neon); border:none; color:black; padding:8px 20px; border-radius:30px; font-weight:900; cursor:pointer;">VOLVER AL INICIO</button>
     </div>
-    <div id="results-grid"></div>
+    <div id="results-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap:20px; padding:30px 15px; max-width:1000px; margin:0 auto;"></div>
 </div>
 
 <audio id="main-media" crossorigin="anonymous"></audio>
 
 <div id="mini-player">
     <div id="mini-art" class="mini-art" onclick="window.openFullPlayer()"></div>
-    <div class="mini-info" onclick="window.openFullPlayer()">
+    <div class="mini-info" onclick="window.openFullPlayer()" style="cursor:pointer;">
         <h4 id="mini-title" class="mini-title">...</h4>
         <div id="mini-artist" class="mini-artist">...</div>
     </div>
@@ -279,27 +289,25 @@
 <div id="full-player">
     <div class="fp-header">
         <button onclick="window.closeFullPlayer()" class="btn-down">🔽</button>
-        <span style="font-size:10px; font-weight:800; letter-spacing:3px; color:var(--neon);">MUSIC LAND RADIO</span>
-        <div style="width:28px;"></div>
+        <span style="font-size:11px; font-weight:900; letter-spacing:4px; color:var(--neon);">MUSIC LAND RADIO</span>
+        <div style="width:32px;"></div>
     </div>
-    <div class="fp-art-container">
-        <div id="fp-art" class="fp-art"></div>
-    </div>
+    <div id="fp-art" class="fp-art"></div>
     <div class="fp-info">
         <h2 id="fp-title" class="fp-title">...</h2>
         <p id="fp-artist" class="fp-artist">...</p>
     </div>
     <div class="fp-progress">
         <input type="range" id="fp-seek" class="fp-seek" value="0" min="0" step="1">
-        <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:5px;">
+        <div style="display:flex; justify-content:space-between; font-size:12px; margin-top:10px; font-weight:700; color:var(--neon);">
             <span id="fp-time-current">00:00</span>
             <span id="fp-time-total">00:00</span>
         </div>
     </div>
     <div class="fp-controls">
-        <button onclick="window.toggleMute()" id="fp-btn-mute" class="fp-btn-sec">🔊</button>
+        <button onclick="window.toggleMute()" id="fp-btn-mute" class="fp-btn-sec" style="font-size:22px;">🔊</button>
         <button onclick="window.toggleMainPlay()" id="fp-play-btn" class="fp-btn-main"></button>
-        <button onclick="window.startCast()" id="btn-cast-fijo">
+        <button onclick="window.startCast()" id="btn-cast-fijo" title="Transmitir a TV">
             <svg viewBox="0 0 24 24"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg>
         </button>
     </div>
@@ -321,7 +329,7 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const coleccionDB = "musicland_canciones";
-    const LOGO_URL = "logo.png?v=2";
+    const LOGO_BACKUP = "https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp";
 
     const categorias = ["MIX", "SALSA", "MERENGUE", "BALADAS EN ESPAÑOL", "BALADAS EN INGLES", "FUNK", "POP", "SOUL", "R&B", "ROCK", "MUSICA TROPICAL", "CLASICOS BAILABLES", "PODCAST", "I.A.", "HOUSE", "DANCE", "RANCHERAS", "LLANERAS", "ROCK EN ESPAÑOL"];
     
@@ -330,24 +338,19 @@
     const media = document.getElementById('main-media'); 
     const fpSeek = document.getElementById('fp-seek');
 
-    // LÓGICA DE FAVORITOS (LOCAL)
     let misFavoritos = JSON.parse(localStorage.getItem('ml_favoritos')) || [];
 
     window.toggleFavorito = (id) => {
         const index = misFavoritos.indexOf(id);
         if(index > -1) misFavoritos.splice(index, 1);
         else misFavoritos.push(id);
-        
         localStorage.setItem('ml_favoritos', JSON.stringify(misFavoritos));
-        renderFeeds();
-        renderHero();
+        renderFeeds(); renderHero();
         if(document.getElementById('search-results').style.display === 'block') window.doSearch();
     };
-    
+
     const SVG_PLAY = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
     const SVG_PAUSE = `<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
-
-    window.actualizarUI = () => { renderFeeds(); };
 
     const selectCat = document.getElementById('t-categoria');
     categorias.forEach(cat => {
@@ -365,20 +368,14 @@
     };
 
     window.doLogin = () => {
-        const pass = document.getElementById('passInput').value;
-        if(pass === "musicland2026") {
+        if(document.getElementById('passInput').value === "musicland2026") {
             modoAdmin = true; document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('admin-panel').style.display = 'block'; 
-            renderFeeds();
-        } else { alert("Clave Incorrecta"); }
+            document.getElementById('admin-panel').style.display = 'block'; renderFeeds();
+        } else alert("Clave Incorrecta");
     };
 
-    window.confirmarSalida = () => { if(confirm("¿Salir de Music Land?")) { window.location.href = "about:blank"; } };
-
-    window.salirAdmin = () => { 
-        document.getElementById('edit-id').value = ""; document.getElementById('t-titulo').value = ""; 
-        document.getElementById('admin-panel').style.display = 'none'; 
-    };
+    window.confirmarSalida = () => { if(confirm("¿Salir de Music Land?")) window.location.href = "about:blank"; };
+    window.salirAdmin = () => { document.getElementById('edit-id').value = ""; document.getElementById('admin-panel').style.display = 'none'; };
 
     window.prepararEdicion = (id) => {
         const c = canciones.find(x => x.id === id);
@@ -390,21 +387,13 @@
         document.getElementById('t-img').value = c.imagenUrl; 
         document.getElementById('t-bio').value = c.bio || ""; 
         document.getElementById('t-categoria').value = c.categoria;
-        document.getElementById('admin-panel').style.display = 'block'; window.scrollTo({top:0, behavior:'smooth'});
+        document.getElementById('admin-panel').style.display = 'block'; window.scrollTo({top:0});
     };
 
     document.getElementById('btn-guardar-pista').onclick = async () => {
         const btn = document.getElementById('btn-guardar-pista'); btn.disabled = true;
         const id = document.getElementById('edit-id').value;
-        const data = { 
-            titulo: document.getElementById('t-titulo').value, 
-            artista: document.getElementById('t-artista').value, 
-            mp3Url: document.getElementById('t-url').value, 
-            imagenUrl: document.getElementById('t-img').value || LOGO_URL, 
-            bio: document.getElementById('t-bio').value, 
-            categoria: document.getElementById('t-categoria').value, 
-            fecha: new Date().getTime() 
-        };
+        const data = { titulo: document.getElementById('t-titulo').value, artista: document.getElementById('t-artista').value, mp3Url: document.getElementById('t-url').value, imagenUrl: document.getElementById('t-img').value || LOGO_BACKUP, bio: document.getElementById('t-bio').value, categoria: document.getElementById('t-categoria').value, fecha: new Date().getTime() };
         try {
             if(id) await updateDoc(doc(db, coleccionDB, id), data);
             else { data.likes = 0; await addDoc(collection(db, coleccionDB), data); }
@@ -413,63 +402,59 @@
         btn.disabled = false;
     };
 
-    window.borrarPista = async (id) => { if(confirm("¿Borrar?")) await deleteDoc(doc(db, coleccionDB, id)); };
-
     onSnapshot(query(collection(db, coleccionDB), orderBy("fecha", "desc")), (snap) => {
         canciones = []; snap.forEach(d => canciones.push({id: d.id, ...d.data()})); 
         renderHero(); renderFeeds(); 
     });
 
+    function getSafeImg(url) { return (url && url.startsWith('http')) ? url : LOGO_BACKUP; }
+
     function renderHero() {
         if(canciones.length === 0) return;
         const featured = canciones[0]; 
         const isFav = misFavoritos.includes(featured.id);
-
-        document.getElementById('hero-bg').style.backgroundImage = `url('${featured.imagenUrl}')`;
-        document.getElementById('hero-cover').style.backgroundImage = `url('${featured.imagenUrl}')`;
+        const sImg = getSafeImg(featured.imagenUrl);
+        document.getElementById('hero-bg').style.backgroundImage = `url('${sImg}')`;
+        document.getElementById('hero-cover').style.backgroundImage = `url('${sImg}')`;
         document.getElementById('hero-title').innerText = featured.titulo;
         document.getElementById('hero-artist').innerText = featured.artista;
-        document.getElementById('hero-bio').innerText = featured.bio || "Lo más nuevo.";
-        
+        document.getElementById('hero-bio').innerText = featured.bio || "Lo más nuevo en Music Land.";
         document.getElementById('hero-play-btn').onclick = () => window.gestionarPlay(featured.id);
-        
-        const favBtn = document.getElementById('hero-fav-btn');
-        favBtn.innerHTML = isFav ? '❤️' : '🤍';
-        favBtn.className = `btn-fav-star ${isFav ? 'is-fav' : ''}`;
-        favBtn.onclick = () => window.toggleFavorito(featured.id);
+        const fBtn = document.getElementById('hero-fav-btn');
+        fBtn.innerHTML = isFav ? '❤️' : '🤍';
+        fBtn.classList.toggle('is-fav', isFav);
+        fBtn.onclick = () => window.toggleFavorito(featured.id);
     }
 
     function renderFeeds() {
         const createCard = (c) => {
             const isPlaying = idActual === c.id && !media.paused;
             const isFav = misFavoritos.includes(c.id);
+            const sImg = getSafeImg(c.imagenUrl);
             return `
             <div class="n-card ${isPlaying?'is-playing':''}">
-                <div class="n-img" style="background-image:url('${c.imagenUrl}')" onclick="window.gestionarPlay('${c.id}')">
+                <div class="n-img" style="background-image:url('${sImg}')" onclick="window.gestionarPlay('${c.id}')">
                     <div class="n-overlay"><div class="n-play-icon">${isPlaying ? SVG_PAUSE : SVG_PLAY}</div></div>
                 </div>
                 <h4 class="n-title">${c.titulo}</h4>
                 <p class="n-artist">${c.artista}</p>
                 <div class="n-actions">
                     <button class="n-fav-btn ${isFav ? 'is-fav' : ''}" onclick="window.toggleFavorito('${c.id}')">${isFav ? '❤️' : '🤍'}</button>
-                    ${modoAdmin ? `<span class="n-edit" onclick="window.prepararEdicion('${c.id}')">✏️</span>` : ''}
+                    ${modoAdmin ? `<span style="color:var(--edit); font-size:12px; cursor:pointer;" onclick="window.prepararEdicion('${c.id}')">✏️</span>` : ''}
                 </div>
             </div>`;
         };
 
-        // RENDER FAVORITOS
         const favSongs = canciones.filter(c => misFavoritos.includes(c.id));
         const favSec = document.getElementById('fav-section');
         if(favSongs.length > 0) {
             favSec.style.display = 'block';
             document.getElementById('carousel-favs').innerHTML = favSongs.map(c => createCard(c)).join('');
-        } else {
-            favSec.style.display = 'none';
-        }
+        } else favSec.style.display = 'none';
 
         document.getElementById('carousel-new').innerHTML = canciones.slice(0, 10).map(c => createCard(c)).join('');
         document.getElementById('carousel-latin').innerHTML = canciones.filter(c => ['SALSA','MERENGUE','MUSICA TROPICAL'].includes(c.categoria)).map(c => createCard(c)).join('');
-        document.getElementById('carousel-retro').innerHTML = canciones.filter(c => ['POP','ROCK','CLASICOS BAILABLES'].includes(c.categoria)).map(c => createCard(c)).join('');
+        document.getElementById('carousel-retro').innerHTML = canciones.filter(c => ['POP','ROCK','RETRO','CLASICOS BAILABLES'].includes(c.categoria)).map(c => createCard(c)).join('');
         document.getElementById('carousel-all').innerHTML = canciones.map(c => createCard(c)).join('');
         
         const miniBtn = document.getElementById('mini-play-btn');
@@ -478,45 +463,32 @@
         if(fpBtn) fpBtn.innerHTML = media.paused ? SVG_PLAY : SVG_PAUSE;
     }
 
-    window.debounceSearch = () => {
-        clearTimeout(searchTimeout);
-        searchTimeout = setTimeout(window.doSearch, 300);
-    };
-
-    window.clearSearch = () => {
-        document.getElementById('search-input').value = "";
-        document.getElementById('search-container').classList.remove('search-active');
-        document.getElementById('home-view').style.display = 'block';
-        document.getElementById('search-results').style.display = 'none';
+    window.debounceSearch = () => { clearTimeout(searchTimeout); searchTimeout = setTimeout(window.doSearch, 300); };
+    window.clearSearch = () => { 
+        document.getElementById('search-input').value = ""; 
+        document.getElementById('home-view').style.display = 'block'; 
+        document.getElementById('search-results').style.display = 'none'; 
     };
 
     window.doSearch = () => {
         const query = document.getElementById('search-input').value.toLowerCase().trim();
-        if(query.length < 2) return window.clearSearch();
-        
+        if(query.length < 2) return;
         document.getElementById('home-view').style.display = 'none';
         document.getElementById('search-results').style.display = 'block';
-        document.getElementById('search-container').classList.add('search-active');
-        
         const hits = canciones.filter(c => c.titulo.toLowerCase().includes(query) || c.artista.toLowerCase().includes(query));
         document.getElementById('results-grid').innerHTML = hits.map(c => {
             const isPlaying = idActual === c.id && !media.paused;
             const isFav = misFavoritos.includes(c.id);
-            return `<div class="n-card">${createCardBody(c, isPlaying, isFav)}</div>`;
+            const sImg = getSafeImg(c.imagenUrl);
+            return `<div class="n-card">
+                <div class="n-img" style="background-image:url('${sImg}')" onclick="window.gestionarPlay('${c.id}')">
+                    <div class="n-overlay"><div class="n-play-icon">${isPlaying ? SVG_PAUSE : SVG_PLAY}</div></div>
+                </div>
+                <h4 class="n-title">${c.titulo}</h4>
+                <div class="n-actions"><button class="n-fav-btn ${isFav?'is-fav':''}" onclick="window.toggleFavorito('${c.id}')">${isFav?'❤️':'🤍'}</button></div>
+            </div>`;
         }).join('');
     };
-
-    function createCardBody(c, isPlaying, isFav) {
-        return `
-            <div class="n-img" style="background-image:url('${c.imagenUrl}')" onclick="window.gestionarPlay('${c.id}')">
-                <div class="n-overlay"><div class="n-play-icon">${isPlaying ? SVG_PAUSE : SVG_PLAY}</div></div>
-            </div>
-            <h4 class="n-title">${c.titulo}</h4>
-            <p class="n-artist">${c.artista}</p>
-            <div class="n-actions">
-                <button class="n-fav-btn ${isFav ? 'is-fav' : ''}" onclick="window.toggleFavorito('${c.id}')">${isFav ? '❤️' : '🤍'}</button>
-            </div>`;
-    }
 
     window.openFullPlayer = () => document.getElementById('full-player').classList.add('active');
     window.closeFullPlayer = () => document.getElementById('full-player').classList.remove('active');
@@ -524,20 +496,17 @@
     window.gestionarPlay = (id) => {
         const song = canciones.find(c => c.id === id);
         if(!song) return; 
-
-        if(idActual === id) { window.openFullPlayer(); } 
+        if(idActual === id) window.openFullPlayer();
         else {
-            idActual = id; window.castUrl = song.mp3Url; window.castTitle = song.titulo; window.castCover = song.imagenUrl;
+            idActual = id; window.castUrl = song.mp3Url; window.castTitle = song.titulo; window.castCover = getSafeImg(song.imagenUrl);
             document.getElementById('mini-title').innerText = song.titulo;
             document.getElementById('mini-artist').innerText = song.artista;
-            document.getElementById('mini-art').style.backgroundImage = `url('${song.imagenUrl}')`;
+            document.getElementById('mini-art').style.backgroundImage = `url('${window.castCover}')`;
             document.getElementById('mini-player').style.display = 'flex';
             document.getElementById('fp-title').innerText = song.titulo;
             document.getElementById('fp-artist').innerText = song.artista;
-            document.getElementById('fp-art').style.backgroundImage = `url('${song.imagenUrl}')`;
-            media.src = song.mp3Url;
-            media.play();
-            window.openFullPlayer();
+            document.getElementById('fp-art').style.backgroundImage = `url('${window.castCover}')`;
+            media.src = song.mp3Url; media.play(); window.openFullPlayer();
         }
         renderFeeds();
     };
