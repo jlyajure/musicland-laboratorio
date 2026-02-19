@@ -13,13 +13,20 @@
         * { box-sizing: border-box; outline: none; }
         body { background: var(--bg); color: #e2e8f0; margin: 0; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
         
-        /* HEADER Y LOGO CORREGIDOS */
+        /* SCROLLBAR NEÓN AZUL (Sugerencia del Director) */
+        ::-webkit-scrollbar { height: 6px; width: 6px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; box-shadow: 0 0 10px var(--neon); }
+        
         header { background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222; height: 65px; }
-        .logo-wrap { display: flex; align-items: center; cursor: pointer; }
-        .logo-box { width: 38px; height: 38px; background: #111; border: 1.5px solid var(--neon); border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+        
+        /* LOGO REFORZADO */
+        .logo-wrap { display: flex; align-items: center; cursor: pointer; text-decoration: none; }
+        .logo-box { width: 40px; height: 40px; background: #000; border: 2px solid var(--neon); border-radius: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
         .logo-img { width: 100%; height: 100%; object-fit: cover; }
         
-        .btn-salir-app { background: transparent; border: 1.5px solid var(--red); color: var(--red); padding: 5px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; cursor: pointer; }
+        .btn-salir-app { background: transparent; border: 1.5px solid var(--red); color: var(--red); padding: 5px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; cursor: pointer; transition: 0.3s; }
+        .btn-salir-app:hover { background: var(--red); color: white; }
 
         .search-container { position: fixed; top: 65px; left: 0; width: 100%; z-index: 900; padding: 15px 0; background: linear-gradient(180deg, black, transparent); }
         .search-wrapper { position: relative; width: 90%; max-width: 500px; margin: 0 auto; }
@@ -40,19 +47,18 @@
         .hero-btn-play { background: var(--neon); border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0,210,255,0.3); }
         
         .section-title { font-size: 20px; font-weight: 900; color: white; margin: 40px auto 20px auto; max-width: 1000px; padding-left: 20px; border-left: 4px solid var(--neon); }
-        .carousel { display: flex; overflow-x: auto; padding: 0 20px 25px 20px; gap: 20px; max-width: 1000px; margin: 0 auto; scrollbar-width: thin; }
+        .carousel { display: flex; overflow-x: auto; padding: 0 20px 25px 20px; gap: 20px; max-width: 1000px; margin: 0 auto; scrollbar-color: var(--neon) transparent; }
         
-        .n-card { min-width: 155px; transition: 0.3s; cursor: pointer; position: relative; }
+        .n-card { min-width: 155px; width: 155px; transition: 0.3s; cursor: pointer; position: relative; }
         .n-img { width: 155px; height: 155px; border-radius: 15px; background-size: cover; border: 1px solid #222; position: relative; }
         .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; border-radius: 15px; }
         .n-card:hover .n-overlay, .n-card.is-playing .n-overlay { opacity: 1; }
-        .n-play-icon { width: 45px; height: 45px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .n-play-icon { width: 45px; height: 45px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px var(--neon); }
         
         .n-title { font-size: 14px; font-weight: 700; margin: 8px 0 2px 0; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .n-artist { font-size: 12px; color: #777; margin: 0; }
 
-        /* MINI REPRODUCTOR PC - CONTROLES AÑADIDOS */
-        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(10px); border-top: 1px solid #222; padding: 12px 30px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
+        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(15px); border-top: 1px solid #222; padding: 12px 30px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
         .mini-main { display: flex; align-items: center; gap: 15px; flex: 1; }
         .mini-art { width: 50px; height: 50px; border-radius: 8px; border: 1px solid #333; background-size: cover; }
         .mini-controls { display: flex; align-items: center; gap: 20px; }
@@ -65,19 +71,20 @@
         .fp-info { text-align: center; margin: 30px 0; }
         .fp-controls { display: flex; align-items: center; gap: 40px; margin-top: 20px; }
         .fp-btn-sec { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.2); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
-        #btn-cast-fijo.cast-active { color: var(--neon); border-color: var(--neon); box-shadow: 0 0 15px var(--neon); }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo-wrap" onclick="window.triggerAdmin()">
-        <div class="logo-box">
+        <div class="logo-box" id="logo-container">
             <img src="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp" 
                  class="logo-img" 
-                 onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'color:var(--neon);font-weight:900;font-size:20px\'>M</span>'">
+                 id="logo-image"
+                 onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';">
+            <div id="logo-fallback" style="display:none; width:100%; height:100%; align-items:center; justify-content:center; background:#000; color:var(--neon); font-weight:900; font-size:22px;">M</div>
         </div>
-        <div class="brand-title" style="color:var(--neon); font-weight:900; margin-left:10px; font-size:18px;">Music Land</div>
+        <div class="brand-title" style="color:var(--neon); font-weight:900; margin-left:12px; font-size:20px; letter-spacing:1px;">Music Land</div>
     </div>
     <button onclick="window.confirmarSalida()" class="btn-salir-app">SALIR</button>
 </header>
@@ -85,7 +92,7 @@
 <div class="search-container">
     <div class="search-wrapper">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-box" placeholder="Buscar artista, canción..." oninput="window.debounceSearch()">
+        <input type="text" id="search-input" class="search-box" placeholder="¿Qué quieres escuchar hoy?" oninput="window.debounceSearch()">
     </div>
 </div>
 
@@ -131,10 +138,10 @@
 <div id="full-player">
     <button onclick="window.closeFullPlayer()" style="background:none; border:none; color:white; font-size:35px; cursor:pointer; align-self:flex-start;">🔽</button>
     <div id="fp-art" class="fp-art" style="margin-top:20px;"></div>
-    <div class="fp-info"><div id="fp-title" style="font-size:28px;font-weight:900;color:white;">...</div><div id="fp-artist" style="font-size:18px;color:var(--neon);">...</div></div>
+    <div class="fp-info"><div id="fp-title" style="font-size:28px;font-weight:900;color:white;">...</div><div id="fp-artist" style="font-size:18px;color:var(--neon);font-weight:700;">...</div></div>
     <div class="fp-controls">
         <button onclick="window.toggleMute()" class="fp-btn-sec" id="btn-vol">🔊</button>
-        <button onclick="window.toggleMainPlay()" id="fp-play-btn" style="width:80px;height:80px;border-radius:50%;background:var(--neon);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;"></button>
+        <button onclick="window.toggleMainPlay()" id="fp-play-btn" style="width:80px;height:80px;border-radius:50%;background:var(--neon);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow: 0 0 20px var(--neon);"></button>
         <button onclick="window.startCast()" id="btn-cast-fijo" class="fp-btn-sec"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg></button>
     </div>
 </div>
@@ -150,8 +157,8 @@
     let canciones = []; let idActual = null;
     let misFavoritos = JSON.parse(localStorage.getItem('ml_favoritos')) || [];
 
-    const SVG_PLAY = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
-    const SVG_PAUSE = `<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+    const SVG_PLAY = `<svg viewBox="0 0 24 24" width="35" height="35" fill="black"><path d="M8 5v14l11-7z"/></svg>`;
+    const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="35" height="35" fill="black"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
 
     onSnapshot(query(collection(db, "musicland_canciones"), orderBy("fecha", "desc")), (snap) => {
         canciones = []; snap.forEach(d => canciones.push({id: d.id, ...d.data()})); 
