@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC Master V83</title>
+    <title>Music Land Pro - PC Master V84</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     
-    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     <script>
         window['__onGCastApiAvailable'] = function(isAvailable) {
             if (isAvailable) {
@@ -18,16 +17,21 @@
 
                 // SENSOR: SI LA TV SUENA, LA PC SE CALLA
                 context.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, function(event) {
-                    if (event.sessionState === cast.framework.SessionState.SESSION_STARTED) {
+                    if (event.sessionState === cast.framework.SessionState.SESSION_STARTED || event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
                         const media = document.getElementById('main-media');
-                        media.pause(); // Silencia la PC
-                        window.actualizarBotonesPlay(true); // Cambia los iconos a "Play"
+                        media.pause(); 
+                        if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(true); 
                     }
                 });
             }
         };
 
         window.startCast = () => {
+            if (!cast || !cast.framework) {
+                alert("El sistema de TV se está conectando, intenta en 2 segundos...");
+                return;
+            }
+            
             const context = cast.framework.CastContext.getInstance();
             const session = context.getCurrentSession();
             
@@ -39,16 +43,17 @@
                 context.requestSession().then(() => {
                     // CONEXIÓN EXITOSA -> ENVIAR MÚSICA
                     const media = document.getElementById('main-media');
-                    if(media.src) {
+                    if(media && media.src) {
                         const mediaInfo = new chrome.cast.media.MediaInfo(media.src, 'audio/mp3');
                         const request = new chrome.cast.media.LoadRequest(mediaInfo);
                         request.autoplay = true;
                         context.getCurrentSession().loadMedia(request);
                     }
-                }).catch(e => console.log("Transmisión cancelada"));
+                }).catch(e => console.log("Transmisión cancelada o cerrada por el usuario."));
             }
         };
     </script>
+    <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     
     <style>
         :root { --neon: #00d2ff; --bg: #080808; --card: #121212; --red: #ff4444; }
@@ -205,7 +210,7 @@
         document.getElementById('hero-cover').style.backgroundImage = `url('${f.imagenUrl}')`;
         document.getElementById('hero-title').innerText = f.titulo;
         document.getElementById('hero-artist').innerText = f.artista;
-        document.getElementById('hero-bio').innerText = f.bio || "Descubre Music Land Radio.";
+        document.getElementById('hero-bio').innerText = f.bio || "Música Land Radio";
         document.getElementById('hero-play-btn').innerHTML = (idActual === f.id && !media.paused) ? SVG_PAUSE : SVG_PLAY;
         document.getElementById('hero-play-btn').onclick = () => window.gestionarPlay(f.id);
     }
