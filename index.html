@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC Master V90</title>
+    <title>Music Land Pro - PC Master V91</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     
     <script>
@@ -70,8 +70,6 @@
                         
                         const meta = new chrome.cast.media.MusicTrackMediaMetadata();
                         meta.title = window.castTitle || "En vivo";
-                        
-                        // 💎 EL HACK DE COLOR PARA ROMPER LO BLANCO EN LA TV 💎
                         meta.artist = "🔹 Music Land 🔹"; 
                         
                         if(window.castCover) {
@@ -104,6 +102,7 @@
         
         header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid #222; height: 75px; }
         
+        /* 👑 CAJA DEL LOGO */
         .logo-box { width: 45px; height: 45px; background: #000; border: 2px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); cursor: pointer; overflow: hidden; position: relative; }
         .header-logo { width: 100%; height: 100%; object-fit: cover; z-index: 2; position: relative; }
         .logo-svg { position: absolute; width: 26px; height: 26px; fill: var(--neon); z-index: 1; filter: drop-shadow(0 0 5px var(--neon)); }
@@ -153,8 +152,11 @@
 <header>
     <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
         <div class="logo-box">
-            <svg class="logo-svg" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-            <img src="logo.png" class="header-logo" alt="ML" onerror="this.style.display='none'">
+            <svg class="logo-svg" id="svg-respaldo" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            
+            <img src="logo.png?v=91" class="header-logo" alt="ML" 
+                 onload="document.getElementById('svg-respaldo').style.display='none'" 
+                 onerror="this.style.display='none'">
         </div>
         <div class="brand-title">Music Land</div>
     </div>
