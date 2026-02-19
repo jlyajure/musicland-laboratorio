@@ -3,77 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC Master V76</title>
+    <title>Music Land Pro - PC Master V77</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
-    
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
-    <script>
-        window.castUrl = ""; window.castTitle = ""; window.castCover = ""; window.lastTvTime = 0;
-        window.castContext = null;
-
-        window['__onGCastApiAvailable'] = function(isAvailable) {
-            if (isAvailable) {
-                try {
-                    window.castContext = cast.framework.CastContext.getInstance();
-                    window.castContext.setOptions({ 
-                        receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID, 
-                        autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED 
-                    });
-
-                    // MONITOR DE SESIÓN PARA EVITAR PANTALLA NEGRA
-                    window.castContext.addEventListener(cast.framework.CastContextEventType.SESSION_STATE_CHANGED, (event) => {
-                        const media = document.getElementById('main-media');
-                        const btn = document.getElementById('btn-cast-fijo');
-                        
-                        if (event.sessionState === cast.framework.SessionState.SESSION_STARTED) {
-                            media.pause();
-                            if(btn) btn.classList.add('cast-active');
-                            setTimeout(loadMediaOnCast, 1000); // Esperar 1 seg para asegurar carga
-                        } else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED) {
-                            if(btn) btn.classList.remove('cast-active');
-                            if(window.lastTvTime > 0) media.currentTime = window.lastTvTime;
-                            setTimeout(() => { media.play().catch(e => console.log(e)); }, 500);
-                        }
-                    });
-                } catch (e) { console.error("Cast Init Error", e); }
-            }
-        };
-
-        window.startCast = () => {
-            if (window.castContext) {
-                const session = window.castContext.getCurrentSession();
-                if(session) {
-                    if(confirm("¿Detener transmisión en la TV?")) session.endSession(true);
-                } else {
-                    window.castContext.requestSession().then(
-                        () => console.log("Conectado"), 
-                        (e) => { if(e.code !== 'cancel') alert("Verifica que tu TV esté en la misma red Wi-Fi."); }
-                    );
-                }
-            } else { alert("Iniciando sistema de transmisión..."); }
-        };
-
-        function loadMediaOnCast() {
-            const session = window.castContext.getCurrentSession();
-            if (!session || !window.castUrl) return;
-
-            const mediaInfo = new chrome.cast.media.MediaInfo(window.castUrl, 'audio/mp3');
-            const meta = new chrome.cast.media.MusicTrackMediaMetadata();
-            meta.title = window.castTitle;
-            meta.artist = "Music Land Radio";
-            meta.images = [new chrome.cast.Image(window.castCover)];
-            mediaInfo.metadata = meta;
-
-            const request = new chrome.cast.media.LoadRequest(mediaInfo);
-            request.currentTime = document.getElementById('main-media').currentTime;
-            request.autoplay = true;
-
-            session.loadMedia(request).then(
-                () => console.log('Media cargada en TV'),
-                (e) => console.error('Error cargando media', e)
-            );
-        }
-    </script>
     
     <style>
         :root { --neon: #00d2ff; --bg: #080808; --card: #121212; --red: #ff4444; }
@@ -86,8 +18,6 @@
         ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; box-shadow: 0 0 15px var(--neon); border: 2px solid #000; }
         
         header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid #222; height: 75px; }
-        
-        /* 🎶 LOGO NOTA MUSICAL INFALIBLE */
         .logo-box { width: 45px; height: 45px; background: #000; border: 2px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); cursor: pointer; }
         .logo-svg { width: 28px; height: 28px; fill: var(--neon); }
         .brand-title { color: var(--neon); font-size: 22px; font-weight: 900; text-transform: uppercase; margin-left: 12px; letter-spacing: 2px; }
@@ -112,29 +42,20 @@
 
         /* MINI PLAYER */
         #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(15px); border-top: 1px solid #222; padding: 12px 30px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
+        .mini-main { display: flex; align-items: center; gap: 15px; flex: 1; cursor: pointer; }
+        .mini-art { width: 50px; height: 50px; border-radius: 8px; border: 1px solid #333; background-size: cover; }
         .mini-controls { display: flex; align-items: center; gap: 25px; }
         .mini-btn { background: none; border: none; cursor: pointer; color: white; font-size: 26px; }
 
         /* FULL PLAYER PC */
         #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a, #000); z-index: 6000; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1); display: flex; flex-direction: column; padding: 40px; align-items: center; }
         #full-player.active { top: 0; }
-        
-        /* 🏹 BOTÓN DE CIERRE MODERNO (CHEVRON) */
-        .btn-modern-down { 
-            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); 
-            color: white; width: 45px; height: 45px; border-radius: 12px; 
-            display: flex; align-items: center; justify-content: center; 
-            cursor: pointer; align-self: flex-start; transition: 0.3s;
-        }
+        .btn-modern-down { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; align-self: flex-start; transition: 0.3s; }
         .btn-modern-down svg { width: 26px; height: 26px; fill: currentColor; }
-        .btn-modern-down:hover { background: var(--neon); color: black; border-color: var(--neon); }
-
         .fp-art { width: 350px; height: 350px; border-radius: 20px; background-size: cover; box-shadow: 0 30px 60px rgba(0,0,0,0.8); border: 2px solid #333; }
         .fp-controls { display: flex; align-items: center; gap: 45px; margin-top: 30px; }
         .fp-btn-main { width: 85px; height: 85px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 30px var(--neon); }
-        
         .btn-cast-pc { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.3); color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
-        .btn-cast-pc.cast-active { color: var(--neon); border-color: var(--neon); box-shadow: 0 0 15px var(--neon); }
     </style>
 </head>
 <body>
@@ -142,9 +63,7 @@
 <header>
     <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
         <div class="logo-box">
-            <svg class="logo-svg" viewBox="0 0 24 24">
-                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-            </svg>
+            <svg class="logo-svg" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
         </div>
         <div class="brand-title">Music Land</div>
     </div>
@@ -158,7 +77,7 @@
         <div class="hero-content">
             <div id="hero-cover" class="hero-cover"></div>
             <div class="hero-info">
-                <div id="hero-title" class="hero-title">Cargando...</div>
+                <div id="hero-title" class="hero-title">...</div>
                 <div id="hero-artist" style="color:var(--neon); font-size:22px; font-weight:700; margin-top:10px;">...</div>
                 <div id="hero-bio" class="hero-bio"></div>
                 <div class="hero-actions">
@@ -168,9 +87,7 @@
             </div>
         </div>
     </div>
-
     <div id="feed-container">
-        <div id="fav-section" style="display:none;"><h3 style="margin-left:20px;">⭐ Tus Favoritas</h3><div id="carousel-favs" class="carousel"></div></div>
         <h3 style="margin-left:20px;">🔥 Novedades</h3><div id="carousel-new" class="carousel"></div>
         <h3 style="margin-left:20px;">📂 Todo el Catálogo</h3><div id="carousel-all" class="carousel" style="flex-wrap:wrap; justify-content:center;"></div>
     </div>
@@ -179,8 +96,8 @@
 <audio id="main-media" crossorigin="anonymous"></audio>
 
 <div id="mini-player">
-    <div style="display:flex; align-items:center; gap:15px; flex:1;" onclick="window.openFullPlayer()" style="cursor:pointer;">
-        <div id="mini-art" class="mini-art" style="width:50px; height:50px; border-radius:8px; border:1px solid #333; background-size:cover;"></div>
+    <div class="mini-main" onclick="window.openFullPlayer()">
+        <div id="mini-art" class="mini-art"></div>
         <div><div id="mini-title" style="font-size:15px; font-weight:800; color:white;">...</div><div id="mini-artist" style="font-size:12px; color:var(--neon);">...</div></div>
     </div>
     <div class="mini-controls">
@@ -190,17 +107,13 @@
 </div>
 
 <div id="full-player">
-    <button onclick="window.closeFullPlayer()" class="btn-modern-down">
-        <svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
-    </button>
+    <button onclick="window.closeFullPlayer()" class="btn-modern-down"><svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg></button>
     <div id="fp-art" class="fp-art" style="margin-top:20px;"></div>
     <div class="fp-info"><div id="fp-title" style="font-size:32px;font-weight:900;color:white;">...</div><div id="fp-artist" style="font-size:20px;color:var(--neon);font-weight:700;margin-top:10px;">...</div></div>
     <div class="fp-controls">
         <button onclick="window.toggleMute()" class="fp-btn-sec" id="btn-vol">🔊</button>
         <button onclick="window.toggleMainPlay()" id="fp-play-btn" class="fp-btn-main"></button>
-        <button onclick="window.startCast()" id="btn-cast-fijo" class="btn-cast-pc">
-            <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg>
-        </button>
+        <button onclick="window.startCast()" id="btn-cast-fijo" class="btn-cast-pc"><svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg></button>
     </div>
 </div>
 
@@ -218,6 +131,29 @@
     const SVG_PLAY = `<svg viewBox="0 0 24 24" width="35" height="35" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
     const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="35" height="35" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
 
+    // --- LÓGICA CAST REFORZADA ---
+    window['__onGCastApiAvailable'] = function(isAvailable) {
+        if (isAvailable) {
+            const context = cast.framework.CastContext.getInstance();
+            context.setOptions({ receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID, autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED });
+        }
+    };
+
+    window.startCast = () => {
+        const context = cast.framework.CastContext.getInstance();
+        const session = context.getCurrentSession();
+        if(session) { session.endSession(true); } 
+        else {
+            context.requestSession().then(() => {
+                const s = canciones.find(c => c.id === idActual);
+                if(!s) return;
+                const mediaInfo = new chrome.cast.media.MediaInfo(s.mp3Url, 'audio/mp3');
+                const request = new chrome.cast.media.LoadRequest(mediaInfo);
+                context.getCurrentSession().loadMedia(request);
+            });
+        }
+    };
+
     onSnapshot(query(collection(db, "musicland_canciones"), orderBy("fecha", "desc")), (snap) => {
         canciones = []; snap.forEach(d => canciones.push({id: d.id, ...d.data()})); 
         renderHero(); renderFeeds(); 
@@ -230,26 +166,22 @@
         document.getElementById('hero-cover').style.backgroundImage = `url('${f.imagenUrl}')`;
         document.getElementById('hero-title').innerText = f.titulo;
         document.getElementById('hero-artist').innerText = f.artista;
-        document.getElementById('hero-bio').innerText = f.bio || "Descubre Music Land.";
+        document.getElementById('hero-bio').innerText = f.bio || "Lo mejor de Music Land.";
         document.getElementById('hero-play-btn').innerHTML = (idActual === f.id && !media.paused) ? SVG_PAUSE : SVG_PLAY;
-        document.getElementById('hero-play-btn').onclick = () => window.gestionarPlay(f.id);
+        document.getElementById('hero-play-btn').onclick = (e) => { e.stopPropagation(); window.toggleMainPlay(); };
     }
 
     function renderFeeds() {
         const createCard = (c) => {
-            const isFav = misFavoritos.includes(c.id);
             const isPlaying = idActual === c.id && !media.paused;
-            return `<div class="n-card">
-                <div class="n-img" style="background-image:url('${c.imagenUrl}')" onclick="window.gestionarPlay('${c.id}')">
+            return `<div class="n-card" onclick="window.gestionarPlay('${c.id}')">
+                <div class="n-img" style="background-image:url('${c.imagenUrl}')">
                     <div class="n-overlay"><div class="n-play-icon">${isPlaying ? SVG_PAUSE : SVG_PLAY}</div></div>
                 </div>
                 <div style="font-size:14px; font-weight:700; color:white; margin-top:8px;">${c.titulo}</div>
-                <div style="display:flex; justify-content:space-between; align-items:center;"><div style="font-size:12px; color:var(--neon);">${c.artista}</div><div style="cursor:pointer;" onclick="window.toggleFavorito('${c.id}')">${isFav?'❤️':'🤍'}</div></div>
+                <div style="font-size:12px; color:var(--neon);">${c.artista}</div>
             </div>`;
         };
-        const favs = canciones.filter(c => misFavoritos.includes(c.id));
-        document.getElementById('fav-section').style.display = favs.length ? 'block' : 'none';
-        document.getElementById('carousel-favs').innerHTML = favs.map(c => createCard(c)).join('');
         document.getElementById('carousel-new').innerHTML = canciones.slice(0, 10).map(c => createCard(c)).join('');
         document.getElementById('carousel-all').innerHTML = canciones.map(c => createCard(c)).join('');
         const updateBtns = [document.getElementById('mini-play-btn'), document.getElementById('fp-play-btn'), document.getElementById('hero-play-btn')];
@@ -258,22 +190,23 @@
 
     window.gestionarPlay = (id) => {
         const s = canciones.find(c => c.id === id);
-        if(idActual === id) { media.paused ? media.play() : media.pause(); } 
-        else {
-            idActual = id; window.castUrl = s.mp3Url; window.castTitle = s.titulo; window.castCover = s.imagenUrl;
+        if(idActual !== id) {
+            idActual = id;
             document.getElementById('mini-title').innerText = s.titulo; document.getElementById('mini-artist').innerText = s.artista;
             document.getElementById('mini-art').style.backgroundImage = `url('${s.imagenUrl}')`;
             document.getElementById('mini-player').style.display = 'flex';
             document.getElementById('fp-title').innerText = s.titulo; document.getElementById('fp-artist').innerText = s.artista;
             document.getElementById('fp-art').style.backgroundImage = `url('${s.imagenUrl}')`;
             media.src = s.mp3Url; media.play();
+            window.openFullPlayer(); // SOLO SE ABRE AL ELEGIR UNA NUEVA
+        } else {
+            window.toggleMainPlay();
         }
-        window.openFullPlayer(); renderFeeds(); renderHero();
+        renderFeeds(); renderHero();
     };
 
     window.toggleMainPlay = () => { media.paused ? media.play() : media.pause(); renderFeeds(); renderHero(); };
     window.toggleMute = () => { media.muted = !media.muted; document.getElementById('mini-vol-btn').innerText = media.muted ? "🔇" : "🔊"; document.getElementById('btn-vol').innerText = media.muted ? "🔇" : "🔊"; };
-    window.toggleFavorito = (id) => { const i = misFavoritos.indexOf(id); i > -1 ? misFavoritos.splice(i, 1) : misFavoritos.push(id); localStorage.setItem('ml_favoritos', JSON.stringify(misFavoritos)); renderFeeds(); renderHero(); };
     window.openFullPlayer = () => document.getElementById('full-player').classList.add('active');
     window.closeFullPlayer = () => document.getElementById('full-player').classList.remove('active');
     window.confirmarSalida = () => { if(confirm("¿Salir?")) window.location.href = "about:blank"; };
