@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro</title>
+    <title>Music Land Pro - LAB</title>
     <meta name="theme-color" content="#000000">
     
-    <link rel="icon" type="image/png" href="logo.png?v=2">
-    <link rel="apple-touch-icon" href="logo.png?v=2">
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp">
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
@@ -17,20 +16,28 @@
         * { box-sizing: border-box; outline: none; }
         body { background: var(--bg); color: #e2e8f0; margin: 0; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
         
-        /* SCROLLBAR NEÓN AZUL (Sugerencia del Director) */
+        /* SCROLLBAR NEÓN AZUL */
         ::-webkit-scrollbar { height: 6px; width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
         ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; box-shadow: 0 0 10px var(--neon); }
         
         header { background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222; height: 65px; }
         
-        /* LOGO CON EL ESTILO DE TU APP OFICIAL */
-        .header-logo { width: 35px; height: 35px; border-radius: 8px; border: 1.5px solid var(--neon); object-fit: cover; cursor: pointer; }
-        .brand-title { color: var(--neon); font-size: 18px; font-weight: 900; text-transform: uppercase; margin-left: 10px; cursor: pointer; }
+        /* CONTENEDOR DE LOGO REFORZADO PARA PC */
+        .logo-box { 
+            width: 42px; height: 42px; 
+            background: #000; 
+            border: 2px solid var(--neon); 
+            border-radius: 10px; 
+            display: flex; align-items: center; justify-content: center; 
+            overflow: hidden; 
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+        }
+        .header-logo { width: 100%; height: 100%; object-fit: cover; }
         
+        .brand-title { color: var(--neon); font-size: 20px; font-weight: 900; text-transform: uppercase; margin-left: 12px; letter-spacing: 1px; }
         .btn-salir-app { background: transparent; border: 1.5px solid var(--red); color: var(--red); padding: 5px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; cursor: pointer; }
 
-        /* BUSCADOR ESTILIZADO PARA PC */
         .search-container { position: fixed; top: 65px; left: 0; width: 100%; z-index: 900; padding: 15px 0; background: linear-gradient(180deg, black, transparent); }
         .search-wrapper { position: relative; width: 90%; max-width: 500px; margin: 0 auto; }
         .search-box { width: 100%; background: #1a1a1a; border: 1px solid #333; color: white; padding: 12px 15px 12px 45px; border-radius: 50px; font-size: 14px; }
@@ -38,34 +45,28 @@
 
         #home-view { padding-top: 140px; padding-bottom: 150px; }
         
+        /* HERO PC */
         #hero-section { min-height: 40vh; position: relative; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; border-radius: 0 0 30px 30px; margin-bottom: 30px; }
         .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(50px) brightness(0.2); }
         .hero-content { position: relative; z-index: 2; width: 90%; max-width: 1000px; padding: 30px; display: flex; gap: 30px; align-items: flex-end; }
         .hero-cover { width: 180px; height: 180px; border-radius: 15px; background-size: cover; border: 1px solid rgba(255,255,255,0.1); }
         .hero-title { font-size: 32px; font-weight: 900; color: white; margin: 0; }
-        .hero-artist { color: var(--neon); font-size: 18px; font-weight: 700; margin: 5px 0; }
-        
-        .hero-actions { display: flex; gap: 15px; margin-top: 20px; }
-        .hero-btn-play { background: var(--neon); border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         
         .section-title { font-size: 20px; font-weight: 900; color: white; margin: 40px auto 20px auto; max-width: 1000px; padding-left: 20px; border-left: 4px solid var(--neon); }
         .carousel { display: flex; overflow-x: auto; padding: 0 20px 25px 20px; gap: 20px; max-width: 1000px; margin: 0 auto; }
         
-        .n-card { min-width: 155px; width: 155px; position: relative; cursor: pointer; }
+        .n-card { min-width: 155px; transition: 0.3s; cursor: pointer; position: relative; }
         .n-img { width: 155px; height: 155px; border-radius: 15px; background-size: cover; border: 1px solid #222; position: relative; }
         .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; border-radius: 15px; }
         .n-card:hover .n-overlay, .n-card.is-playing .n-overlay { opacity: 1; }
         .n-play-icon { width: 45px; height: 45px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px var(--neon); }
-        
-        .n-title { font-size: 14px; font-weight: 700; margin: 8px 0 2px 0; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .n-artist { font-size: 12px; color: #777; margin: 0; }
 
-        /* MINI REPRODUCTOR CON CONTROLES */
+        /* MINI REPRODUCTOR */
         #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(15px); border-top: 1px solid #222; padding: 12px 30px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
         .mini-main { display: flex; align-items: center; gap: 15px; }
         .mini-art { width: 50px; height: 50px; border-radius: 8px; border: 1px solid #333; background-size: cover; }
         .mini-controls { display: flex; align-items: center; gap: 20px; }
-        .mini-btn { background: none; border: none; cursor: pointer; color: white; font-size: 22px; }
+        .mini-btn { background: none; border: none; cursor: pointer; color: white; font-size: 24px; }
 
         #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a, #000); z-index: 6000; transition: 0.4s; display: flex; flex-direction: column; padding: 40px; align-items: center; }
         #full-player.active { top: 0; }
@@ -77,8 +78,13 @@
 <body>
 
 <header>
-    <div style="display:flex; align-items:center;" onclick="window.triggerAdmin()">
-        <img src="logo.png?v=2" class="header-logo" alt="Logo" onerror="this.src='https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp'">
+    <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
+        <div class="logo-box">
+            <img src="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp" 
+                 class="header-logo" 
+                 alt="Music Land"
+                 onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'color:var(--neon);font-weight:900;font-size:22px\'>🎶</span>'">
+        </div>
         <div class="brand-title">Music Land</div>
     </div>
     <button onclick="window.confirmarSalida()" class="btn-salir-app">SALIR</button>
@@ -87,7 +93,7 @@
 <div class="search-container">
     <div class="search-wrapper">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-box" placeholder="¿Qué escuchamos?" oninput="window.debounceSearch()">
+        <input type="text" id="search-input" class="search-box" placeholder="Buscar música..." oninput="window.debounceSearch()">
     </div>
 </div>
 
@@ -98,7 +104,7 @@
             <div id="hero-cover" class="hero-cover"></div>
             <div class="hero-info">
                 <div id="hero-title" class="hero-title">Cargando...</div>
-                <div id="hero-artist" class="hero-artist">...</div>
+                <div id="hero-artist" style="color:var(--neon); font-size:18px; font-weight:700;">...</div>
                 <div class="hero-actions">
                     <button id="hero-play-btn" class="hero-btn-play"></button>
                     <button id="hero-fav-btn" style="background:none;border:none;font-size:24px;cursor:pointer;">🤍</button>
@@ -120,8 +126,8 @@
     <div class="mini-main">
         <div id="mini-art" class="mini-art" onclick="window.openFullPlayer()" style="cursor:pointer;"></div>
         <div onclick="window.openFullPlayer()" style="cursor:pointer;">
-            <div id="mini-title" class="mini-title">...</div>
-            <div id="mini-artist" class="mini-artist">...</div>
+            <div id="mini-title" style="font-size:14px; font-weight:800; color:white;">...</div>
+            <div id="mini-artist" style="font-size:12px; color:var(--neon);">...</div>
         </div>
     </div>
     <div class="mini-controls">
@@ -131,7 +137,7 @@
 </div>
 
 <div id="full-player">
-    <button onclick="window.closeFullPlayer()" style="background:none; border:none; color:white; font-size:35px; cursor:pointer; align-self:flex-start;">🔽</button>
+    <button onclick="window.closeFullPlayer()" class="btn-down">🔽</button>
     <div id="fp-art" class="fp-art" style="margin-top:20px;"></div>
     <div class="fp-info"><div id="fp-title" style="font-size:28px;font-weight:900;color:white;">...</div><div id="fp-artist" style="font-size:18px;color:var(--neon);font-weight:700;">...</div></div>
     <div class="fp-controls">
@@ -184,9 +190,9 @@
                 <div class="n-img" style="background-image:url('${c.imagenUrl}')" onclick="window.gestionarPlay('${c.id}')">
                     <div class="n-overlay"><div class="n-play-icon">${isPlaying ? SVG_PAUSE : SVG_PLAY}</div></div>
                 </div>
-                <div class="n-title">${c.titulo}</div>
+                <div style="font-size:14px; font-weight:700; color:white; margin-top:8px;">${c.titulo}</div>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div class="n-artist">${c.artista}</div>
+                    <div style="font-size:12px; color:#777;">${c.artista}</div>
                     <div style="cursor:pointer;" onclick="window.toggleFavorito('${c.id}')">${isFav?'❤️':'🤍'}</div>
                 </div>
             </div>`;
