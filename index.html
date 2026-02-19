@@ -6,8 +6,8 @@
     <title>Music Land Pro</title>
     <meta name="theme-color" content="#000000">
     
-    <link rel="icon" type="image/png" href="logo.png">
-    <link rel="apple-touch-icon" href="logo.png">
+    <link rel="icon" type="image/png" href="logo.png?v=2">
+    <link rel="apple-touch-icon" href="logo.png?v=2">
     
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
@@ -17,26 +17,23 @@
         * { box-sizing: border-box; outline: none; }
         body { background: var(--bg); color: #e2e8f0; margin: 0; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
         
-        /* SCROLLBAR NEÓN AZUL */
+        /* SCROLLBAR NEÓN AZUL (Sugerencia del Director) */
         ::-webkit-scrollbar { height: 6px; width: 6px; }
         ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); border-radius: 10px; }
         ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; box-shadow: 0 0 10px var(--neon); }
         
         header { background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222; height: 65px; }
         
-        /* LOGO LOCAL REFORZADO */
-        .logo-wrap { display: flex; align-items: center; cursor: pointer; text-decoration: none; }
-        .logo-box { width: 40px; height: 40px; background: #000; border: 2px solid var(--neon); border-radius: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 15px rgba(0, 210, 255, 0.3); }
-        /* Se usa la ruta local "logo.png" */
-        .logo-img { width: 100%; height: 100%; object-fit: cover; }
+        /* LOGO CON EL ESTILO DE TU APP OFICIAL */
+        .header-logo { width: 35px; height: 35px; border-radius: 8px; border: 1.5px solid var(--neon); object-fit: cover; cursor: pointer; }
+        .brand-title { color: var(--neon); font-size: 18px; font-weight: 900; text-transform: uppercase; margin-left: 10px; cursor: pointer; }
         
-        .btn-salir-app { background: transparent; border: 1.5px solid var(--red); color: var(--red); padding: 5px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; cursor: pointer; transition: 0.3s; }
-        .btn-salir-app:hover { background: var(--red); color: white; }
+        .btn-salir-app { background: transparent; border: 1.5px solid var(--red); color: var(--red); padding: 5px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; cursor: pointer; }
 
+        /* BUSCADOR ESTILIZADO PARA PC */
         .search-container { position: fixed; top: 65px; left: 0; width: 100%; z-index: 900; padding: 15px 0; background: linear-gradient(180deg, black, transparent); }
         .search-wrapper { position: relative; width: 90%; max-width: 500px; margin: 0 auto; }
-        .search-box { width: 100%; background: #1a1a1a; border: 1px solid #333; color: white; padding: 12px 15px 12px 45px; border-radius: 50px; font-size: 14px; transition: 0.3s; }
-        .search-box:focus { border-color: var(--neon); box-shadow: 0 0 15px rgba(0,210,255,0.2); }
+        .search-box { width: 100%; background: #1a1a1a; border: 1px solid #333; color: white; padding: 12px 15px 12px 45px; border-radius: 50px; font-size: 14px; }
         .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--neon); }
 
         #home-view { padding-top: 140px; padding-bottom: 150px; }
@@ -44,17 +41,17 @@
         #hero-section { min-height: 40vh; position: relative; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; border-radius: 0 0 30px 30px; margin-bottom: 30px; }
         .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(50px) brightness(0.2); }
         .hero-content { position: relative; z-index: 2; width: 90%; max-width: 1000px; padding: 30px; display: flex; gap: 30px; align-items: flex-end; }
-        .hero-cover { width: 180px; height: 180px; border-radius: 15px; background-size: cover; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 15px 40px rgba(0,0,0,0.7); }
-        .hero-title { font-size: 32px; font-weight: 900; margin: 0; color: white; }
+        .hero-cover { width: 180px; height: 180px; border-radius: 15px; background-size: cover; border: 1px solid rgba(255,255,255,0.1); }
+        .hero-title { font-size: 32px; font-weight: 900; color: white; margin: 0; }
         .hero-artist { color: var(--neon); font-size: 18px; font-weight: 700; margin: 5px 0; }
         
         .hero-actions { display: flex; gap: 15px; margin-top: 20px; }
-        .hero-btn-play { background: var(--neon); border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px rgba(0,210,255,0.3); }
+        .hero-btn-play { background: var(--neon); border: none; width: 55px; height: 55px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         
         .section-title { font-size: 20px; font-weight: 900; color: white; margin: 40px auto 20px auto; max-width: 1000px; padding-left: 20px; border-left: 4px solid var(--neon); }
-        .carousel { display: flex; overflow-x: auto; padding: 0 20px 25px 20px; gap: 20px; max-width: 1000px; margin: 0 auto; scrollbar-color: var(--neon) transparent; }
+        .carousel { display: flex; overflow-x: auto; padding: 0 20px 25px 20px; gap: 20px; max-width: 1000px; margin: 0 auto; }
         
-        .n-card { min-width: 155px; width: 155px; transition: 0.3s; cursor: pointer; position: relative; }
+        .n-card { min-width: 155px; width: 155px; position: relative; cursor: pointer; }
         .n-img { width: 155px; height: 155px; border-radius: 15px; background-size: cover; border: 1px solid #222; position: relative; }
         .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; border-radius: 15px; }
         .n-card:hover .n-overlay, .n-card.is-playing .n-overlay { opacity: 1; }
@@ -63,29 +60,26 @@
         .n-title { font-size: 14px; font-weight: 700; margin: 8px 0 2px 0; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .n-artist { font-size: 12px; color: #777; margin: 0; }
 
+        /* MINI REPRODUCTOR CON CONTROLES */
         #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(15px); border-top: 1px solid #222; padding: 12px 30px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
-        .mini-main { display: flex; align-items: center; gap: 15px; flex: 1; }
+        .mini-main { display: flex; align-items: center; gap: 15px; }
         .mini-art { width: 50px; height: 50px; border-radius: 8px; border: 1px solid #333; background-size: cover; }
         .mini-controls { display: flex; align-items: center; gap: 20px; }
-        .mini-btn { background: none; border: none; cursor: pointer; color: white; padding: 5px; display: flex; align-items: center; justify-content: center; }
-        .mini-btn svg { width: 28px; height: 28px; fill: white; }
+        .mini-btn { background: none; border: none; cursor: pointer; color: white; font-size: 22px; }
 
         #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a, #000); z-index: 6000; transition: 0.4s; display: flex; flex-direction: column; padding: 40px; align-items: center; }
         #full-player.active { top: 0; }
         .fp-art { width: 320px; height: 320px; border-radius: 20px; background-size: cover; box-shadow: 0 30px 60px rgba(0,0,0,0.8); border: 2px solid #333; }
-        .fp-info { text-align: center; margin: 30px 0; }
-        .fp-controls { display: flex; align-items: center; gap: 40px; margin-top: 20px; }
-        .fp-btn-sec { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.2); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+        .fp-controls { display: flex; align-items: center; gap: 40px; margin-top: 30px; }
+        .fp-btn-sec { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.2); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <header>
-    <div class="logo-wrap" onclick="window.triggerAdmin()">
-        <div class="logo-box">
-            <img src="logo.png" class="logo-img" alt="Music Land Logo">
-        </div>
-        <div class="brand-title" style="color:var(--neon); font-weight:900; margin-left:12px; font-size:20px; letter-spacing:1px;">Music Land</div>
+    <div style="display:flex; align-items:center;" onclick="window.triggerAdmin()">
+        <img src="logo.png?v=2" class="header-logo" alt="Logo" onerror="this.src='https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp'">
+        <div class="brand-title">Music Land</div>
     </div>
     <button onclick="window.confirmarSalida()" class="btn-salir-app">SALIR</button>
 </header>
@@ -93,7 +87,7 @@
 <div class="search-container">
     <div class="search-wrapper">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-box" placeholder="¿Qué quieres escuchar hoy?" oninput="window.debounceSearch()">
+        <input type="text" id="search-input" class="search-box" placeholder="¿Qué escuchamos?" oninput="window.debounceSearch()">
     </div>
 </div>
 
@@ -238,11 +232,9 @@
     window.toggleMainPlay = () => { media.paused ? media.play() : media.pause(); };
     window.toggleMute = () => { 
         media.muted = !media.muted; 
-        const vBtn = document.getElementById('btn-vol');
-        const mVBtn = document.getElementById('mini-vol-btn');
         const icon = media.muted ? "🔇" : "🔊";
-        if(vBtn) vBtn.innerText = icon;
-        if(mVBtn) mVBtn.innerText = icon;
+        document.getElementById('btn-vol').innerText = icon;
+        document.getElementById('mini-vol-btn').innerText = icon;
     };
     window.openFullPlayer = () => document.getElementById('full-player').classList.add('active');
     window.closeFullPlayer = () => document.getElementById('full-player').classList.remove('active');
