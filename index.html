@@ -1,59 +1,128 @@
-<style>
-    .heart-btn {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 20px;
-        color: white; /* Corazón blanco por defecto */
-        transition: transform 0.2s, color 0.2s;
-        padding: 5px;
-    }
-    .heart-btn.is-fav {
-        color: #ff0000; /* Rojo cuando es favorito */
-        filter: drop-shadow(0 0 5px rgba(255,0,0,0.5));
-    }
-    .heart-btn:active {
-        transform: scale(1.3);
-    }
-    
-    /* Botón de la categoría Favoritos */
-    .chip-fav {
-        background: rgba(255, 0, 0, 0.2) !important;
-        border: 1px solid #ff0000 !important;
-    }
-    .chip-fav.active {
-        background: #ff0000 !important;
-    }
-</style>
-
-<script>
-    // 1. Cargar favoritos guardados al iniciar
-    let misFavoritos = JSON.parse(localStorage.getItem('ml_favs')) || [];
-
-    // 2. Función para marcar/desmarcar
-    window.toggleFav = (songId) => {
-        const index = misFavoritos.indexOf(songId);
-        if (index > -1) {
-            misFavoritos.splice(index, 1); // Quitar de favoritos
-        } else {
-            misFavoritos.push(songId); // Agregar a favoritos
-        }
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Land 🎶</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root { --blue: #3b82f6; --bg: #0f172a; --red: #ff0000; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: white; margin: 0; padding-bottom: 100px; }
         
-        // Guardar en la memoria del celular
-        localStorage.setItem('ml_favs', JSON.stringify(misFavoritos));
+        header { background: #1e293b; padding: 20px; text-align: center; border-bottom: 1px solid #334155; position: sticky; top: 0; z-index: 100; }
         
-        // Refrescar la vista (tu función que pinta la lista)
-        renderizarLista(); 
+        .filters { display: flex; gap: 10px; overflow-x: auto; padding: 15px; white-space: nowrap; }
+        .chip { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 18px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+        .chip.active { background: var(--blue); border-color: var(--blue); }
+        .chip-fav { border-color: var(--red) !important; color: white; }
+        .chip-fav.active { background: var(--red) !important; }
+
+        .song-card { background: #1e293b; margin: 10px; padding: 15px; border-radius: 15px; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
+        .song-info { flex: 1; }
+        .song-title { font-weight: 800; display: block; }
+        .song-artist { font-size: 13px; color: #94a3b8; }
+
+        .btn-play { background: var(--blue); border: none; color: white; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; font-size: 18px; }
+        
+        /* CORAZONES ESTILO FAMILIA */
+        .heart-btn { background: none; border: none; cursor: pointer; font-size: 22px; color: white; transition: transform 0.2s; }
+        .heart-btn.is-fav { color: var(--red); }
+        .heart-btn:active { transform: scale(1.4); }
+
+        .player-bar { position: fixed; bottom: 0; width: 100%; background: #1e293b; padding: 15px; border-top: 1px solid #334155; display: flex; flex-direction: column; align-items: center; }
+        audio { width: 100%; max-width: 400px; height: 35px; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1 style="margin:0; font-size: 24px;">Music Land 🎹</h1>
+</header>
+
+<div class="filters" id="menu">
+    <button class="chip active" onclick="window.filtrar('Todo')">Todo</button>
+    <button class="chip chip-fav" id="btn-fav" onclick="window.filtrar('Favoritos')">Favoritos ❤️</button>
+    <button class="chip" onclick="window.filtrar('Salsa')">Salsa</button>
+    <button class="chip" onclick="window.filtrar('Rock')">Rock</button>
+    <button class="chip" onclick="window.filtrar('Pop')">Pop</button>
+</div>
+
+<div id="lista-canciones">
+    </div>
+
+<div class="player-bar">
+    <div id="current-song" style="font-size: 12px; margin-bottom: 5px; font-weight: 600;">Selecciona una canción</div>
+    <audio id="audio-player" controls></audio>
+</div>
+
+<script type="module">
+    // --- DATOS DE EJEMPLO (Aquí pondrás tus canciones de Firebase después) ---
+    let canciones = [
+        { id: '1', titulo: 'Canción Ejemplo 1', artista: 'Artista A', genero: 'Salsa', url: 'tu_url_aqui' },
+        { id: '2', titulo: 'Canción Ejemplo 2', artista: 'Artista B', genero: 'Rock', url: 'tu_url_aqui' }
+    ];
+
+    let filtroActual = 'Todo';
+    let favoritos = JSON.parse(localStorage.getItem('ml_favs')) || [];
+
+    window.toggleFav = (id) => {
+        const index = favoritos.indexOf(id);
+        if (index > -1) favoritos.splice(index, 1);
+        else favoritos.push(id);
+        
+        localStorage.setItem('ml_favs', JSON.stringify(favoritos));
+        window.renderizar();
     };
 
-    // 3. Modificación en tu función de pintar canciones:
-    // Al generar el HTML de cada canción, debes añadir esto:
-    /*
-    const esFav = misFavoritos.includes(cancion.id);
-    const htmlCorazon = `
-        <button class="heart-btn ${esFav ? 'is-fav' : ''}" onclick="window.toggleFav('${cancion.id}')">
-            ${esFav ? '❤️' : '🤍'}
-        </button>
-    `;
-    */
+    window.filtrar = (genero) => {
+        filtroActual = genero;
+        document.querySelectorAll('.chip').forEach(btn => btn.classList.remove('active'));
+        // Marcar el botón activo
+        window.renderizar();
+    };
+
+    window.playSong = (url, titulo) => {
+        const player = document.getElementById('audio-player');
+        document.getElementById('current-song').innerText = "Reproduciendo: " + titulo;
+        player.src = url;
+        player.play();
+    };
+
+    window.renderizar = () => {
+        const contenedor = document.getElementById('lista-canciones');
+        contenedor.innerHTML = "";
+        
+        let filtradas = canciones.filter(c => {
+            if (filtroActual === 'Todo') return true;
+            if (filtroActual === 'Favoritos') return favoritos.includes(c.id);
+            return c.genero === filtroActual;
+        });
+
+        if (filtradas.length === 0) {
+            contenedor.innerHTML = `<p style="text-align:center; padding:20px; color:gray;">No hay canciones aquí todavía.</p>`;
+            return;
+        }
+
+        filtradas.forEach(c => {
+            const esFav = favoritos.includes(c.id);
+            contenedor.innerHTML += `
+                <div class="song-card">
+                    <button class="btn-play" onclick="window.playSong('${c.url}', '${c.titulo}')">▶</button>
+                    <div class="song-info">
+                        <span class="song-title">${c.titulo}</span>
+                        <span class="song-artist">${c.artista}</span>
+                    </div>
+                    <button class="heart-btn ${esFav ? 'is-fav' : ''}" onclick="window.toggleFav('${c.id}')">
+                        ${esFav ? '❤️' : '🤍'}
+                    </button>
+                </div>
+            `;
+        });
+    };
+
+    // Al iniciar
+    window.renderizar();
 </script>
+
+</body>
+</html>
