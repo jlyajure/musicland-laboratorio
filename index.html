@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC Master V77</title>
+    <title>Music Land Pro - PC Master V78</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     
@@ -12,50 +12,52 @@
         * { box-sizing: border-box; outline: none; }
         body { background: var(--bg); color: #e2e8f0; margin: 0; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
         
-        /* 🔵 BARRA DESLIZADORA NEÓN AZUL */
+        /* SCROLLBAR NEÓN AZUL */
         ::-webkit-scrollbar { width: 10px; height: 10px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; box-shadow: 0 0 15px var(--neon); border: 2px solid #000; }
         
         header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid #222; height: 75px; }
-        .logo-box { width: 45px; height: 45px; background: #000; border: 2px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); cursor: pointer; }
-        .logo-svg { width: 28px; height: 28px; fill: var(--neon); }
+        .logo-box { width: 45px; height: 45px; background: #000; border: 2px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); cursor: pointer; overflow: hidden; }
+        .header-logo { width: 100%; height: 100%; object-fit: cover; }
         .brand-title { color: var(--neon); font-size: 22px; font-weight: 900; text-transform: uppercase; margin-left: 12px; letter-spacing: 2px; }
 
         #home-view { padding-top: 150px; padding-bottom: 150px; }
         
-        /* HERO PC */
+        /* PORTADA HERO */
         #hero-section { min-height: 480px; width: 100%; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 0 0 40px 40px; border-bottom: 1px solid #222; background: #000; }
         .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(60px) brightness(0.2); }
-        .hero-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, var(--bg) 10%, transparent 100%); }
-        .hero-content { position: relative; z-index: 2; width: 90%; max-width: 1000px; display: flex; flex-direction: row; align-items: center; gap: 50px; padding: 20px; }
+        .hero-content { position: relative; z-index: 2; width: 90%; max-width: 1000px; display: flex; flex-direction: row; align-items: center; gap: 40px; padding: 20px; }
         .hero-cover { width: 280px; height: 280px; border-radius: 20px; background-size: cover; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; }
         .hero-title { font-size: 40px; font-weight: 900; color: white; margin: 0; }
         .hero-bio { font-size: 15px; color: #ccc; line-height: 1.6; margin-top: 15px; border-left: 3px solid var(--neon); padding-left: 15px; max-height: 100px; overflow-y: auto; }
         .hero-btn-play { background: var(--neon); border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px var(--neon); }
 
         .carousel { display: flex; overflow-x: auto; padding: 0 20px 30px 20px; gap: 20px; max-width: 1100px; margin: 0 auto; }
-        .n-card { min-width: 155px; cursor: pointer; }
+        .n-card { min-width: 155px; cursor: pointer; transition: 0.3s; }
+        .n-card:hover { transform: translateY(-5px); }
         .n-img { width: 155px; height: 155px; border-radius: 15px; background-size: cover; border: 1px solid #222; position: relative; }
         .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; border-radius: 15px; }
         .n-card:hover .n-overlay { opacity: 1; }
 
-        /* MINI PLAYER */
-        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(15px); border-top: 1px solid #222; padding: 12px 30px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
+        /* MINI PLAYER (BOTONES SVG) */
+        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(20px); border-top: 1px solid #222; padding: 12px 30px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
         .mini-main { display: flex; align-items: center; gap: 15px; flex: 1; cursor: pointer; }
         .mini-art { width: 50px; height: 50px; border-radius: 8px; border: 1px solid #333; background-size: cover; }
         .mini-controls { display: flex; align-items: center; gap: 25px; }
-        .mini-btn { background: none; border: none; cursor: pointer; color: white; font-size: 26px; }
+        .mini-btn { background: none; border: none; cursor: pointer; color: white; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
+        .mini-btn:hover { color: var(--neon); }
+        .mini-btn svg { width: 100%; height: 100%; fill: currentColor; }
 
         /* FULL PLAYER PC */
         #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a, #000); z-index: 6000; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1); display: flex; flex-direction: column; padding: 40px; align-items: center; }
         #full-player.active { top: 0; }
-        .btn-modern-down { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; align-self: flex-start; transition: 0.3s; }
-        .btn-modern-down svg { width: 26px; height: 26px; fill: currentColor; }
-        .fp-art { width: 350px; height: 350px; border-radius: 20px; background-size: cover; box-shadow: 0 30px 60px rgba(0,0,0,0.8); border: 2px solid #333; }
+        .btn-modern-down { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; align-self: flex-start; }
+        .fp-art { width: 350px; height: 350px; border-radius: 30px; background-size: cover; box-shadow: 0 30px 60px rgba(0,0,0,0.8); border: 2px solid #333; }
         .fp-controls { display: flex; align-items: center; gap: 45px; margin-top: 30px; }
-        .fp-btn-main { width: 85px; height: 85px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 30px var(--neon); }
-        .btn-cast-pc { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.3); color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; }
+        .fp-btn-main { width: 85px; height: 85px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 30px var(--neon); color: black; }
+        .btn-cast-pc { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.3); color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .btn-cast-pc.cast-active { color: var(--neon); border-color: var(--neon); box-shadow: 0 0 15px var(--neon); }
     </style>
 </head>
 <body>
@@ -63,7 +65,10 @@
 <header>
     <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
         <div class="logo-box">
-            <svg class="logo-svg" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            <img src="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp" 
+                 class="header-logo" 
+                 alt="Logo"
+                 onerror="this.src='logo.png'">
         </div>
         <div class="brand-title">Music Land</div>
     </div>
@@ -73,7 +78,6 @@
 <div id="home-view">
     <div id="hero-section">
         <div id="hero-bg" class="hero-bg"></div>
-        <div class="hero-overlay"></div>
         <div class="hero-content">
             <div id="hero-cover" class="hero-cover"></div>
             <div class="hero-info">
@@ -98,22 +102,30 @@
 <div id="mini-player">
     <div class="mini-main" onclick="window.openFullPlayer()">
         <div id="mini-art" class="mini-art"></div>
-        <div><div id="mini-title" style="font-size:15px; font-weight:800; color:white;">...</div><div id="mini-artist" style="font-size:12px; color:var(--neon);">...</div></div>
+        <div><div id="mini-title" style="font-size:15px; font-weight:800; color:white;">...</div><div id="mini-artist" style="font-size:12px; color:var(--neon); font-weight:700;">...</div></div>
     </div>
     <div class="mini-controls">
-        <button onclick="window.toggleMute()" class="mini-btn" id="mini-vol-btn">🔊</button>
+        <button onclick="window.toggleMute()" class="mini-btn" id="mini-vol-btn">
+            <svg viewBox="0 0 24 24" id="vol-icon"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.01,19.86 21,16.28 21,12C21,7.72 18.01,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/></svg>
+        </button>
         <button onclick="window.toggleMainPlay()" id="mini-play-btn" class="mini-btn"></button>
     </div>
 </div>
 
 <div id="full-player">
-    <button onclick="window.closeFullPlayer()" class="btn-modern-down"><svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg></button>
+    <button onclick="window.closeFullPlayer()" class="btn-modern-down">
+        <svg viewBox="0 0 24 24" width="24" height="24" fill="white"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg>
+    </button>
     <div id="fp-art" class="fp-art" style="margin-top:20px;"></div>
     <div class="fp-info"><div id="fp-title" style="font-size:32px;font-weight:900;color:white;">...</div><div id="fp-artist" style="font-size:20px;color:var(--neon);font-weight:700;margin-top:10px;">...</div></div>
     <div class="fp-controls">
-        <button onclick="window.toggleMute()" class="fp-btn-sec" id="btn-vol">🔊</button>
+        <button onclick="window.toggleMute()" class="fp-btn-sec" id="btn-vol-full">
+            <svg viewBox="0 0 24 24" width="28" height="28" fill="white"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.01,19.86 21,16.28 21,12C21,7.72 18.01,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/></svg>
+        </button>
         <button onclick="window.toggleMainPlay()" id="fp-play-btn" class="fp-btn-main"></button>
-        <button onclick="window.startCast()" id="btn-cast-fijo" class="btn-cast-pc"><svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg></button>
+        <button onclick="window.startCast()" id="btn-cast-fijo" class="btn-cast-pc">
+            <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg>
+        </button>
     </div>
 </div>
 
@@ -128,10 +140,11 @@
     let canciones = []; let idActual = null;
     let misFavoritos = JSON.parse(localStorage.getItem('ml_favoritos')) || [];
 
-    const SVG_PLAY = `<svg viewBox="0 0 24 24" width="35" height="35" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
-    const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="35" height="35" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+    const SVG_PLAY = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
+    const SVG_PAUSE = `<svg viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+    const SVG_VOL_ON = `<path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.01,19.86 21,16.28 21,12C21,7.72 18.01,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/>`;
+    const SVG_VOL_OFF = `<path d="M12,4L9.91,6.09L12,8.18M4.27,3L3,4.27L7.73,9H3V15H7L12,20V13.27L16.25,17.53C15.58,18.04 14.83,18.46 14,18.7V20.77C15.38,20.45 16.63,19.82 17.68,18.96L19.73,21L21,19.73L4.27,3M19,12C19,12.94 18.8,13.82 18.46,14.64L19.97,16.15C20.62,14.91 21,13.5 21,12C21,7.72 18.01,4.14 14,3.23V5.29C16.89,6.15 19,8.83 19,12M16.5,12C16.5,10.23 15.5,8.71 14,7.97V10.18L16.45,12.63C16.48,12.43 16.5,12.22 16.5,12Z"/>`;
 
-    // --- LÓGICA CAST REFORZADA ---
     window['__onGCastApiAvailable'] = function(isAvailable) {
         if (isAvailable) {
             const context = cast.framework.CastContext.getInstance();
@@ -150,7 +163,7 @@
                 const mediaInfo = new chrome.cast.media.MediaInfo(s.mp3Url, 'audio/mp3');
                 const request = new chrome.cast.media.LoadRequest(mediaInfo);
                 context.getCurrentSession().loadMedia(request);
-            });
+            }, (e) => { console.log("Cast cancelado o error silencioso"); });
         }
     };
 
@@ -198,7 +211,7 @@
             document.getElementById('fp-title').innerText = s.titulo; document.getElementById('fp-artist').innerText = s.artista;
             document.getElementById('fp-art').style.backgroundImage = `url('${s.imagenUrl}')`;
             media.src = s.mp3Url; media.play();
-            window.openFullPlayer(); // SOLO SE ABRE AL ELEGIR UNA NUEVA
+            window.openFullPlayer(); 
         } else {
             window.toggleMainPlay();
         }
@@ -206,7 +219,15 @@
     };
 
     window.toggleMainPlay = () => { media.paused ? media.play() : media.pause(); renderFeeds(); renderHero(); };
-    window.toggleMute = () => { media.muted = !media.muted; document.getElementById('mini-vol-btn').innerText = media.muted ? "🔇" : "🔊"; document.getElementById('btn-vol').innerText = media.muted ? "🔇" : "🔊"; };
+    
+    window.toggleMute = () => { 
+        media.muted = !media.muted; 
+        const iconPath = media.muted ? SVG_VOL_OFF : SVG_VOL_ON;
+        document.getElementById('vol-icon').innerHTML = iconPath;
+        const fullIcon = document.getElementById('btn-vol-full').querySelector('svg');
+        if(fullIcon) fullIcon.innerHTML = iconPath;
+    };
+
     window.openFullPlayer = () => document.getElementById('full-player').classList.add('active');
     window.closeFullPlayer = () => document.getElementById('full-player').classList.remove('active');
     window.confirmarSalida = () => { if(confirm("¿Salir?")) window.location.href = "about:blank"; };
