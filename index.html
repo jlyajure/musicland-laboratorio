@@ -3,11 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - LAB</title>
-    <meta name="theme-color" content="#000000">
-    
-    <link rel="icon" type="image/png" href="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp">
-    
+    <title>Music Land Pro - PC EDITION</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     
@@ -16,74 +12,67 @@
         * { box-sizing: border-box; outline: none; }
         body { background: var(--bg); color: #e2e8f0; margin: 0; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
         
-        /* SCROLLBAR NEÓN AZUL */
-        ::-webkit-scrollbar { height: 6px; width: 6px; }
-        ::-webkit-scrollbar-track { background: rgba(0,0,0,0.3); }
-        ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; box-shadow: 0 0 10px var(--neon); }
+        /* 🔵 BARRA DESLIZADORA NEÓN AZUL (Sugerencia del Director) */
+        ::-webkit-scrollbar { height: 8px; width: 8px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; box-shadow: 0 0 15px var(--neon); border: 1px solid black; }
         
-        header { background: rgba(0,0,0,0.95); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222; height: 65px; }
+        header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222; height: 70px; }
         
-        /* CONTENEDOR DE LOGO REFORZADO PARA PC */
-        .logo-box { 
-            width: 42px; height: 42px; 
-            background: #000; 
-            border: 2px solid var(--neon); 
-            border-radius: 10px; 
-            display: flex; align-items: center; justify-content: center; 
-            overflow: hidden; 
-            box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
-        }
-        .header-logo { width: 100%; height: 100%; object-fit: cover; }
+        /* 🎨 LOGO INFALIBLE (SVG INTEGRADO) */
+        .logo-container { display: flex; align-items: center; cursor: pointer; }
+        .logo-visual { width: 42px; height: 42px; background: #000; border: 2.5px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 210, 255, 0.5); }
+        .logo-svg { width: 26px; height: 26px; fill: var(--neon); }
         
-        .brand-title { color: var(--neon); font-size: 20px; font-weight: 900; text-transform: uppercase; margin-left: 12px; letter-spacing: 1px; }
-        .btn-salir-app { background: transparent; border: 1.5px solid var(--red); color: var(--red); padding: 5px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; cursor: pointer; }
+        .brand-title { color: var(--neon); font-size: 22px; font-weight: 900; text-transform: uppercase; margin-left: 12px; letter-spacing: 2px; }
+        .btn-salir-app { background: rgba(255,68,68,0.1); border: 1.5px solid var(--red); color: var(--red); padding: 6px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; cursor: pointer; }
 
-        .search-container { position: fixed; top: 65px; left: 0; width: 100%; z-index: 900; padding: 15px 0; background: linear-gradient(180deg, black, transparent); }
+        .search-container { position: fixed; top: 70px; left: 0; width: 100%; z-index: 900; padding: 15px 0; background: linear-gradient(180deg, black, transparent); }
         .search-wrapper { position: relative; width: 90%; max-width: 500px; margin: 0 auto; }
-        .search-box { width: 100%; background: #1a1a1a; border: 1px solid #333; color: white; padding: 12px 15px 12px 45px; border-radius: 50px; font-size: 14px; }
+        .search-box { width: 100%; background: #111; border: 1px solid #333; color: white; padding: 12px 15px 12px 45px; border-radius: 50px; font-size: 14px; box-shadow: 0 5px 15px rgba(0,0,0,0.5); }
         .search-icon { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); color: var(--neon); }
 
-        #home-view { padding-top: 140px; padding-bottom: 150px; }
+        #home-view { padding-top: 150px; padding-bottom: 160px; }
         
         /* HERO PC */
-        #hero-section { min-height: 40vh; position: relative; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; border-radius: 0 0 30px 30px; margin-bottom: 30px; }
-        .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(50px) brightness(0.2); }
-        .hero-content { position: relative; z-index: 2; width: 90%; max-width: 1000px; padding: 30px; display: flex; gap: 30px; align-items: flex-end; }
-        .hero-cover { width: 180px; height: 180px; border-radius: 15px; background-size: cover; border: 1px solid rgba(255,255,255,0.1); }
-        .hero-title { font-size: 32px; font-weight: 900; color: white; margin: 0; }
+        #hero-section { min-height: 40vh; position: relative; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; border-radius: 0 0 40px 40px; margin-bottom: 40px; border-bottom: 1px solid #222; }
+        .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(60px) brightness(0.2); }
+        .hero-content { position: relative; z-index: 2; width: 90%; max-width: 1100px; padding: 40px; display: flex; gap: 40px; align-items: flex-end; }
+        .hero-cover { width: 220px; height: 220px; border-radius: 20px; background-size: cover; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 60px rgba(0,0,0,0.9); }
+        .hero-title { font-size: 38px; font-weight: 900; color: white; margin: 0; }
         
-        .section-title { font-size: 20px; font-weight: 900; color: white; margin: 40px auto 20px auto; max-width: 1000px; padding-left: 20px; border-left: 4px solid var(--neon); }
-        .carousel { display: flex; overflow-x: auto; padding: 0 20px 25px 20px; gap: 20px; max-width: 1000px; margin: 0 auto; }
+        .section-title { font-size: 22px; font-weight: 900; color: white; margin: 50px auto 25px auto; max-width: 1100px; padding-left: 20px; border-left: 5px solid var(--neon); }
+        .carousel { display: flex; overflow-x: auto; padding: 0 20px 30px 20px; gap: 25px; max-width: 1100px; margin: 0 auto; }
         
-        .n-card { min-width: 155px; transition: 0.3s; cursor: pointer; position: relative; }
-        .n-img { width: 155px; height: 155px; border-radius: 15px; background-size: cover; border: 1px solid #222; position: relative; }
-        .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; border-radius: 15px; }
+        .n-card { min-width: 160px; transition: 0.3s; cursor: pointer; }
+        .n-card:hover { transform: translateY(-8px); }
+        .n-img { width: 160px; height: 160px; border-radius: 18px; background-size: cover; border: 1px solid #222; position: relative; }
+        .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; border-radius: 18px; }
         .n-card:hover .n-overlay, .n-card.is-playing .n-overlay { opacity: 1; }
-        .n-play-icon { width: 45px; height: 45px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px var(--neon); }
+        .n-play-icon { width: 50px; height: 50px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px var(--neon); }
+        
+        /* MINI PLAYER PC */
+        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(20px); border-top: 1px solid #222; padding: 15px 40px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
+        .mini-main { display: flex; align-items: center; gap: 20px; }
+        .mini-art { width: 55px; height: 55px; border-radius: 10px; border: 1px solid #333; background-size: cover; }
+        .mini-controls { display: flex; align-items: center; gap: 30px; }
+        .mini-btn { background: none; border: none; cursor: pointer; color: white; font-size: 28px; padding: 5px; }
 
-        /* MINI REPRODUCTOR */
-        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(15px); border-top: 1px solid #222; padding: 12px 30px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
-        .mini-main { display: flex; align-items: center; gap: 15px; }
-        .mini-art { width: 50px; height: 50px; border-radius: 8px; border: 1px solid #333; background-size: cover; }
-        .mini-controls { display: flex; align-items: center; gap: 20px; }
-        .mini-btn { background: none; border: none; cursor: pointer; color: white; font-size: 24px; }
-
-        #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a, #000); z-index: 6000; transition: 0.4s; display: flex; flex-direction: column; padding: 40px; align-items: center; }
+        #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a, #000); z-index: 6000; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); display: flex; flex-direction: column; padding: 40px; align-items: center; }
         #full-player.active { top: 0; }
-        .fp-art { width: 320px; height: 320px; border-radius: 20px; background-size: cover; box-shadow: 0 30px 60px rgba(0,0,0,0.8); border: 2px solid #333; }
-        .fp-controls { display: flex; align-items: center; gap: 40px; margin-top: 30px; }
-        .fp-btn-sec { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.2); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        .fp-art { width: 350px; height: 350px; border-radius: 30px; background-size: cover; box-shadow: 0 40px 80px rgba(0,0,0,0.9); border: 2px solid #333; }
+        .fp-controls { display: flex; align-items: center; gap: 50px; margin-top: 40px; }
+        .fp-btn-sec { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.2); color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <header>
-    <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
-        <div class="logo-box">
-            <img src="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp" 
-                 class="header-logo" 
-                 alt="Music Land"
-                 onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\'color:var(--neon);font-weight:900;font-size:22px\'>🎶</span>'">
+    <div class="logo-container" onclick="window.triggerAdmin()">
+        <div class="logo-visual">
+            <svg class="logo-svg" viewBox="0 0 24 24">
+                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
+            </svg>
         </div>
         <div class="brand-title">Music Land</div>
     </div>
@@ -93,7 +82,7 @@
 <div class="search-container">
     <div class="search-wrapper">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-box" placeholder="Buscar música..." oninput="window.debounceSearch()">
+        <input type="text" id="search-input" class="search-box" placeholder="¿Qué suena hoy, Director?" oninput="window.debounceSearch()">
     </div>
 </div>
 
@@ -103,11 +92,11 @@
         <div class="hero-content">
             <div id="hero-cover" class="hero-cover"></div>
             <div class="hero-info">
-                <div id="hero-title" class="hero-title">Cargando...</div>
-                <div id="hero-artist" style="color:var(--neon); font-size:18px; font-weight:700;">...</div>
+                <div id="hero-title" class="hero-title">...</div>
+                <div id="hero-artist" style="color:var(--neon); font-size:20px; font-weight:700; margin:10px 0;">...</div>
                 <div class="hero-actions">
                     <button id="hero-play-btn" class="hero-btn-play"></button>
-                    <button id="hero-fav-btn" style="background:none;border:none;font-size:24px;cursor:pointer;">🤍</button>
+                    <button id="hero-fav-btn" style="background:none;border:none;font-size:30px;cursor:pointer;">🤍</button>
                 </div>
             </div>
         </div>
@@ -126,8 +115,8 @@
     <div class="mini-main">
         <div id="mini-art" class="mini-art" onclick="window.openFullPlayer()" style="cursor:pointer;"></div>
         <div onclick="window.openFullPlayer()" style="cursor:pointer;">
-            <div id="mini-title" style="font-size:14px; font-weight:800; color:white;">...</div>
-            <div id="mini-artist" style="font-size:12px; color:var(--neon);">...</div>
+            <div id="mini-title" style="font-size:16px; font-weight:900; color:white;">...</div>
+            <div id="mini-artist" style="font-size:13px; color:var(--neon); font-weight:700;">...</div>
         </div>
     </div>
     <div class="mini-controls">
@@ -137,13 +126,13 @@
 </div>
 
 <div id="full-player">
-    <button onclick="window.closeFullPlayer()" class="btn-down">🔽</button>
+    <button onclick="window.closeFullPlayer()" class="btn-down" style="align-self:flex-start;">🔽</button>
     <div id="fp-art" class="fp-art" style="margin-top:20px;"></div>
-    <div class="fp-info"><div id="fp-title" style="font-size:28px;font-weight:900;color:white;">...</div><div id="fp-artist" style="font-size:18px;color:var(--neon);font-weight:700;">...</div></div>
+    <div class="fp-info"><div id="fp-title" style="font-size:32px;font-weight:900;color:white;">...</div><div id="fp-artist" style="font-size:20px;color:var(--neon);font-weight:700;">...</div></div>
     <div class="fp-controls">
         <button onclick="window.toggleMute()" class="fp-btn-sec" id="btn-vol">🔊</button>
-        <button onclick="window.toggleMainPlay()" id="fp-play-btn" style="width:80px;height:80px;border-radius:50%;background:var(--neon);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow: 0 0 20px var(--neon);"></button>
-        <button onclick="window.startCast()" id="btn-cast-fijo" class="fp-btn-sec"><svg viewBox="0 0 24 24" width="26" height="26" fill="currentColor"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg></button>
+        <button onclick="window.toggleMainPlay()" id="fp-play-btn" style="width:90px;height:90px;border-radius:50%;background:var(--neon);border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow: 0 0 30px var(--neon);"></button>
+        <button onclick="window.startCast()" id="btn-cast-fijo" class="fp-btn-sec"><svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg></button>
     </div>
 </div>
 
@@ -158,8 +147,8 @@
     let canciones = []; let idActual = null;
     let misFavoritos = JSON.parse(localStorage.getItem('ml_favoritos')) || [];
 
-    const SVG_PLAY = `<svg viewBox="0 0 24 24" width="35" height="35" fill="black"><path d="M8 5v14l11-7z"/></svg>`;
-    const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="35" height="35" fill="black"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
+    const SVG_PLAY = `<svg viewBox="0 0 24 24" width="40" height="40" fill="black"><path d="M8 5v14l11-7z"/></svg>`;
+    const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="40" height="40" fill="black"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
 
     onSnapshot(query(collection(db, "musicland_canciones"), orderBy("fecha", "desc")), (snap) => {
         canciones = []; snap.forEach(d => canciones.push({id: d.id, ...d.data()})); 
@@ -190,10 +179,10 @@
                 <div class="n-img" style="background-image:url('${c.imagenUrl}')" onclick="window.gestionarPlay('${c.id}')">
                     <div class="n-overlay"><div class="n-play-icon">${isPlaying ? SVG_PAUSE : SVG_PLAY}</div></div>
                 </div>
-                <div style="font-size:14px; font-weight:700; color:white; margin-top:8px;">${c.titulo}</div>
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                    <div style="font-size:12px; color:#777;">${c.artista}</div>
-                    <div style="cursor:pointer;" onclick="window.toggleFavorito('${c.id}')">${isFav?'❤️':'🤍'}</div>
+                <div style="font-size:15px; font-weight:800; color:white; margin-top:10px;">${c.titulo}</div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:3px;">
+                    <div style="font-size:12px; color:var(--neon); font-weight:700;">${c.artista}</div>
+                    <div style="cursor:pointer; font-size:18px;" onclick="window.toggleFavorito('${c.id}')">${isFav?'❤️':'🤍'}</div>
                 </div>
             </div>`;
         };
