@@ -3,10 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC Master V87</title>
+    <title>Music Land Pro - PC Master V88</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     
     <script>
+        window.castTitle = "";
+        window.castCover = "";
+        window.lastTvTime = 0;
+        window.tvSyncInterval = null;
+
         window['__onGCastApiAvailable'] = function(isAvailable) {
             if (isAvailable) {
                 cast.framework.CastContext.getInstance().setOptions({ 
@@ -14,7 +19,6 @@
                     autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED 
                 });
 
-                // Escuchar a la TV para silenciar/despertar la PC
                 cast.framework.CastContext.getInstance().addEventListener(
                     cast.framework.CastContextEventType.SESSION_STATE_CHANGED, 
                     function(event) {
@@ -22,13 +26,29 @@
                         const btnCast = document.getElementById('btn-cast-fijo');
 
                         if (event.sessionState === cast.framework.SessionState.SESSION_STARTED || event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
-                            media.pause(); // Silencia la PC
+                            media.pause(); // PC en silencio
                             if(btnCast) btnCast.classList.add('cast-active');
                             if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(true);
+                            
+                            // ⏱️ CRONÓMETRO ESPÍA: Lee el tiempo de la TV cada 1 segundo
+                            window.tvSyncInterval = setInterval(() => {
+                                const session = cast.framework.CastContext.getInstance().getCurrentSession();
+                                if(session) {
+                                    const castMedia = session.getMediaSession();
+                                    if(castMedia) window.lastTvTime = castMedia.getEstimatedTime();
+                                }
+                            }, 1000);
                         } 
                         else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED) {
                             if(btnCast) btnCast.classList.remove('cast-active');
-                            media.play(); // Despierta la PC automáticamente
+                            clearInterval(window.tvSyncInterval); // Apaga el espía
+                            
+                            // 🔄 HEREDAR EL TIEMPO EXACTO
+                            if(window.lastTvTime > 0) {
+                                media.currentTime = window.lastTvTime;
+                            }
+                            
+                            media.play(); // Despierta la PC
                             if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(false);
                         }
                     }
@@ -36,7 +56,6 @@
             }
         };
 
-        // Función del botón (Pura y sin bloqueos)
         window.startCast = () => {
             const context = cast.framework.CastContext.getInstance();
             const session = context.getCurrentSession();
@@ -50,21 +69,27 @@
                 context.requestSession().then(function() {
                     if (media && media.src) {
                         const mediaInfo = new chrome.cast.media.MediaInfo(media.src, 'audio/mp3');
+                        
+                        // 🖼️ EMPAQUETAR IMAGEN Y TÍTULO PARA LA TV
+                        const meta = new chrome.cast.media.MusicTrackMediaMetadata();
+                        meta.title = window.castTitle || "Music Land Radio";
+                        if(window.castCover) {
+                            meta.images = [new chrome.cast.Image(window.castCover)];
+                        }
+                        mediaInfo.metadata = meta;
+
                         const request = new chrome.cast.media.LoadRequest(mediaInfo);
                         request.autoplay = true;
-                        
-                        // ¡LA CLAVE DE LA SINCRONIZACIÓN!
-                        request.currentTime = media.currentTime; 
+                        request.currentTime = media.currentTime; // Manda el tiempo de la PC a la TV
                         
                         context.getCurrentSession().loadMedia(request);
                     }
                 }, function(e) {
-                    if(e.code !== 'cancel') console.log("Error de red TV", e);
+                    if(e.code !== 'cancel') console.log("Cancelado por el usuario.");
                 });
             }
         };
     </script>
-    
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     
     <style>
@@ -197,7 +222,6 @@
     const db = getFirestore(app);
     const media = document.getElementById('main-media');
     let canciones = []; let idActual = null;
-    let misFavoritos = JSON.parse(localStorage.getItem('ml_favoritos')) || [];
 
     const SVG_PLAY = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
     const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
@@ -246,7 +270,10 @@
     window.gestionarPlay = (id) => {
         const s = canciones.find(c => c.id === id);
         if(idActual !== id) {
-            idActual = id; window.castTitle = s.titulo; window.castCover = s.imagenUrl;
+            idActual = id; 
+            window.castTitle = s.titulo; 
+            window.castCover = s.imagenUrl; // ALMACENA LA IMAGEN PARA LA TV
+            
             document.getElementById('mini-title').innerText = s.titulo; 
             document.getElementById('mini-artist').innerText = s.artista;
             document.getElementById('mini-art').style.backgroundImage = `url('${s.imagenUrl}')`;
