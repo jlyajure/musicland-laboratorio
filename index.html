@@ -3,7 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC EDITION</title>
+    <title>Music Land Pro - Edición Especial</title>
+    <meta name="theme-color" content="#000000">
+    
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp">
+    
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     
@@ -12,19 +17,18 @@
         * { box-sizing: border-box; outline: none; }
         body { background: var(--bg); color: #e2e8f0; margin: 0; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
         
-        /* 🔵 BARRA DESLIZADORA NEÓN AZUL (Sugerencia del Director) */
+        /* 🔵 BARRA DESLIZADORA AZUL NEÓN (Sugerencia del Director) */
         ::-webkit-scrollbar { height: 8px; width: 8px; }
         ::-webkit-scrollbar-track { background: #000; }
         ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; box-shadow: 0 0 15px var(--neon); border: 1px solid black; }
         
         header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 1000; border-bottom: 1px solid #222; height: 70px; }
         
-        /* 🎨 LOGO INFALIBLE (SVG INTEGRADO) */
-        .logo-container { display: flex; align-items: center; cursor: pointer; }
-        .logo-visual { width: 42px; height: 42px; background: #000; border: 2.5px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 210, 255, 0.5); }
-        .logo-svg { width: 26px; height: 26px; fill: var(--neon); }
+        /* CONTENEDOR DE LOGO OFICIAL */
+        .logo-box { width: 42px; height: 42px; background: #000; border: 2.5px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); cursor: pointer; }
+        .header-logo { width: 100%; height: 100%; object-fit: cover; }
         
-        .brand-title { color: var(--neon); font-size: 22px; font-weight: 900; text-transform: uppercase; margin-left: 12px; letter-spacing: 2px; }
+        .brand-title { color: var(--neon); font-size: 22px; font-weight: 900; text-transform: uppercase; margin-left: 12px; letter-spacing: 2px; cursor: pointer; }
         .btn-salir-app { background: rgba(255,68,68,0.1); border: 1.5px solid var(--red); color: var(--red); padding: 6px 15px; border-radius: 20px; font-size: 11px; font-weight: 800; cursor: pointer; }
 
         .search-container { position: fixed; top: 70px; left: 0; width: 100%; z-index: 900; padding: 15px 0; background: linear-gradient(180deg, black, transparent); }
@@ -34,7 +38,7 @@
 
         #home-view { padding-top: 150px; padding-bottom: 160px; }
         
-        /* HERO PC */
+        /* HERO SECTION */
         #hero-section { min-height: 40vh; position: relative; display: flex; align-items: flex-end; justify-content: center; overflow: hidden; border-radius: 0 0 40px 40px; margin-bottom: 40px; border-bottom: 1px solid #222; }
         .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(60px) brightness(0.2); }
         .hero-content { position: relative; z-index: 2; width: 90%; max-width: 1100px; padding: 40px; display: flex; gap: 40px; align-items: flex-end; }
@@ -45,7 +49,6 @@
         .carousel { display: flex; overflow-x: auto; padding: 0 20px 30px 20px; gap: 25px; max-width: 1100px; margin: 0 auto; }
         
         .n-card { min-width: 160px; transition: 0.3s; cursor: pointer; }
-        .n-card:hover { transform: translateY(-8px); }
         .n-img { width: 160px; height: 160px; border-radius: 18px; background-size: cover; border: 1px solid #222; position: relative; }
         .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; border-radius: 18px; }
         .n-card:hover .n-overlay, .n-card.is-playing .n-overlay { opacity: 1; }
@@ -56,23 +59,25 @@
         .mini-main { display: flex; align-items: center; gap: 20px; }
         .mini-art { width: 55px; height: 55px; border-radius: 10px; border: 1px solid #333; background-size: cover; }
         .mini-controls { display: flex; align-items: center; gap: 30px; }
-        .mini-btn { background: none; border: none; cursor: pointer; color: white; font-size: 28px; padding: 5px; }
+        .mini-btn { background: none; border: none; cursor: pointer; color: white; font-size: 28px; display: flex; align-items: center; }
 
         #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a, #000); z-index: 6000; transition: 0.5s cubic-bezier(0.19, 1, 0.22, 1); display: flex; flex-direction: column; padding: 40px; align-items: center; }
         #full-player.active { top: 0; }
         .fp-art { width: 350px; height: 350px; border-radius: 30px; background-size: cover; box-shadow: 0 40px 80px rgba(0,0,0,0.9); border: 2px solid #333; }
         .fp-controls { display: flex; align-items: center; gap: 50px; margin-top: 40px; }
         .fp-btn-sec { background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.2); color: white; width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        #btn-cast-fijo.cast-active { color: var(--neon); border-color: var(--neon); box-shadow: 0 0 20px var(--neon); }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo-container" onclick="window.triggerAdmin()">
-        <div class="logo-visual">
-            <svg class="logo-svg" viewBox="0 0 24 24">
-                <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
-            </svg>
+        <div class="logo-box">
+            <img src="logo.png?v=5" 
+                 class="header-logo" 
+                 alt="Music Land" 
+                 onerror="this.src='https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp'">
         </div>
         <div class="brand-title">Music Land</div>
     </div>
@@ -82,7 +87,7 @@
 <div class="search-container">
     <div class="search-wrapper">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-box" placeholder="¿Qué suena hoy, Director?" oninput="window.debounceSearch()">
+        <input type="text" id="search-input" class="search-box" placeholder="Buscar música en Music Land..." oninput="window.debounceSearch()">
     </div>
 </div>
 
@@ -105,7 +110,7 @@
     <div id="feed-container">
         <div id="fav-section" style="display:none;"><h3 class="section-title">⭐ Tus Favoritas</h3><div id="carousel-favs" class="carousel"></div></div>
         <h3 class="section-title">🔥 Novedades</h3><div id="carousel-new" class="carousel"></div>
-        <h3 class="section-title">📂 Todo el Catálogo</h3><div id="carousel-all" class="carousel" style="flex-wrap:wrap; justify-content:center;"></div>
+        <h3 class="section-title">📂 Catálogo Completo</h3><div id="carousel-all" class="carousel" style="flex-wrap:wrap; justify-content:center;"></div>
     </div>
 </div>
 
@@ -126,7 +131,7 @@
 </div>
 
 <div id="full-player">
-    <button onclick="window.closeFullPlayer()" class="btn-down" style="align-self:flex-start;">🔽</button>
+    <button onclick="window.closeFullPlayer()" style="background:none; border:none; color:white; font-size:35px; cursor:pointer; align-self:flex-start;">🔽</button>
     <div id="fp-art" class="fp-art" style="margin-top:20px;"></div>
     <div class="fp-info"><div id="fp-title" style="font-size:32px;font-weight:900;color:white;">...</div><div id="fp-artist" style="font-size:20px;color:var(--neon);font-weight:700;">...</div></div>
     <div class="fp-controls">
