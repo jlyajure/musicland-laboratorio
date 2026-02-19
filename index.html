@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC Master V69</title>
+    <title>Music Land Pro - PC Master V70</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/cv/js/sender/v1/cast_sender.js?loadCastFramework=1"></script>
     
@@ -19,12 +19,9 @@
         
         header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid #222; height: 75px; }
         
-        /* LOGO CON TRIPLE SEGURIDAD */
-        .logo-box { width: 45px; height: 45px; background: #000; border: 2.5px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 210, 255, 0.5); cursor: pointer; overflow: hidden; position: relative; }
-        .logo-svg-fallback { position: absolute; width: 25px; fill: var(--neon); z-index: 1; }
-        .header-logo { position: relative; width: 100%; height: 100%; object-fit: cover; z-index: 2; }
-        
-        .brand-title { color: var(--neon); font-size: 22px; font-weight: 900; text-transform: uppercase; margin-left: 15px; letter-spacing: 2px; }
+        /* LOGO ESTILO OFICIAL REFORZADO */
+        .header-logo { width: 40px; height: 40px; border-radius: 10px; border: 2px solid var(--neon); object-fit: cover; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); }
+        .brand-title { color: var(--neon); font-size: 22px; font-weight: 900; text-transform: uppercase; margin-left: 12px; letter-spacing: 2px; }
 
         .search-container { position: fixed; top: 75px; left: 0; width: 100%; z-index: 1000; padding: 15px 0; background: linear-gradient(180deg, black, transparent); }
         .search-wrapper { position: relative; width: 90%; max-width: 500px; margin: 0 auto; }
@@ -33,7 +30,7 @@
 
         #home-view { padding-top: 160px; padding-bottom: 160px; }
         
-        /* 🚀 PORTADA REFORZADA CON BIO */
+        /* 🚀 PORTADA CENTRADA CON BIO */
         #hero-section { 
             min-height: 480px; 
             width: 100%;
@@ -57,22 +54,10 @@
         .hero-title { font-size: 42px; font-weight: 900; color: white; margin: 0; line-height: 1.1; }
         .hero-artist { color: var(--neon); font-size: 22px; font-weight: 700; margin: 10px 0; text-transform: uppercase; }
         
-        /* ESTILO DE LA BIO */
-        .hero-bio { 
-            font-size: 15px; 
-            color: #ccc; 
-            line-height: 1.6; 
-            margin-top: 15px; 
-            max-width: 600px; 
-            border-left: 3px solid var(--neon); 
-            padding-left: 15px;
-            max-height: 120px;
-            overflow-y: auto;
-        }
+        .hero-bio { font-size: 15px; color: #ccc; line-height: 1.6; margin-top: 15px; max-width: 600px; border-left: 3px solid var(--neon); padding-left: 15px; max-height: 120px; overflow-y: auto; }
 
         .hero-actions { display: flex; align-items: center; gap: 20px; margin-top: 30px; }
         .hero-btn-play { background: var(--neon); border: none; width: 65px; height: 65px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 25px var(--neon); }
-        .btn-fav-star { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.2); color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; }
 
         /* LISTAS */
         .section-title { font-size: 22px; font-weight: 900; color: white; margin: 50px auto 25px auto; max-width: 1100px; padding-left: 20px; border-left: 5px solid var(--neon); }
@@ -84,9 +69,9 @@
         .n-play-icon { width: 50px; height: 50px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; }
 
         /* MINI PLAYER */
-        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(20px); border-top: 1px solid #222; padding: 15px 40px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
+        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(20px); border-top: 1px solid #222; padding: 12px 40px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
         .mini-main { display: flex; align-items: center; gap: 15px; }
-        .mini-art { width: 55px; height: 55px; border-radius: 10px; border: 1px solid #333; background-size: cover; }
+        .mini-art { width: 55px; height: 55px; border-radius: 8px; border: 1px solid #333; background-size: cover; }
         .mini-controls { display: flex; align-items: center; gap: 30px; }
         .mini-btn { background: none; border: none; cursor: pointer; color: white; font-size: 28px; }
     </style>
@@ -95,13 +80,9 @@
 
 <header>
     <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
-        <div class="logo-box">
-            <svg class="logo-svg-fallback" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-            <img src="logo.png?v=7" 
-                 class="header-logo" 
-                 alt="Music Land" 
-                 onerror="this.src='https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp'; this.onerror=null;">
-        </div>
+        <img src="https://i.postimg.cc/1zbT8bC8/DALL-E-2025-02-13-16-16-56-A-sleek-and-modern-neon-blue-logo-design-for-a-music-app-The-logo-fe.webp" 
+             class="header-logo" 
+             alt="Logo">
         <div class="brand-title">Music Land</div>
     </div>
     <button onclick="window.confirmarSalida()" style="background:transparent; border:1px solid #ff4444; color:#ff4444; padding:5px 15px; border-radius:20px; cursor:pointer;">SALIR</button>
@@ -110,7 +91,7 @@
 <div class="search-container">
     <div class="search-wrapper">
         <span class="search-icon">🔍</span>
-        <input type="text" id="search-input" class="search-box" placeholder="¿Qué quieres escuchar hoy?" oninput="window.debounceSearch()">
+        <input type="text" id="search-input" class="search-box" placeholder="Buscar música..." oninput="window.debounceSearch()">
     </div>
 </div>
 
@@ -126,7 +107,7 @@
                 <div id="hero-bio" class="hero-bio"></div>
                 <div class="hero-actions">
                     <button id="hero-play-btn" class="hero-btn-play"></button>
-                    <button id="hero-fav-btn" class="btn-fav-star">🤍</button>
+                    <button id="hero-fav-btn" style="background:none;border:none;font-size:24px;cursor:pointer;">🤍</button>
                 </div>
             </div>
         </div>
@@ -182,7 +163,6 @@
         document.getElementById('hero-cover').style.backgroundImage = `url('${f.imagenUrl}')`;
         document.getElementById('hero-title').innerText = f.titulo;
         document.getElementById('hero-artist').innerText = f.artista;
-        // LLENAR LA BIO
         document.getElementById('hero-bio').innerText = f.bio || "Descubre más ritmos en Music Land.";
         document.getElementById('hero-play-btn').innerHTML = isPlaying ? SVG_PAUSE : SVG_PLAY;
         document.getElementById('hero-play-btn').onclick = () => window.gestionarPlay(f.id);
@@ -197,7 +177,7 @@
                     <div class="n-overlay"><div class="n-play-icon">${isPlaying ? SVG_PAUSE : SVG_PLAY}</div></div>
                 </div>
                 <div style="font-size:15px; font-weight:800; color:white; margin-top:10px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${c.titulo}</div>
-                <div style="display:flex; justify-content:space-between; align-items:center; margin-top:3px;">
+                <div style="display:flex; justify-content:space-between; align-items:center;">
                     <div style="font-size:12px; color:var(--neon); font-weight:700;">${c.artista}</div>
                     <div style="cursor:pointer; font-size:18px;" onclick="window.toggleFavorito('${c.id}')">${isFav?'❤️':'🤍'}</div>
                 </div>
