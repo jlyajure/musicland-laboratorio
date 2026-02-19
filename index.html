@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-    <title>Music Land Pro - PC Master V89</title>
+    <title>Music Land Pro - PC Master V90</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
     
     <script>
@@ -26,11 +26,10 @@
                         const btnCast = document.getElementById('btn-cast-fijo');
 
                         if (event.sessionState === cast.framework.SessionState.SESSION_STARTED || event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
-                            media.pause(); // PC en silencio
+                            media.pause(); 
                             if(btnCast) btnCast.classList.add('cast-active');
                             if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(true);
                             
-                            // ⏱️ CRONÓMETRO ESPÍA
                             window.tvSyncInterval = setInterval(() => {
                                 const session = cast.framework.CastContext.getInstance().getCurrentSession();
                                 if(session) {
@@ -41,14 +40,13 @@
                         } 
                         else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED) {
                             if(btnCast) btnCast.classList.remove('cast-active');
-                            clearInterval(window.tvSyncInterval); // Apaga el espía
+                            clearInterval(window.tvSyncInterval); 
                             
-                            // 🔄 HEREDAR EL TIEMPO EXACTO
                             if(window.lastTvTime > 0) {
                                 media.currentTime = window.lastTvTime;
                             }
                             
-                            media.play(); // Despierta la PC
+                            media.play(); 
                             if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(false);
                         }
                     }
@@ -70,10 +68,11 @@
                     if (media && media.src) {
                         const mediaInfo = new chrome.cast.media.MediaInfo(media.src, 'audio/mp3');
                         
-                        // 🖼️ EMPAQUETAR IMAGEN, TÍTULO Y MARCA PARA LA TV
                         const meta = new chrome.cast.media.MusicTrackMediaMetadata();
                         meta.title = window.castTitle || "En vivo";
-                        meta.artist = "Music Land"; // 💎 AQUÍ ESTÁ EL SELLO RECUPERADO
+                        
+                        // 💎 EL HACK DE COLOR PARA ROMPER LO BLANCO EN LA TV 💎
+                        meta.artist = "🔹 Music Land 🔹"; 
                         
                         if(window.castCover) {
                             meta.images = [new chrome.cast.Image(window.castCover)];
@@ -82,7 +81,7 @@
 
                         const request = new chrome.cast.media.LoadRequest(mediaInfo);
                         request.autoplay = true;
-                        request.currentTime = media.currentTime; // Manda el tiempo exacto
+                        request.currentTime = media.currentTime; 
                         
                         context.getCurrentSession().loadMedia(request);
                     }
@@ -208,6 +207,7 @@
             <svg viewBox="0 0 24 24"><path d="M14,3.23V5.29C16.89,6.15 19,8.83 19,12C19,15.17 16.89,17.85 14,18.71V20.77C18.01,19.86 21,16.28 21,12C21,7.72 18.01,4.14 14,3.23M16.5,12C16.5,10.23 15.5,8.71 14,7.97V16.02C15.5,15.29 16.5,13.77 16.5,12M3,9V15H7L12,20V4L7,9H3Z"/></svg>
         </button>
         <button onclick="window.toggleMainPlay()" id="fp-play-btn" class="fp-btn-main"></button>
+        
         <button onclick="window.startCast()" id="btn-cast-fijo" class="btn-round btn-cast-pc" style="width:55px; height:55px;">
             <svg viewBox="0 0 24 24"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg>
         </button>
