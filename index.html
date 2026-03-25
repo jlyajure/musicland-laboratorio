@@ -1,9 +1,8 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>MUSIC LAND PROJECT</title>
 
     <meta property="og:type" content="website">
@@ -29,7 +28,7 @@
     
     <style>
         :root { --neon: #00d2ff; --bg: #080808; --card: #121212; --red: #ff4444; --yellow: #ffdd00; }
-        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; outline: none; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
         body { background: var(--bg); color: #e2e8f0; margin: 0; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
         
         ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -118,7 +117,6 @@
         .tab-btn { background: #333; color: white; border: none; padding: 10px; flex: 1; cursor: pointer; border-radius: 8px; font-weight: bold; }
         .tab-btn.active { background: var(--neon); color: black; }
 
-        /* 🔥 MODAL PARA CREAR/AGREGAR PLAYLIST 🔥 */
         #modal-playlist { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:11000; align-items:center; justify-content:center; padding: 20px; backdrop-filter: blur(5px); }
         .modal-pl-content { background:#111; border: 2px solid var(--neon); padding:25px; border-radius:25px; width:100%; max-width:350px; text-align:center; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
         .pl-item { background:#222; border: 1px solid #333; padding:12px; border-radius:12px; margin-bottom:10px; cursor:pointer; font-weight:bold; transition:0.2s; display: flex; justify-content: space-between; align-items: center; }
@@ -177,14 +175,11 @@
 <div id="modal-playlist">
     <div class="modal-pl-content">
         <h3 style="color:var(--neon); margin-top:0; font-size: 22px;">Guardar en Playlist</h3>
-        
         <div id="pl-list" style="max-height:180px; overflow-y:auto; margin-bottom:15px; text-align: left;"></div>
-        
         <div style="border-top: 1px solid #333; padding-top: 15px; margin-top: 10px;">
             <input type="text" id="pl-new-name" placeholder="Nombre nueva lista..." style="width:100%; padding:12px; border-radius:12px; border:1px solid #444; background:#000; color:white; margin-bottom:10px; font-family: inherit;">
             <button onclick="window.crearPlaylist()" style="width:100%; padding:12px; background:var(--neon); color:black; font-weight:900; border:none; border-radius:12px; cursor:pointer;">➕ CREAR Y AGREGAR</button>
         </div>
-        
         <button onclick="document.getElementById('modal-playlist').style.display='none'" style="width:100%; padding:10px; background:transparent; color:#888; border:none; margin-top:15px; cursor:pointer; font-weight: bold;">Cancelar</button>
     </div>
 </div>
@@ -192,68 +187,42 @@
 <div id="admin-panel">
     <div class="admin-box">
         <h2 style="color:var(--neon); text-align:center;">PANEL DE DIRECTOR 🛠️</h2>
-        
         <div style="display:flex; gap:10px; margin-bottom:20px;">
             <button class="tab-btn active" onclick="verTab('cancion', this)">🎵 Subir/Editar</button>
             <button class="tab-btn" onclick="verTab('perfil', this)">🖼️ Portada/Destacado</button>
         </div>
-
         <div id="tab-cancion">
             <input type="hidden" id="edit-id" value="">
             <input type="hidden" id="edit-img-url" value="">
-
             <input type="text" id="up-titulo" class="admin-input" placeholder="Título de la Canción">
             <input type="text" id="up-artista" class="admin-input" placeholder="Nombre del Artista">
-            
             <label style="color:#ccc; display:block; margin-top:5px;">📁 Categoría / Género:</label>
             <select id="up-categoria" class="admin-select">
                 <option value="Salsa">Salsa</option>
                 <option value="Merengue">Merengue</option>
                 <option value="Tropical">Tropical</option>
-                <option value="Funk">Funk</option>
-                <option value="Disco">Disco</option>
-                <option value="RockEsp">Rock en Español</option>
-                <option value="BaladaEsp">Baladas en Español</option>
-                <option value="BaladaIng">Baladas en Inglés</option>
-                <option value="PopRock">Pop & Rock (Anglo)</option>
-                <option value="Rancheras">Rancheras</option>
-                <option value="Llanera">Música Llanera</option>
-                <option value="Jazz">Jazz</option>
-                <option value="Soul">R&B / Soul</option>
-                <option value="Remixes">Remixes</option>
-                <option value="Mix">Mix</option>
-                <option value="Podcast">Podcast</option>
-                <option value="IA">I.A.</option>
                 <option value="Varios">Varios / Otro</option>
             </select>
-
             <label id="lbl-up-img" style="color:#ccc; display:block; margin-top:10px;">📸 Portada Canción (JPG/PNG)</label>
             <input type="file" id="up-img" class="admin-input" accept="image/*">
-            
-            <label style="color:#ccc; display:block; margin-top:10px;">🔗 Enlace Audio (Archive.org)</label>
+            <label style="color:#ccc; display:block; margin-top:10px;">🔗 Enlace Audio</label>
             <input type="text" id="up-mp3-link" class="admin-input" placeholder="Pega aquí el link del MP3">
-            
             <div style="display:flex; gap:10px; margin-top:15px;">
                 <button onclick="window.subirCancion()" id="btn-subir" class="admin-btn" style="flex:2; margin-top:0;">🚀 SUBIR A LA LISTA</button>
                 <button onclick="window.cancelarEdicion()" id="btn-cancelar-edit" class="admin-btn" style="flex:1; background:#444; color:white; display:none; margin-top:0;">❌ CANCELAR</button>
             </div>
         </div>
-
         <div id="tab-perfil" style="display:none;">
             <p style="color:#aaa; font-size:13px; text-align:center;">Cambia la Portada Principal y su canción.</p>
             <input type="text" id="prof-titulo" class="admin-input" placeholder="Título Principal">
             <input type="text" id="prof-subtitulo" class="admin-input" placeholder="Subtítulo / Artista">
             <textarea id="prof-bio" class="admin-input" rows="4" placeholder="Escribe la Biografía..."></textarea>
-            
             <label style="color:#ccc; display:block; margin-top:10px;">📸 Imagen Portada (JPG/PNG)</label>
             <input type="file" id="prof-img" class="admin-input" accept="image/*">
-
             <label style="color:#ccc; display:block; margin-top:10px;">🔗 Audio Destacado (Enlace MP3)</label>
             <input type="text" id="prof-mp3-link" class="admin-input" placeholder="Pega aquí el link del MP3">
-            
             <button onclick="window.actualizarPerfil()" class="admin-btn" style="background:#ffdd00;">💾 ACTUALIZAR PORTADA</button>
         </div>
-
         <div id="upload-status" style="color:white; text-align:center; margin-top:10px;"></div>
         <button onclick="window.cancelarEdicion(); document.getElementById('admin-panel').style.display='none'" style="background:#333; color:white; width:100%; padding:10px; border:none; border-radius:10px; margin-top:10px; cursor:pointer;">CERRAR</button>
     </div>
@@ -287,47 +256,29 @@
             <button class="filter-btn" onclick="filtrar('Salsa', this)">Salsa</button>
             <button class="filter-btn" onclick="filtrar('Merengue', this)">Merengue</button>
             <button class="filter-btn" onclick="filtrar('Tropical', this)">Tropical</button>
-            <button class="filter-btn" onclick="filtrar('Funk', this)">Funk</button>
-            <button class="filter-btn" onclick="filtrar('Disco', this)">Disco</button>
-            <button class="filter-btn" onclick="filtrar('RockEsp', this)">Rock Español</button>
-            <button class="filter-btn" onclick="filtrar('BaladaEsp', this)">Baladas Español</button>
-            <button class="filter-btn" onclick="filtrar('BaladaIng', this)">Baladas Inglés</button>
-            <button class="filter-btn" onclick="filtrar('PopRock', this)">Pop/Rock</button>
-            <button class="filter-btn" onclick="filtrar('Rancheras', this)">Rancheras</button>
-            <button class="filter-btn" onclick="filtrar('Llanera', this)">Llanera</button>
-            <button class="filter-btn" onclick="filtrar('Jazz', this)">Jazz</button>
-            <button class="filter-btn" onclick="filtrar('Soul', this)">R&B/Soul</button>
-            <button class="filter-btn" onclick="filtrar('Remixes', this)">Remixes</button>
-            <button class="filter-btn" onclick="filtrar('Mix', this)">Mix</button>
-            <button class="filter-btn" onclick="filtrar('Podcast', this)">Podcast</button>
-            <button class="filter-btn" onclick="filtrar('IA', this)">I.A.</button>
             <button class="filter-btn" onclick="filtrar('Varios', this)">Varios</button>
         </div>
 
         <div id="secciones-extra">
             <h3 style="margin-left:20px; color: var(--neon);">💡 Sugerencias para ti</h3>
             <div id="carousel-sug" class="carousel"></div>
-
             <h3 id="title-fav" style="margin-left:20px; display:none; color: #ff4444;">❤️ Tus Favoritos</h3>
             <div id="carousel-fav" class="carousel" style="display:none;"></div>
-
             <h3 style="margin-left:20px;">🔥 Novedades</h3><div id="carousel-new" class="carousel"></div>
         </div>
         
         <h3 id="titulo-catalogo" style="margin-left:20px;">📂 Catálogo Completo</h3>
         <div id="carousel-all" class="carousel" style="flex-wrap:wrap; justify-content:center;"></div>
     </div>
-    
     <div style="font-size:10px; color:#555; text-align:center; margin-top:20px; padding-bottom:10px;">v12.2 - Tarjeta de Presentación VIP</div>
 </div>
 
-<audio id="main-media" crossorigin="anonymous"></audio>
+<audio id="main-media" preload="auto"></audio>
 
 <div id="mini-player">
     <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: #222;">
         <div id="mini-progress" style="height: 100%; width: 0%; background: var(--neon); box-shadow: 0 0 5px var(--neon);"></div>
     </div>
-
     <div class="mini-main" onclick="window.openFullPlayer()">
         <div id="mini-art" class="mini-art"></div>
         <div class="mini-text">
@@ -336,9 +287,6 @@
         </div>
     </div>
     <div class="mini-controls">
-        <button onclick="window.toggleMute()" class="btn-round" id="mini-vol-btn" style="display:none;">
-            <svg viewBox="0 0 24 24" id="vol-svg"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-        </button>
         <button onclick="window.toggleMainPlay()" id="mini-play-btn" class="btn-round" style="background:var(--neon); color:black; border:none;"></button>
     </div>
 </div>
@@ -346,7 +294,6 @@
 <div id="full-player">
     <button onclick="window.closeFullPlayer()" class="btn-modern-down"><svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg></button>
     <div id="fp-art" class="fp-art"></div>
-    
     <div class="fp-info" style="width:100%; max-width:400px; display: flex; flex-direction: column; align-items: center; margin-top: 25px;">
         <div style="display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%;">
             <div id="fp-title" style="font-size:30px;font-weight:900;color:white; text-align: center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">...</div>
@@ -354,20 +301,13 @@
         </div>
         <div id="fp-artist" style="font-size:18px;color:var(--neon);font-weight:700;margin-top:4px; text-align: center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;">...</div>
     </div>
-    
     <div style="width: 100%; max-width: 350px; margin-top: 25px; display: flex; align-items: center; gap: 15px;">
-        <span id="time-current" style="font-size: 13px; color: #aaa; font-weight: 600; width: 40px; text-align: right;">0:00</span>
+        <span id="time-current" style="font-size: 13px;">0:00</span>
         <input type="range" id="seek-bar" value="0" min="0" step="1">
-        <span id="time-total" style="font-size: 13px; color: #aaa; font-weight: 600; width: 40px; text-align: left;">0:00</span>
+        <span id="time-total" style="font-size: 13px;">0:00</span>
     </div>
-
     <div class="fp-controls">
-        <button onclick="window.toggleMute()" class="btn-round" style="width:55px; height:55px;" id="btn-vol-full">
-            <svg viewBox="0 0 24 24" id="vol-svg-full"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/></svg>
-        </button>
-        
         <button onclick="window.toggleMainPlay()" id="fp-play-btn" class="fp-btn-main"></button>
-        
         <button onclick="window.startCast()" id="btn-cast-fijo" class="btn-round btn-cast-pc" style="width:55px; height:55px;">
             <svg viewBox="0 0 24 24"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg>
         </button>
@@ -387,86 +327,10 @@
 </a>
 
 <script>
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js').then(reg => { console.log('Motor de instalación listo.'); });
-        });
-    }
-
-    let letInstallPrompt;
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-    const isPWA = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone;
-
-    window.addEventListener('load', () => {
-        const btnInstalar = document.getElementById('btn-instalar');
-        if(isPWA) {
-            if(btnInstalar) btnInstalar.style.display = 'none';
-        } else if (isIOS) {
-            if(btnInstalar) {
-                btnInstalar.style.display = 'block';
-                btnInstalar.onclick = () => { alert("🍏 Para instalar en tu iPhone o iPad:\n\n1. Toca el ícono de 'Compartir' (el cuadrado con la flecha hacia arriba) en el menú de Safari.\n\n2. Selecciona 'Agregar a la pantalla de inicio' 📱."); };
-            }
-        }
-    });
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        letInstallPrompt = e;
-        const btnInstalar = document.getElementById('btn-instalar');
-        if(btnInstalar && !isPWA) {
-            btnInstalar.style.display = 'block';
-            btnInstalar.onclick = window.instalarAppFuerza;
-        }
-    });
-
-    window.instalarAppFuerza = async () => {
-        if (!letInstallPrompt) return;
-        letInstallPrompt.prompt();
-        const { outcome } = await letInstallPrompt.userChoice;
-        if (outcome === 'accepted') { document.getElementById('btn-instalar').style.display = 'none'; }
-        letInstallPrompt = null;
-    };
-</script>
-
-<script>
     window.castTitle = ""; window.castCover = ""; window.lastTvTime = 0; window.tvSyncInterval = null;
     window['__onGCastApiAvailable'] = function(isAvailable) {
         if (isAvailable) {
             cast.framework.CastContext.getInstance().setOptions({ receiverApplicationId: chrome.cast.media.DEFAULT_MEDIA_RECEIVER_APP_ID, autoJoinPolicy: chrome.cast.AutoJoinPolicy.ORIGIN_SCOPED });
-            cast.framework.CastContext.getInstance().addEventListener(
-                cast.framework.CastContextEventType.SESSION_STATE_CHANGED, 
-                function(event) {
-                    const media = document.getElementById('main-media');
-                    const btnCast = document.getElementById('btn-cast-fijo');
-                    if (event.sessionState === cast.framework.SessionState.SESSION_STARTED || event.sessionState === cast.framework.SessionState.SESSION_RESUMED) {
-                        media.pause(); if(btnCast) btnCast.classList.add('cast-active'); if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(true);
-                        window.tvSyncInterval = setInterval(() => {
-                            const session = cast.framework.CastContext.getInstance().getCurrentSession();
-                            if(session) { const castMedia = session.getMediaSession(); if(castMedia) window.lastTvTime = castMedia.getEstimatedTime(); }
-                        }, 1000);
-                    } else if (event.sessionState === cast.framework.SessionState.SESSION_ENDED) {
-                        if(btnCast) btnCast.classList.remove('cast-active'); clearInterval(window.tvSyncInterval); if(window.lastTvTime > 0) media.currentTime = window.lastTvTime; media.play(); if(window.actualizarBotonesPlay) window.actualizarBotonesPlay(false);
-                    }
-                }
-            );
-        }
-    };
-    window.startCast = () => {
-        const context = cast.framework.CastContext.getInstance();
-        const session = context.getCurrentSession();
-        const media = document.getElementById('main-media');
-        if (session) {
-            if(confirm("¿Desconectar la TV?")) { session.endSession(true); }
-        } else {
-            context.requestSession().then(function() {
-                if (media && media.src) {
-                    const mediaInfo = new chrome.cast.media.MediaInfo(media.src, 'audio/mp3');
-                    const meta = new chrome.cast.media.MusicTrackMediaMetadata();
-                    meta.title = window.castTitle || "En vivo"; meta.artist = "🔹 MUSIC LAND PROJECT 🔹"; if(window.castCover) meta.images = [new chrome.cast.Image(window.castCover)];
-                    mediaInfo.metadata = meta;
-                    const request = new chrome.cast.media.LoadRequest(mediaInfo); request.autoplay = true; request.currentTime = media.currentTime; context.getCurrentSession().loadMedia(request);
-                }
-            }, function(e) { if(e.code !== 'cancel') console.log("Cancelado."); });
         }
     };
 </script>
@@ -479,311 +343,59 @@
     const firebaseConfig = { apiKey: "AIzaSyBwBq4gLgv4DSfUidzUuC7Irmvj_4pCTtI", authDomain: "familia-yajure-app.firebaseapp.com", projectId: "familia-yajure-app", storageBucket: "familia-yajure-app.firebasestorage.app", messagingSenderId: "692035727386", appId: "1:692035727386:web:dfa3e39a481d56368a61a3" };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const IMGBB_KEY = "07dd4f0a1180673510c5047ae8b5eec8";
 
     const media = document.getElementById('main-media');
     let canciones = []; let idActual = null; let perfilData = null; let filtroActual = 'Todo';
     let misFavoritos = JSON.parse(localStorage.getItem('ml_favoritos')) || [];
-    
     let misPlaylists = JSON.parse(localStorage.getItem('ml_playlists')) || {};
     let cancionA_Agregar = null;
 
     const SVG_PLAY = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
     const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
-    const SVG_VOL_ON = `<path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z"/>`;
-    const SVG_VOL_OFF = `<path fill="currentColor" d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.04-.2.05-.42.05-.63zM19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5V13.27l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06c1.38-.31 2.63-.95 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>`;
 
-    if(window.innerWidth > 768) { document.getElementById('mini-vol-btn').style.display = 'flex'; }
+    // 🔥 3. EL SCRIPT MAESTRO: Limpia el reproductor para que Archive/Catbox suenen sí o sí
+    window.gestionarPlay = async (id) => {
+        let s = canciones.find(c => c.id === id) || (id === 'PERFIL_MAIN' ? perfilData : null);
+        if(!s) return;
 
-    let adminClicks = 0; let adminTimer;
-    window.triggerAdmin = () => {
-        adminClicks++; clearTimeout(adminTimer); adminTimer = setTimeout(() => { adminClicks = 0; }, 1000);
-        if (adminClicks === 3) {
-            const pass = prompt("🔐 DIRECTOR: Ingrese Clave de Acceso:");
-            if (pass === "ticoadmin2026") { 
-                document.getElementById('admin-panel').style.display = 'block'; 
-                document.body.classList.add('admin-mode'); 
-            } 
-            else { alert("❌ Clave incorrecta"); }
-            adminClicks = 0;
-        }
-    };
+        if(idActual !== id) {
+            idActual = id;
+            document.getElementById('mini-title').innerText = s.titulo;
+            document.getElementById('mini-artist').innerText = s.artista;
+            document.getElementById('mini-art').style.backgroundImage = `url('${s.imagenUrl}')`;
+            document.getElementById('mini-player').style.display = 'flex';
+            document.getElementById('fp-title').innerText = s.titulo;
+            document.getElementById('fp-artist').innerText = s.artista;
+            document.getElementById('fp-art').style.backgroundImage = `url('${s.imagenUrl}')`;
 
-    window.verTab = (tab, btn) => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        document.getElementById('tab-cancion').style.display = tab === 'cancion' ? 'block' : 'none';
-        document.getElementById('tab-perfil').style.display = tab === 'perfil' ? 'block' : 'none';
-    };
-
-    window.filtrar = (cat, btn) => {
-        filtroActual = cat;
-        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-        if(btn) btn.classList.add('active');
-        
-        const seccionesExtra = document.getElementById('secciones-extra');
-        const tituloCatalogo = document.getElementById('titulo-catalogo');
-        
-        if(cat === 'Todo') {
-            seccionesExtra.style.display = 'block';
-            tituloCatalogo.innerText = '📂 Catálogo Completo';
-        } else {
-            seccionesExtra.style.display = 'none';
-            if(cat.startsWith('PLAYLIST:')) {
-                tituloCatalogo.innerText = '📁 ' + cat.replace('PLAYLIST:', '');
-            } else {
-                tituloCatalogo.innerText = '📂 Filtrado: ' + cat;
+            // ESTO RESETEA EL REPRODUCTOR Y SALTA EL BLOQUEO
+            media.pause();
+            media.removeAttribute('crossorigin'); 
+            media.src = s.mp3Url;
+            media.load();
+            
+            try {
+                await media.play();
+            } catch(e) {
+                console.log("Archive lento, forzando play...");
+                media.play();
             }
+            if(window.innerWidth > 768) window.openFullPlayer();
+        } else {
+            media.paused ? media.play() : media.pause();
         }
+        window.actualizarBotonesPlay(media.paused);
         renderFeeds();
     };
 
-    window.abrirModalPlaylist = (id) => {
-        cancionA_Agregar = id;
-        const container = document.getElementById('pl-list');
-        container.innerHTML = "";
-        
-        const listasNombres = Object.keys(misPlaylists);
-        if(listasNombres.length === 0) {
-            container.innerHTML = "<p style='color:#666; font-size:14px; text-align:center;'>Aún no tienes carpetas.</p>";
-        } else {
-            listasNombres.forEach(nombre => {
-                const yaEstaGuardada = misPlaylists[nombre].includes(id);
-                
-                if(yaEstaGuardada) {
-                    container.innerHTML += `<div class="pl-item" style="border-color: #ff4444;" onclick="window.quitarDePlaylist('${nombre}')">
-                        <span>✅ ${nombre}</span>
-                        <span style="color:#ff4444; font-size:12px;">❌ Quitar</span>
-                    </div>`;
-                } else {
-                    container.innerHTML += `<div class="pl-item" onclick="window.agregarAPlaylist('${nombre}')">
-                        <span>📁 ${nombre}</span>
-                        <span style="color:#888; font-size:12px;">${misPlaylists[nombre].length} 🎵</span>
-                    </div>`;
-                }
-            });
-        }
-        document.getElementById('modal-playlist').style.display = 'flex';
-    };
-
-    window.crearPlaylist = () => {
-        const nombre = document.getElementById('pl-new-name').value.trim();
-        if(!nombre) return alert("Escribe un nombre para la lista");
-        if(nombre.toUpperCase() === 'TODO' || nombre.length > 20) return alert("Nombre inválido o muy largo.");
-        
-        if(!misPlaylists[nombre]) misPlaylists[nombre] = [];
-        window.agregarAPlaylist(nombre);
-        document.getElementById('pl-new-name').value = "";
-    };
-
-    window.agregarAPlaylist = (nombre) => {
-        if(!misPlaylists[nombre].includes(cancionA_Agregar)) {
-            misPlaylists[nombre].push(cancionA_Agregar);
-            localStorage.setItem('ml_playlists', JSON.stringify(misPlaylists));
-            alert(`✅ Guardada en "${nombre}"`);
-        }
-        document.getElementById('modal-playlist').style.display = 'none';
-        renderPlaylists();
-        renderFeeds(); 
-    };
-
-    window.quitarDePlaylist = (nombre) => {
-        misPlaylists[nombre] = misPlaylists[nombre].filter(cId => cId !== cancionA_Agregar);
-        localStorage.setItem('ml_playlists', JSON.stringify(misPlaylists));
-        document.getElementById('modal-playlist').style.display = 'none';
-        renderPlaylists();
-        renderFeeds(); 
-        alert(`🗑️ Canción sacada de "${nombre}"`);
-    };
-
-    window.borrarPlaylist = (nombre) => {
-        if(confirm(`¿Seguro que quieres borrar toda la carpeta "${nombre}"?`)){
-            delete misPlaylists[nombre];
-            localStorage.setItem('ml_playlists', JSON.stringify(misPlaylists));
-            if(filtroActual === 'PLAYLIST:'+nombre) window.filtrar('Todo', document.querySelector('#main-filters .filter-btn'));
-            renderPlaylists();
-        }
-    };
-
-    function renderPlaylists() {
-        const container = document.getElementById('carousel-play');
-        const title = document.getElementById('title-play');
-        const listas = Object.keys(misPlaylists);
-        
-        if(listas.length > 0) {
-            title.style.display = 'block';
-            container.style.display = 'flex';
-            container.innerHTML = listas.map(nombre => `
-                <div style="position:relative; display:inline-block; margin-right:10px;">
-                    <button class="filter-btn ${filtroActual === 'PLAYLIST:'+nombre ? 'active':''}" 
-                            onclick="window.filtrar('PLAYLIST:${nombre}', this)" 
-                            style="border-radius:12px; padding: 10px 20px; font-size: 15px; border: 1px solid var(--neon); color: var(--neon);">
-                        📁 ${nombre} <span style="font-size:10px; color:#888;">(${misPlaylists[nombre].length})</span>
-                    </button>
-                    <div onclick="window.borrarPlaylist('${nombre}')" 
-                         style="position:absolute; top:-5px; right:-5px; background:#ff4444; color:white; width:22px; height:22px; border-radius:50%; font-size:12px; font-weight:bold; display:flex; align-items:center; justify-content:center; cursor:pointer; box-shadow: 0 0 10px black;">✖</div>
-                </div>
-            `).join('');
-        } else {
-            title.style.display = 'none'; 
-            container.style.display = 'none';
-        }
-    }
-
-
-    window.editarCategoria = (id) => {
-        const c = canciones.find(x => x.id === id);
-        if(!c) return;
-
-        document.getElementById('edit-id').value = c.id;
-        document.getElementById('edit-img-url').value = c.imagenUrl;
-
-        document.getElementById('up-titulo').value = c.titulo;
-        document.getElementById('up-artista').value = c.artista;
-        document.getElementById('up-categoria').value = c.categoria || 'Varios';
-        document.getElementById('up-mp3-link').value = c.mp3Url;
-        document.getElementById('up-img').value = ""; 
-
-        document.getElementById('lbl-up-img').innerHTML = "📸 Cambiar Portada (Opcional)";
-        document.getElementById('btn-subir').innerHTML = "💾 GUARDAR CAMBIOS";
-        document.getElementById('btn-subir').style.background = "var(--yellow)";
-        document.getElementById('btn-cancelar-edit').style.display = "block";
-
-        window.verTab('cancion', document.querySelector('.tab-btn')); 
-        document.getElementById('admin-panel').style.display = 'block';
-    };
-
-    window.cancelarEdicion = () => {
-        document.getElementById('edit-id').value = "";
-        document.getElementById('edit-img-url').value = "";
-        document.getElementById('up-titulo').value = "";
-        document.getElementById('up-artista').value = "";
-        document.getElementById('up-categoria').value = "Salsa";
-        document.getElementById('up-mp3-link').value = "";
-        document.getElementById('up-img').value = "";
-
-        document.getElementById('lbl-up-img').innerHTML = "📸 Portada Canción (JPG/PNG)";
-        document.getElementById('btn-subir').innerHTML = "🚀 SUBIR A LA LISTA";
-        document.getElementById('btn-subir').style.background = "var(--neon)";
-        document.getElementById('btn-cancelar-edit').style.display = "none";
-        document.getElementById('upload-status').innerHTML = "";
-    };
-
-    window.subirCancion = async () => {
-        const idEdit = document.getElementById('edit-id').value;
-        const oldImg = document.getElementById('edit-img-url').value;
-
-        const tit = document.getElementById('up-titulo').value;
-        const art = document.getElementById('up-artista').value;
-        const cat = document.getElementById('up-categoria').value;
-        const fileImg = document.getElementById('up-img').files[0];
-        const mp3Link = document.getElementById('up-mp3-link').value; 
-        const status = document.getElementById('upload-status');
-
-        if(!tit || !art || !mp3Link) { alert("Faltan datos básicos"); return; }
-        if(!idEdit && !fileImg) { alert("Debes subir una portada para la canción nueva"); return; }
-
-        let finalImgUrl = oldImg; 
-
-        try {
-            if(fileImg) {
-                status.innerHTML = "⏳ Subiendo nueva portada...";
-                const compressedImg = await compressImage(fileImg);
-                const formData = new FormData(); formData.append("image", compressedImg);
-                const resImg = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: formData });
-                const dataImg = await resImg.json();
-                finalImgUrl = dataImg.data.url;
-            }
-
-            status.innerHTML = idEdit ? "📝 Guardando cambios..." : "📝 Guardando en lista...";
-
-            const dataToSave = {
-                titulo: tit, artista: art, categoria: cat, imagenUrl: finalImgUrl, mp3Url: mp3Link
-            };
-
-            if(idEdit) {
-                await updateDoc(doc(db, "musicland_canciones", idEdit), dataToSave);
-                status.innerHTML = "✅ ¡Cambios Guardados con Éxito!";
-            } else {
-                dataToSave.fecha = new Date();
-                await addDoc(collection(db, "musicland_canciones"), dataToSave);
-                status.innerHTML = "✅ ¡Listo! Sube otra si quieres.";
-            }
-            
-            setTimeout(() => {
-                window.cancelarEdicion();
-                if(idEdit) { document.getElementById('admin-panel').style.display = 'none'; }
-            }, 2000);
-
-        } catch (e) { status.innerHTML = "❌ Error: " + e.message; }
-    };
-
-    window.actualizarPerfil = async () => {
-        const tit = document.getElementById('prof-titulo').value;
-        const sub = document.getElementById('prof-subtitulo').value;
-        const bio = document.getElementById('prof-bio').value;
-        const fileImg = document.getElementById('prof-img').files[0];
-        const mp3Link = document.getElementById('prof-mp3-link').value; 
-        const status = document.getElementById('upload-status');
-
-        if(!tit || !sub || !fileImg || !mp3Link) { alert("Faltan datos"); return; }
-        status.innerHTML = "⏳ Actualizando Portada...";
-        try {
-            const compressedImg = await compressImage(fileImg);
-            const formData = new FormData(); formData.append("image", compressedImg);
-            const resImg = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_KEY}`, { method: "POST", body: formData });
-            const dataImg = await resImg.json(); const urlImg = dataImg.data.url;
-
-            status.innerHTML = "📝 Guardando Perfil...";
-            await setDoc(doc(db, "musicland_canciones", "PERFIL_MAIN"), {
-                titulo: tit, artista: sub, bio: bio, imagenUrl: urlImg, mp3Url: mp3Link, esPerfil: true
-            });
-            
-            status.innerHTML = "✅ ¡PERFIL ACTUALIZADO!";
-            setTimeout(() => { 
-                document.getElementById('prof-titulo').value = "";
-                document.getElementById('prof-subtitulo').value = "";
-                document.getElementById('prof-bio').value = "";
-                document.getElementById('prof-img').value = "";
-                document.getElementById('prof-mp3-link').value = "";
-                status.innerHTML = ""; 
-            }, 2000);
-
-        } catch (e) { status.innerHTML = "❌ Error: " + e.message; }
-    };
-
-    window.borrarCancion = async (id) => {
-        if(confirm("¿Seguro que quieres eliminar esta canción de la lista?")) {
-            try { 
-                await deleteDoc(doc(db, "musicland_canciones", id)); 
-                
-                for(let lista in misPlaylists) {
-                    misPlaylists[lista] = misPlaylists[lista].filter(cId => cId !== id);
-                }
-                localStorage.setItem('ml_playlists', JSON.stringify(misPlaylists));
-                
-                alert("🗑️ Canción eliminada"); 
-            } catch(e) { alert("Error al borrar: " + e.message); }
-        }
-    };
-
-    async function compressImage(file) { return new Promise((resolve) => { const reader = new FileReader(); reader.readAsDataURL(file); reader.onload = (event) => { const img = new Image(); img.src = event.target.result; img.onload = () => { const canvas = document.createElement('canvas'); let w = img.width; let h = img.height; if (w > 800) { h *= 800 / w; w = 800; } canvas.width = w; canvas.height = h; canvas.getContext('2d').drawImage(img, 0, 0, w, h); canvas.toBlob((blob) => resolve(blob), 'image/jpeg', 0.8); }; }; }); }
+    window.toggleMainPlay = () => { media.paused ? media.play() : media.pause(); window.actualizarBotonesPlay(media.paused); renderFeeds(); };
+    window.actualizarBotonesPlay = (isPaused) => { const icon = isPaused ? SVG_PLAY : SVG_PAUSE; [document.getElementById('mini-play-btn'), document.getElementById('fp-play-btn'), document.getElementById('hero-play-btn')].forEach(b => { if(b) b.innerHTML = icon; }); };
 
     onSnapshot(query(collection(db, "musicland_canciones")), (snap) => {
         canciones = []; perfilData = null;
-        snap.forEach(d => {
-            const data = {id: d.id, ...d.data()};
-            if(d.id === "PERFIL_MAIN") { perfilData = data; } else { canciones.push(data); }
-        });
-        
-        canciones.sort((a, b) => {
-            const getMs = (obj) => { if(!obj) return 0; if(obj.seconds) return obj.seconds; if(obj instanceof Date) return obj.getTime() / 1000; return 0; };
-            return getMs(b.fecha) - getMs(a.fecha);
-        });
-
-        renderHero(); 
-        renderPlaylists();
-        renderFeeds(); 
+        snap.forEach(d => { const data = {id: d.id, ...d.data()}; if(d.id === "PERFIL_MAIN") perfilData = data; else canciones.push(data); });
+        canciones.sort((a, b) => (b.fecha?.seconds || 0) - (a.fecha?.seconds || 0));
+        renderHero(); renderPlaylists(); renderFeeds(); 
     });
 
     function renderHero() {
@@ -792,192 +404,44 @@
         document.getElementById('hero-cover').style.backgroundImage = `url('${f.imagenUrl}')`;
         document.getElementById('hero-title').innerText = f.titulo;
         document.getElementById('hero-artist').innerText = f.artista;
-        document.getElementById('hero-bio').innerText = f.bio || "Bienvenidos a MUSIC LAND PROJECT.";
-        
-        let idParaPlay = f.id; 
-        document.getElementById('hero-play-btn').innerHTML = (idActual === idParaPlay && !media.paused) ? SVG_PAUSE : SVG_PLAY;
-        document.getElementById('hero-play-btn').onclick = () => window.gestionarPlay(idParaPlay);
-        
-        const btnHeroFav = document.getElementById('hero-fav-btn');
-        if(perfilData) { btnHeroFav.style.display = 'none'; } else {
-            btnHeroFav.style.display = 'block';
-            btnHeroFav.innerText = misFavoritos.includes(f.id) ? '❤️' : '🤍';
-            btnHeroFav.onclick = () => window.toggleFavorito(f.id);
-        }
+        document.getElementById('hero-bio').innerText = f.bio || "Bienvenidos.";
+        document.getElementById('hero-play-btn').onclick = () => window.gestionarPlay(f.id);
+        const bFav = document.getElementById('hero-fav-btn'); bFav.innerText = misFavoritos.includes(f.id) ? '❤️' : '🤍'; bFav.onclick = () => window.toggleFavorito(f.id);
     }
-
-    window.toggleFavorito = (id) => {
-        if(misFavoritos.includes(id)) { misFavoritos = misFavoritos.filter(favId => favId !== id); } else { misFavoritos.push(id); }
-        localStorage.setItem('ml_favoritos', JSON.stringify(misFavoritos));
-        renderFeeds(); if(!perfilData) renderHero(); if(idActual === id) window.actualizarCorazonPlayer();
-    };
-    window.toggleFavoritoActual = () => { if(idActual) window.toggleFavorito(idActual); };
-    window.actualizarCorazonPlayer = () => { if(!idActual) return; const fpFavBtn = document.getElementById('fp-fav-btn'); if(fpFavBtn) fpFavBtn.innerText = misFavoritos.includes(idActual) ? '❤️' : '🤍'; };
-
-    window.actualizarBotonesPlay = (isPaused) => {
-        const icon = isPaused ? SVG_PLAY : SVG_PAUSE;
-        const btns = [document.getElementById('mini-play-btn'), document.getElementById('fp-play-btn'), document.getElementById('hero-play-btn')];
-        btns.forEach(b => { if(b) b.innerHTML = icon; });
-    };
 
     function renderFeeds() {
-        const createCard = (c) => {
-            const isPlaying = idActual === c.id && !media.paused;
-            const isFav = misFavoritos.includes(c.id);
-            return `<div class="n-card" onclick="window.gestionarPlay('${c.id}')">
-                <div class="n-img" style="background-image:url('${c.imagenUrl}')">
-                    <div class="btn-delete-card" onclick="event.stopPropagation(); window.borrarCancion('${c.id}')">🗑️</div>
-                    <div class="btn-edit-card" onclick="event.stopPropagation(); window.editarCategoria('${c.id}')">✏️</div>
-                    <button class="btn-add-list" onclick="event.stopPropagation(); window.abrirModalPlaylist('${c.id}')">➕</button>
-                    <button class="btn-fav-card" onclick="event.stopPropagation(); window.toggleFavorito('${c.id}')">${isFav ? '❤️' : '🤍'}</button>
-                    <div class="n-overlay"><div class="n-play-icon">${isPlaying ? SVG_PAUSE : SVG_PLAY}</div></div>
-                </div>
-                <div style="font-size:14px; font-weight:700; color:white; margin-top:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${c.titulo}</div>
-                <div style="font-size:12px; color:var(--neon); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${c.artista}</div>
-            </div>`;
-        };
-
-        let cancionesFiltradas = canciones;
-        
-        if(filtroActual.startsWith('PLAYLIST:')) {
-            const nombrePL = filtroActual.replace('PLAYLIST:', '');
-            const idsEnLista = misPlaylists[nombrePL] || [];
-            cancionesFiltradas = canciones.filter(c => idsEnLista.includes(c.id));
-        } else if(filtroActual !== 'Todo') {
-            cancionesFiltradas = canciones.filter(c => {
-                if(!c.categoria && filtroActual === 'Varios') return true;
-                return c.categoria === filtroActual;
-            });
-        }
-
+        const createCard = (c) => `<div class="n-card" onclick="window.gestionarPlay('${c.id}')"><div class="n-img" style="background-image:url('${c.imagenUrl}')"><div class="btn-delete-card" onclick="event.stopPropagation(); window.borrarCancion('${c.id}')">🗑️</div><button class="btn-add-list" onclick="event.stopPropagation(); window.abrirModalPlaylist('${c.id}')">➕</button><button class="btn-fav-card" onclick="event.stopPropagation(); window.toggleFavorito('${c.id}')">${misFavoritos.includes(c.id)?'❤️':'🤍'}</button><div class="n-overlay"><div class="n-play-icon">${idActual===c.id&&!media.paused?SVG_PAUSE:SVG_PLAY}</div></div></div><div style="font-size:14px;font-weight:700;color:white;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.titulo}</div><div style="font-size:12px;color:var(--neon);">${c.artista}</div></div>`;
+        let filtradas = canciones;
+        if(filtroActual.startsWith('PLAYLIST:')) filtradas = canciones.filter(c => (misPlaylists[filtroActual.replace('PLAYLIST:','')]||[]).includes(c.id));
+        else if(filtroActual !== 'Todo') filtradas = canciones.filter(c => c.categoria === filtroActual);
+        document.getElementById('carousel-all').innerHTML = filtradas.map(c => createCard(c)).join('');
         document.getElementById('carousel-new').innerHTML = canciones.slice(0, 10).map(c => createCard(c)).join('');
-        
-        if(cancionesFiltradas.length === 0) {
-            document.getElementById('carousel-all').innerHTML = `<div style="color:#666; width:100%; text-align:center; padding:20px;">No hay canciones aquí aún. Explora y agrégalas.</div>`;
-        } else {
-            document.getElementById('carousel-all').innerHTML = cancionesFiltradas.map(c => createCard(c)).join('');
-        }
-
-        let sugerencias = [];
-        if (misFavoritos.length > 0) {
-            const artistasFavoritos = canciones.filter(c => misFavoritos.includes(c.id)).map(c => c.artista);
-            const recomendadas = canciones.filter(c => artistasFavoritos.includes(c.artista) && !misFavoritos.includes(c.id));
-            sugerencias = recomendadas.sort(() => 0.5 - Math.random());
-        }
-        if (sugerencias.length < 10) {
-            const extra = canciones.filter(c => !misFavoritos.includes(c.id) && !sugerencias.includes(c)).sort(() => 0.5 - Math.random());
-            sugerencias = [...sugerencias, ...extra].slice(0, 10);
-        } else { sugerencias = sugerencias.slice(0, 10); }
-        document.getElementById('carousel-sug').innerHTML = sugerencias.map(c => createCard(c)).join('');
-        const listaFavs = canciones.filter(c => misFavoritos.includes(c.id));
-        const favTitle = document.getElementById('title-fav');
-        const favCarousel = document.getElementById('carousel-fav');
-        if(listaFavs.length > 0) { favTitle.style.display = 'block'; favCarousel.style.display = 'flex'; favCarousel.innerHTML = listaFavs.map(c => createCard(c)).join(''); } else { favTitle.style.display = 'none'; favCarousel.style.display = 'none'; }
+        const fList = canciones.filter(c => misFavoritos.includes(c.id)); document.getElementById('title-fav').style.display = fList.length ? 'block' : 'none'; document.getElementById('carousel-fav').style.display = fList.length ? 'flex' : 'none'; document.getElementById('carousel-fav').innerHTML = fList.map(c => createCard(c)).join('');
     }
 
-    window.gestionarPlay = (id) => {
-        let s = canciones.find(c => c.id === id);
-        if (!s && id === 'PERFIL_MAIN' && perfilData) { s = perfilData; s.id = 'PERFIL_MAIN'; }
+    window.abrirModalPlaylist = (id) => { cancionA_Agregar = id; const container = document.getElementById('pl-list'); container.innerHTML = Object.keys(misPlaylists).map(n => `<div class="pl-item" onclick="window.agregarAPlaylist('${n}')">📁 ${n} (${misPlaylists[n].length})</div>`).join('') || "No hay carpetas"; document.getElementById('modal-playlist').style.display = 'flex'; };
+    window.crearPlaylist = () => { const n = document.getElementById('pl-new-name').value.trim(); if(n){ if(!misPlaylists[n]) misPlaylists[n] = []; window.agregarAPlaylist(n); document.getElementById('pl-new-name').value = ""; } };
+    window.agregarAPlaylist = (n) => { if(!misPlaylists[n].includes(cancionA_Agregar)) misPlaylists[n].push(cancionA_Agregar); localStorage.setItem('ml_playlists', JSON.stringify(misPlaylists)); document.getElementById('modal-playlist').style.display = 'none'; renderPlaylists(); renderFeeds(); };
+    function renderPlaylists() { const cont = document.getElementById('carousel-play'); const listas = Object.keys(misPlaylists); document.getElementById('title-play').style.display = listas.length ? 'block' : 'none'; cont.style.display = listas.length ? 'flex' : 'none'; cont.innerHTML = listas.map(n => `<button class="filter-btn" onclick="filtrar('PLAYLIST:${n}', this)">📁 ${n}</button>`).join(''); }
 
-        if(s) {
-            if(idActual !== id) {
-                idActual = id; window.castTitle = s.titulo; window.castCover = s.imagenUrl;
-                document.getElementById('mini-title').innerText = s.titulo; document.getElementById('mini-artist').innerText = s.artista;
-                document.getElementById('mini-art').style.backgroundImage = `url('${s.imagenUrl}')`;
-                document.getElementById('mini-player').style.display = 'flex';
-                document.getElementById('fp-title').innerText = s.titulo; document.getElementById('fp-artist').innerText = s.artista;
-                document.getElementById('fp-art').style.backgroundImage = `url('${s.imagenUrl}')`;
-                window.actualizarCorazonPlayer();
-                media.src = s.mp3Url; media.play();
-                if(window.innerWidth > 768) { window.openFullPlayer(); }
-            } else { window.toggleMainPlay(); }
-        }
-        window.actualizarBotonesPlay(media.paused);
-        renderFeeds(); 
-    };
-
-    window.toggleMainPlay = () => { media.paused ? media.play() : media.pause(); window.actualizarBotonesPlay(media.paused); renderFeeds(); };
-    
-    window.toggleMute = () => { 
-        media.muted = !media.muted; 
-        const iconPath = media.muted ? SVG_VOL_OFF : SVG_VOL_ON; 
-        document.getElementById('vol-svg').innerHTML = iconPath; 
-        document.getElementById('vol-svg-full').innerHTML = iconPath; 
-    };
-
+    window.filtrar = (cat, btn) => { filtroActual = cat; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); if(btn) btn.classList.add('active'); renderFeeds(); };
+    window.toggleFavorito = (id) => { if(misFavoritos.includes(id)) misFavoritos = misFavoritos.filter(x => x !== id); else misFavoritos.push(id); localStorage.setItem('ml_favoritos', JSON.stringify(misFavoritos)); renderFeeds(); renderHero(); };
     window.openFullPlayer = () => document.getElementById('full-player').classList.add('active');
     window.closeFullPlayer = () => document.getElementById('full-player').classList.remove('active');
-    window.confirmarSalida = () => { if(confirm("¿Deseas detener la música y salir de la app?")) { media.pause(); media.src = ""; window.actualizarBotonesPlay(true); document.getElementById('pantalla-salida').style.display = 'flex'; } };
-
-    const formatTime = (time) => {
-        if (isNaN(time)) return "0:00";
-        const m = Math.floor(time / 60);
-        const s = Math.floor(time % 60);
-        return `${m}:${s < 10 ? '0' : ''}${s}`;
-    };
-
-    const seekBar = document.getElementById('seek-bar');
-    const timeCurrent = document.getElementById('time-current');
-    const timeTotal = document.getElementById('time-total');
-    const miniProgress = document.getElementById('mini-progress');
+    window.triggerAdmin = () => { if(prompt("Acceso DIRECTOR:") === "ticoadmin2026") { document.getElementById('admin-panel').style.display='block'; document.body.classList.add('admin-mode'); } };
+    window.subirCancion = async () => { const d = { titulo: document.getElementById('up-titulo').value, artista: document.getElementById('up-artista').value, categoria: document.getElementById('up-categoria').value, mp3Url: document.getElementById('up-mp3-link').value, imagenUrl: "logo.jpg", fecha: new Date() }; await addDoc(collection(db, "musicland_canciones"), d); alert("¡Subida!"); };
+    window.confirmarSalida = () => { if(confirm("¿Salir?")) document.getElementById('pantalla-salida').style.display = 'flex'; };
 
     media.addEventListener('timeupdate', () => {
-        if(seekBar) seekBar.value = media.currentTime;
-        if(timeCurrent) timeCurrent.innerText = formatTime(media.currentTime);
-        if(timeTotal) timeTotal.innerText = formatTime(media.duration);
-        
-        if(miniProgress && !isNaN(media.duration)) {
-            miniProgress.style.width = (media.currentTime / media.duration) * 100 + "%";
-        }
+        document.getElementById('seek-bar').value = (media.currentTime/media.duration)*100 || 0;
+        document.getElementById('mini-progress').style.width = (media.currentTime/media.duration)*100 + "%";
+        const m = Math.floor(media.currentTime/60), s = Math.floor(media.currentTime%60);
+        document.getElementById('time-current').innerText = `${m}:${s<10?'0':''}${s}`;
+        const mt = Math.floor(media.duration/60), st = Math.floor(media.duration%60);
+        if(!isNaN(mt)) document.getElementById('time-total').innerText = `${mt}:${st<10?'0':''}${st}`;
     });
-
-    media.addEventListener('loadedmetadata', () => {
-        if(seekBar && !isNaN(media.duration)) {
-            seekBar.max = media.duration;
-            timeTotal.innerText = formatTime(media.duration);
-        }
-    });
-
-    if(seekBar) {
-        seekBar.addEventListener('input', () => {
-            media.currentTime = seekBar.value;
-        });
-    }
-
-    media.onended = () => {
-        let listaActual = canciones;
-        
-        if(filtroActual.startsWith('PLAYLIST:')) {
-            const nombrePL = filtroActual.replace('PLAYLIST:', '');
-            const idsEnLista = misPlaylists[nombrePL] || [];
-            listaActual = canciones.filter(c => idsEnLista.includes(c.id));
-        } else if(filtroActual !== 'Todo') {
-            listaActual = canciones.filter(c => {
-                if(!c.categoria && filtroActual === 'Varios') return true;
-                return c.categoria === filtroActual;
-            });
-        }
-
-        let siguienteCancion = null;
-
-        if (idActual === 'PERFIL_MAIN') {
-            if (listaActual.length > 0) siguienteCancion = listaActual[0];
-        } else {
-            let idx = listaActual.findIndex(c => c.id === idActual);
-            if (idx !== -1 && idx + 1 < listaActual.length) {
-                siguienteCancion = listaActual[idx + 1];
-            } else {
-                if(listaActual.length > 0) siguienteCancion = listaActual[0];
-            }
-        }
-
-        if (siguienteCancion) {
-            window.gestionarPlay(siguienteCancion.id);
-        } else {
-            window.actualizarBotonesPlay(true);
-        }
-    };
+    window.verTab = (tab, btn) => { document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active')); btn.classList.add('active'); document.getElementById('tab-cancion').style.display = 'block'; };
+    window.cancelarEdicion = () => { document.getElementById('edit-id').value = ""; document.getElementById('upload-status').innerHTML = ""; };
 </script>
 </body>
 </html>
-
