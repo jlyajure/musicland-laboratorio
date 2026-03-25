@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Music Land Pro - PC Master V92</title>
     
     <link rel="icon" href="logo.jpg" type="image/jpeg">
@@ -98,7 +98,8 @@
     
     <style>
         :root { --neon: #00d2ff; --bg: #080808; --card: #121212; --red: #ff4444; }
-        * { box-sizing: border-box; outline: none; }
+        /* AÑADIDO: touch-action manipulation para evitar zoom con doble toque en iPhones */
+        * { box-sizing: border-box; outline: none; touch-action: manipulation; }
         body { background: var(--bg); color: #e2e8f0; margin: 0; font-family: 'Outfit', sans-serif; overflow-x: hidden; }
         
         ::-webkit-scrollbar { width: 10px; height: 10px; }
