@@ -47,7 +47,7 @@
         .filter-scroll { display: flex; overflow-x: auto; padding: 10px 20px; gap: 10px; margin-bottom: 20px; scrollbar-width: none; }
         .filter-scroll::-webkit-scrollbar { display: none; }
         .filter-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 18px; border-radius: 20px; font-size: 14px; font-weight: bold; cursor: pointer; white-space: nowrap; transition: 0.3s; }
-        .filter-btn.active { background: var(--neon); color: black; border-color: var(--neon); }
+        .filter-btn.active { background: var(--neon); color: black; border-color: var(--neon); box-shadow: 0 0 15px rgba(0,210,255,0.3); }
 
         .carousel { display: flex; overflow-x: auto; padding: 0 20px 30px 20px; gap: 20px; }
         .n-card { min-width: 160px; cursor: pointer; transition: 0.3s; }
@@ -73,9 +73,11 @@
         #seek-bar::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--neon); border-radius: 50%; }
 
         #pantalla-salida { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#080808; z-index:99999; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px; }
+        .btn-wa { position: fixed; bottom: 95px; right: 25px; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 4000; text-decoration: none; box-shadow: 0 0 20px rgba(37,211,102,0.4); }
 
         #modal-playlist { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:11000; align-items:center; justify-content:center; }
         .modal-pl-content { background:#111; border: 2px solid var(--neon); padding:25px; border-radius:25px; width:100%; max-width:350px; text-align:center; }
+        .pl-item { background:#222; border: 1px solid #333; padding:12px; border-radius:12px; margin-bottom:10px; cursor:pointer; font-weight:bold; display: flex; justify-content: space-between; align-items: center; }
 
         @media (max-width: 768px) {
             header { height: 65px; }
@@ -130,7 +132,7 @@
             <div class="hero-info">
                 <div id="hero-title" class="hero-title">...</div>
                 <div id="hero-artist" class="hero-artist">...</div>
-                <div id="hero-bio" class="hero-bio">Cargando la mejor música...</div>
+                <div id="hero-bio" class="hero-bio">Cargando...</div>
                 <div class="hero-actions">
                     <button id="hero-play-btn" class="hero-btn-play"></button>
                     <button id="hero-fav-btn" style="background:none;border:none;font-size:35px;cursor:pointer;padding:0;transition:0.3s;">🤍</button>
@@ -152,14 +154,14 @@
             <button class="filter-btn" onclick="filtrar('Tropical', this)">Tropical</button>
             <button class="filter-btn" onclick="filtrar('Funk', this)">Funk</button>
             <button class="filter-btn" onclick="filtrar('Disco', this)">Disco</button>
-            <button class="filter-btn" onclick="filtrar('RockEsp', this)">Rock en Español</button>
-            <button class="filter-btn" onclick="filtrar('BaladaEsp', this)">Balada en Español</button>
-            <button class="filter-btn" onclick="filtrar('BaladaIng', this)">Balada en Inglés</button>
+            <button class="filter-btn" onclick="filtrar('RockEsp', this)">Rock Español</button>
+            <button class="filter-btn" onclick="filtrar('BaladaEsp', this)">Baladas Español</button>
+            <button class="filter-btn" onclick="filtrar('BaladaIng', this)">Baladas Inglés</button>
             <button class="filter-btn" onclick="filtrar('PopRock', this)">Pop/Rock</button>
             <button class="filter-btn" onclick="filtrar('Rancheras', this)">Rancheras</button>
             <button class="filter-btn" onclick="filtrar('Llanera', this)">Llanera</button>
             <button class="filter-btn" onclick="filtrar('Jazz', this)">Jazz</button>
-            <button class="filter-btn" onclick="filtrar('Soul', this)">Soul</button>
+            <button class="filter-btn" onclick="filtrar('Soul', this)">R&B/Soul</button>
             <button class="filter-btn" onclick="filtrar('Remixes', this)">Remixes</button>
             <button class="filter-btn" onclick="filtrar('Mix', this)">Mix</button>
             <button class="filter-btn" onclick="filtrar('Podcast', this)">Podcast</button>
@@ -170,10 +172,8 @@
         <div id="secciones-extra">
             <h3 style="margin-left:20px; color: var(--neon);">💡 Sugerencias para ti</h3>
             <div id="carousel-sug" class="carousel"></div>
-            
             <h3 id="title-fav" style="margin-left:20px; display:none; color: #ff4444;">❤️ Tus Favoritos</h3>
             <div id="carousel-fav" class="carousel" style="display:none;"></div>
-            
             <h3 style="margin-left:20px;">🔥 Novedades</h3>
             <div id="carousel-new" class="carousel"></div>
         </div>
@@ -217,11 +217,10 @@
     <img src="logo.jpg" alt="Logo" style="width:120px; height:120px; border-radius:20px; box-shadow: 0 0 30px rgba(0, 210, 255, 0.4); margin-bottom: 25px;" onerror="this.src='logo.png'">
     <h2 style="color:white; margin:0; font-size:28px;">Música Detenida</h2>
     <p style="color:var(--neon); margin-top:10px; font-size:18px;">¡Gracias por escuchar!</p>
-    <p style="color:#888; font-size:14px; margin-top:20px; max-width:85%; line-height:1.6;">Ya puedes cerrar la aplicación deslizando esta pantalla o usando el botón de inicio de tu celular.</p>
     <button onclick="location.reload()" style="margin-top:40px; background:transparent; border:1px solid var(--neon); color:var(--neon); padding:10px 25px; border-radius:30px; cursor:pointer; font-weight:bold;">VOLVER A LA RADIO</button>
 </div>
 
-<a href="https://wa.me/584125852879" target="_blank" class="btn-wa" style="width:60px;height:60px;right:25px;bottom:95px;position:fixed;">
+<a href="https://wa.me/584125852879" target="_blank" class="btn-wa">
     <svg viewBox="0 0 24 24" width="35" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 19.84C10.57 19.84 9.14 19.45 7.9 18.71L7.61 18.54L4.47 19.36L5.31 16.3L5.12 16C4.33 14.78 3.91 13.36 3.91 11.91C3.91 7.43 7.56 3.79 12.05 3.79C14.22 3.79 16.27 4.64 17.8 6.18C19.34 7.71 20.19 9.76 20.19 11.92C20.19 16.4 16.54 20.04 12.05 20.04M16.52 13.79C16.27 13.67 15.06 13.07 14.83 12.99C14.6 12.91 14.43 12.87 14.27 13.11C14.1 13.36 13.64 13.92 13.5 14.09C13.36 14.27 13.21 14.29 12.96 14.17C12.72 14.04 11.92 13.78 10.97 12.94C10.23 12.28 9.72 11.45 9.58 11.2C9.43 10.96 9.56 10.82 9.69 10.7C9.8 10.59 9.94 10.42 10.06 10.28C10.18 10.13 10.23 10.03 10.3 9.87C10.39 9.7 10.34 9.56 10.28 9.44C10.22 9.32 9.72 8.1 9.52 7.6C9.32 7.12 9.12 7.18 8.97 7.18C8.83 7.18 8.66 7.18 8.5 7.18C8.34 7.18 8.08 7.24 7.85 7.5C7.63 7.76 7 8.35 7 9.55C7 10.75 7.88 11.91 8 12.08C8.13 12.25 9.73 14.71 12.18 15.76C12.76 16.01 13.22 16.16 13.58 16.27C14.16 16.45 14.69 16.41 15.11 16.35C15.58 16.28 16.52 15.78 16.72 15.22C16.92 14.66 16.92 14.18 16.85 14.09C16.78 13.99 16.63 13.93 16.38 13.8L16.52 13.79Z"/></svg>
 </a>
 
@@ -237,21 +236,53 @@
     let canciones = []; let idActual = null; let perfilData = null; let filtroActual = 'Todo';
     let misFavoritos = JSON.parse(localStorage.getItem('ml_favoritos')) || [];
     let misPlaylists = JSON.parse(localStorage.getItem('ml_playlists')) || {};
+    let cancionA_Agregar = null;
 
     const SVG_PLAY = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
     const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
 
-    // --- LOGICA DE FAVORITOS ---
-    window.toggleFavorito = (id) => {
-        if(misFavoritos.includes(id)) { misFavoritos = misFavoritos.filter(fid => fid !== id); }
-        else { misFavoritos.push(id); }
-        localStorage.setItem('ml_favoritos', JSON.stringify(misFavoritos));
-        renderHero(); renderFeeds();
+    // 🔥 LOGICA DEL BOTON "+" (MODAL PLAYLIST) 🔥
+    window.abrirModalPlaylist = (id) => {
+        cancionA_Agregar = id;
+        const container = document.getElementById('pl-list');
+        container.innerHTML = Object.keys(misPlaylists).map(n => `<div class="pl-item" onclick="window.agregarAPlaylist('${n}')">📁 ${n} (${misPlaylists[n].length})</div>`).join('') || "No hay carpetas";
+        document.getElementById('modal-playlist').style.display = 'flex';
+    };
+
+    window.crearPlaylist = () => {
+        const n = document.getElementById('pl-new-name').value.trim();
+        if(n) { if(!misPlaylists[n]) misPlaylists[n] = []; window.agregarAPlaylist(n); document.getElementById('pl-new-name').value = ""; }
+    };
+
+    window.agregarAPlaylist = (n) => {
+        if(!misPlaylists[n].includes(cancionA_Agregar)) {
+            misPlaylists[n].push(cancionA_Agregar);
+            localStorage.setItem('ml_playlists', JSON.stringify(misPlaylists));
+            alert(`✅ Guardada en "${n}"`);
+        }
+        document.getElementById('modal-playlist').style.display = 'none';
+        renderPlaylists(); renderFeeds();
+    };
+
+    function renderPlaylists() {
+        const lists = Object.keys(misPlaylists);
+        document.getElementById('title-play').style.display = lists.length ? 'block' : 'none';
+        document.getElementById('carousel-play').innerHTML = lists.map(n => `<button class="filter-btn" onclick="window.filtrar('PLAYLIST:${n}', this)">📁 ${n}</button>`).join('');
+    }
+
+    // --- REPRODUCTOR ---
+    window.toggleMainPlay = () => {
+        if(!media.src) return;
+        media.paused ? media.play() : media.pause();
+        const icon = media.paused ? SVG_PLAY : SVG_PAUSE;
+        [document.getElementById('mini-play-btn'), document.getElementById('fp-play-btn'), document.getElementById('hero-play-btn')].forEach(b => { if(b) b.innerHTML = icon; });
+        renderFeeds();
     };
 
     window.gestionarPlay = async (id) => {
         let s = canciones.find(c => c.id === id) || (id === 'PERFIL_MAIN' ? perfilData : null);
         if(!s) return;
+
         if(idActual !== id) {
             idActual = id;
             document.getElementById('mini-title').innerText = s.titulo;
@@ -261,25 +292,23 @@
             document.getElementById('fp-title').innerText = s.titulo;
             document.getElementById('fp-artist').innerText = s.artista;
             document.getElementById('fp-art').style.backgroundImage = `url('${s.imagenUrl}')`;
+
             media.pause();
             media.removeAttribute('crossorigin');
             media.src = s.mp3Url;
             media.load();
             try { await media.play(); } catch(e) { media.play(); }
+            if(window.innerWidth > 768) window.openFullPlayer();
         } else {
-            media.paused ? media.play() : media.pause();
+            window.toggleMainPlay();
         }
-        const icon = media.paused ? SVG_PLAY : SVG_PAUSE;
-        [document.getElementById('mini-play-btn'), document.getElementById('fp-play-btn'), document.getElementById('hero-play-btn')].forEach(b => b.innerHTML = icon);
-        renderFeeds();
     };
 
-    window.toggleMainPlay = () => {
-        if(!media.src) return;
-        media.paused ? media.play() : media.pause();
-        const icon = media.paused ? SVG_PLAY : SVG_PAUSE;
-        [document.getElementById('mini-play-btn'), document.getElementById('fp-play-btn'), document.getElementById('hero-play-btn')].forEach(b => b.innerHTML = icon);
-        renderFeeds();
+    window.toggleFavorito = (id) => {
+        if(misFavoritos.includes(id)) { misFavoritos = misFavoritos.filter(fid => fid !== id); }
+        else { misFavoritos.push(id); }
+        localStorage.setItem('ml_favoritos', JSON.stringify(misFavoritos));
+        renderHero(); renderFeeds();
     };
 
     window.filtrar = (cat, btn) => {
@@ -310,15 +339,16 @@
         document.getElementById('hero-bio').innerText = f.bio || "Bienvenidos.";
         document.getElementById('hero-play-btn').innerHTML = (idActual === f.id && !media.paused) ? SVG_PAUSE : SVG_PLAY;
         document.getElementById('hero-play-btn').onclick = () => window.gestionarPlay(f.id);
-        // CORAZÓN DEL HERO FUNCIONANDO
         const bFav = document.getElementById('hero-fav-btn');
         bFav.innerText = misFavoritos.includes(f.id) ? '❤️' : '🤍';
         bFav.onclick = () => window.toggleFavorito(f.id);
     }
 
     function renderFeeds() {
-        const createCard = (c) => `<div class="n-card" onclick="window.gestionarPlay('${c.id}')"><div class="n-img" style="background-image:url('${c.imagenUrl}')"><div class="btn-delete-card">🗑️</div><button class="btn-add-list" onclick="event.stopPropagation();">➕</button><button class="btn-fav-card" onclick="event.stopPropagation(); window.toggleFavorito('${c.id}')">${misFavoritos.includes(c.id)?'❤️':'🤍'}</button><div class="n-overlay"><div class="n-play-icon">${idActual===c.id&&!media.paused?SVG_PAUSE:SVG_PLAY}</div></div></div><div style="font-size:14px;font-weight:700;color:white;margin-top:8px;">${c.titulo}</div><div style="font-size:12px;color:var(--neon);">${c.artista}</div></div>`;
-        let filtradas = (filtroActual === 'Todo') ? canciones : canciones.filter(c => c.categoria === filtroActual);
+        const createCard = (c) => `<div class="n-card" onclick="window.gestionarPlay('${c.id}')"><div class="n-img" style="background-image:url('${c.imagenUrl}')"><button class="btn-add-list" onclick="event.stopPropagation(); window.abrirModalPlaylist('${c.id}')">➕</button><button class="btn-fav-card" onclick="event.stopPropagation(); window.toggleFavorito('${c.id}')">${misFavoritos.includes(c.id)?'❤️':'🤍'}</button><div class="n-overlay"><div class="n-play-icon">${idActual===c.id&&!media.paused?SVG_PAUSE:SVG_PLAY}</div></div></div><div style="font-size:14px;font-weight:700;color:white;margin-top:8px;">${c.titulo}</div><div style="font-size:12px;color:var(--neon);">${c.artista}</div></div>`;
+        let filtradas = canciones;
+        if(filtroActual.startsWith('PLAYLIST:')) filtradas = canciones.filter(c => (misPlaylists[filtroActual.replace('PLAYLIST:','')]||[]).includes(c.id));
+        else if(filtroActual !== 'Todo') filtradas = canciones.filter(c => c.categoria === filtroActual);
         document.getElementById('carousel-all').innerHTML = filtradas.map(c => createCard(c)).join('');
         document.getElementById('carousel-new').innerHTML = canciones.slice(0, 10).map(c => createCard(c)).join('');
         const fList = canciones.filter(c => misFavoritos.includes(c.id));
@@ -326,12 +356,6 @@
         else { document.getElementById('title-fav').style.display='none'; document.getElementById('carousel-fav').style.display='none'; }
         let sug = canciones.slice(0, 10).sort(() => 0.5 - Math.random());
         document.getElementById('carousel-sug').innerHTML = sug.map(c => createCard(c)).join('');
-    }
-
-    function renderPlaylists() {
-        const lists = Object.keys(misPlaylists);
-        document.getElementById('title-play').style.display = lists.length ? 'block' : 'none';
-        document.getElementById('carousel-play').innerHTML = lists.map(n => `<button class="filter-btn" onclick="window.filtrar('PLAYLIST:${n}', this)">📁 ${n}</button>`).join('');
     }
 
     window.openFullPlayer = () => document.getElementById('full-player').classList.add('active');
@@ -342,6 +366,8 @@
     media.addEventListener('timeupdate', () => {
         document.getElementById('mini-progress').style.width = (media.currentTime / media.duration) * 100 + "%";
         document.getElementById('seek-bar').value = media.currentTime;
+        const fmt = (t) => isNaN(t) ? "0:00" : `${Math.floor(t/60)}:${Math.floor(t%60).toString().padStart(2,'0')}`;
+        document.getElementById('time-current').innerText = fmt(media.currentTime);
     });
     media.addEventListener('loadedmetadata', () => document.getElementById('seek-bar').max = media.duration);
 </script>
