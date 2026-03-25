@@ -82,33 +82,21 @@
         body.admin-mode .btn-edit-card { display: flex; }
 
         #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(20px); border-top: 1px solid #222; padding: 12px 40px; display: none; z-index: 5000; align-items: center; justify-content: space-between; gap: 15px; }
-        .mini-main { display: flex; align-items: center; gap: 15px; flex: 1; cursor: pointer; min-width: 0; }
         .mini-art { width: 50px; height: 50px; border-radius: 8px; border: 1px solid #333; background-size: cover; flex-shrink: 0; }
-        .mini-text { flex: 1; min-width: 0; }
-        .mini-title { font-size: 15px; font-weight: 800; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-        .mini-artist { font-size: 12px; color: var(--neon); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
         .mini-controls { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
         .btn-round { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.2); color: white; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
         .btn-round:hover { transform: scale(1.1); color: var(--neon); border-color: var(--neon); }
-        .btn-round svg { width: 22px; height: 22px; fill: currentColor; }
 
         #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a, #000); z-index: 6000; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1); display: flex; flex-direction: column; padding: 40px; align-items: center; overflow-y: auto; }
         #full-player.active { top: 0; }
         .btn-modern-down { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; align-self: flex-start; flex-shrink: 0; }
-        .btn-modern-down svg { width: 26px; height: 26px; fill: currentColor; }
         .fp-art { width: 350px; height: 350px; border-radius: 30px; background-size: cover; box-shadow: 0 30px 60px rgba(0,0,0,0.8); border: 2px solid #333; flex-shrink: 0; }
-        .fp-controls { display: flex; align-items: center; gap: 30px; margin-top: 30px; }
         .fp-btn-main { width: 85px; height: 85px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 30px var(--neon); color: black; flex-shrink: 0; }
         
         #seek-bar { flex: 1; -webkit-appearance: none; background: #333; height: 6px; border-radius: 5px; cursor: pointer; outline: none; }
         #seek-bar::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 12px var(--neon); cursor: pointer; }
 
-        .btn-cast-pc { transition: 0.3s; }
-        .btn-cast-pc.cast-active { background: rgba(0, 210, 255, 0.1); color: var(--neon); border-color: var(--neon); box-shadow: 0 0 20px var(--neon); }
-        #pantalla-salida { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#080808; z-index:99999; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px; }
         .btn-wa { position: fixed; bottom: 95px; right: 25px; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 0 20px rgba(37,211,102,0.4); z-index: 4000; transition: 0.3s; }
-        .btn-wa:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(37,211,102,0.8); }
-        .btn-wa svg { width: 35px; height: 35px; fill: currentColor; }
 
         #admin-panel { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:10000; overflow-y:auto; padding:20px; }
         .admin-box { background:#111; border:1px solid var(--neon); max-width:500px; margin:50px auto; padding:20px; border-radius:20px; }
@@ -124,33 +112,11 @@
 
         @media (max-width: 768px) {
             header { padding: 10px 15px; height: 65px; }
-            .logo-box { width: 38px; height: 38px; }
-            .brand-title { font-size: 15px; margin-left: 8px; letter-spacing: 0.5px; }
-            #home-view { padding-top: 80px; padding-bottom: 120px; }
-            #hero-section { min-height: auto; padding: 30px 10px; border-radius: 0 0 25px 25px; }
-            .hero-content { flex-direction: column; text-align: center; gap: 20px; padding: 10px; }
-            .hero-cover { width: 220px; height: 220px; margin: 0 auto; }
-            .hero-title { font-size: 28px; }
-            .hero-artist { font-size: 18px; }
-            .hero-bio { border-left: none; border-bottom: 2px solid var(--neon); padding-left: 0; padding-bottom: 15px; max-height: none; }
-            .hero-actions { justify-content: center; width: 100%; gap: 30px; }
-            .carousel { padding: 0 10px 20px 10px; gap: 12px; }
-            .n-card { min-width: 140px; width: 140px; }
-            .n-img { width: 140px; height: 140px; }
-            #carousel-all { gap: 15px; padding-bottom: 50px; }
-            #mini-player { padding: 10px 15px; gap: 10px; }
-            .mini-art { width: 45px; height: 45px; }
-            .mini-controls { gap: 12px; }
-            .btn-round { width: 38px; height: 38px; }
-            .btn-round svg { width: 20px; height: 20px; }
-            #full-player { padding: 25px 20px; }
-            .fp-art { width: 280px; height: 280px; margin-top: 15px; }
-            #fp-title { font-size: 26px !important; text-align: center; }
-            #fp-artist { font-size: 18px !important; text-align: center; }
-            .fp-controls { gap: 20px; width: 100%; justify-content: center; }
-            .fp-btn-main { width: 75px; height: 75px; }
-            .btn-wa { bottom: 85px; right: 20px; width: 55px; height: 55px; }
-            .btn-wa svg { width: 30px; height: 30px; }
+            .brand-title { font-size: 15px; }
+            #home-view { padding-top: 80px; }
+            .hero-content { flex-direction: column; text-align: center; gap: 20px; }
+            .hero-cover { width: 220px; height: 220px; }
+            .fp-art { width: 280px; height: 280px; }
         }
     </style>
 </head>
@@ -160,9 +126,7 @@
     <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
         <div class="logo-box">
             <svg class="logo-svg" id="svg-respaldo" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
-            <img src="logo.jpg?v=100" class="header-logo" alt="ML" 
-                 onload="document.getElementById('svg-respaldo').style.display='none'" 
-                 onerror="this.src='logo.png?v=100'; this.onerror=null;">
+            <img src="logo.jpg?v=100" class="header-logo" alt="ML" onload="document.getElementById('svg-respaldo').style.display='none'" onerror="this.src='logo.png?v=100'">
         </div>
         <div class="brand-title">MUSIC LAND PROJECT</div>
     </div>
@@ -176,10 +140,8 @@
     <div class="modal-pl-content">
         <h3 style="color:var(--neon); margin-top:0; font-size: 22px;">Guardar en Playlist</h3>
         <div id="pl-list" style="max-height:180px; overflow-y:auto; margin-bottom:15px; text-align: left;"></div>
-        <div style="border-top: 1px solid #333; padding-top: 15px; margin-top: 10px;">
-            <input type="text" id="pl-new-name" placeholder="Nombre nueva lista..." style="width:100%; padding:12px; border-radius:12px; border:1px solid #444; background:#000; color:white; margin-bottom:10px; font-family: inherit;">
-            <button onclick="window.crearPlaylist()" style="width:100%; padding:12px; background:var(--neon); color:black; font-weight:900; border:none; border-radius:12px; cursor:pointer;">➕ CREAR Y AGREGAR</button>
-        </div>
+        <input type="text" id="pl-new-name" placeholder="Nombre nueva lista..." style="width:100%; padding:12px; border-radius:12px; border:1px solid #444; background:#000; color:white; margin-bottom:10px; font-family: inherit;">
+        <button onclick="window.crearPlaylist()" style="width:100%; padding:12px; background:var(--neon); color:black; font-weight:900; border:none; border-radius:12px; cursor:pointer;">➕ CREAR Y AGREGAR</button>
         <button onclick="document.getElementById('modal-playlist').style.display='none'" style="width:100%; padding:10px; background:transparent; color:#888; border:none; margin-top:15px; cursor:pointer; font-weight: bold;">Cancelar</button>
     </div>
 </div>
@@ -187,58 +149,18 @@
 <div id="admin-panel">
     <div class="admin-box">
         <h2 style="color:var(--neon); text-align:center;">PANEL DE DIRECTOR 🛠️</h2>
-        <div style="display:flex; gap:10px; margin-bottom:20px;">
-            <button class="tab-btn active" onclick="verTab('cancion', this)">🎵 Subir/Editar</button>
-            <button class="tab-btn" onclick="verTab('perfil', this)">🖼️ Portada/Destacado</button>
-        </div>
         <div id="tab-cancion">
             <input type="hidden" id="edit-id" value="">
-            <input type="hidden" id="edit-img-url" value="">
-            <input type="text" id="up-titulo" class="admin-input" placeholder="Título de la Canción">
-            <input type="text" id="up-artista" class="admin-input" placeholder="Nombre del Artista">
-            <label style="color:#ccc; display:block; margin-top:5px;">📁 Categoría / Género:</label>
+            <input type="text" id="up-titulo" class="admin-input" placeholder="Título">
+            <input type="text" id="up-artista" class="admin-input" placeholder="Artista">
             <select id="up-categoria" class="admin-select">
-                <option value="Salsa">Salsa</option>
-                <option value="Merengue">Merengue</option>
-                <option value="Tropical">Tropical</option>
-                <option value="Funk">Funk</option>
-                <option value="Disco">Disco</option>
-                <option value="RockEsp">Rock en Español</option>
-                <option value="BaladaEsp">Baladas en Español</option>
-                <option value="BaladaIng">Baladas en Inglés</option>
-                <option value="PopRock">Pop & Rock (Anglo)</option>
-                <option value="Rancheras">Rancheras</option>
-                <option value="Llanera">Música Llanera</option>
-                <option value="Jazz">Jazz</option>
-                <option value="Soul">R&B / Soul</option>
-                <option value="Remixes">Remixes</option>
-                <option value="Mix">Mix</option>
-                <option value="Podcast">Podcast</option>
-                <option value="IA">I.A.</option>
-                <option value="Varios">Varios / Otro</option>
+                <option value="Salsa">Salsa</option><option value="Merengue">Merengue</option><option value="Tropical">Tropical</option><option value="Varios">Varios</option>
             </select>
-            <label id="lbl-up-img" style="color:#ccc; display:block; margin-top:10px;">📸 Portada Canción (JPG/PNG)</label>
             <input type="file" id="up-img" class="admin-input" accept="image/*">
-            <label style="color:#ccc; display:block; margin-top:10px;">🔗 Enlace Audio</label>
-            <input type="text" id="up-mp3-link" class="admin-input" placeholder="Pega aquí el link del MP3">
-            <div style="display:flex; gap:10px; margin-top:15px;">
-                <button onclick="window.subirCancion()" id="btn-subir" class="admin-btn" style="flex:2; margin-top:0;">🚀 SUBIR A LA LISTA</button>
-                <button onclick="window.cancelarEdicion()" id="btn-cancelar-edit" class="admin-btn" style="flex:1; background:#444; color:white; display:none; margin-top:0;">❌ CANCELAR</button>
-            </div>
+            <input type="text" id="up-mp3-link" class="admin-input" placeholder="Link MP3">
+            <button onclick="window.subirCancion()" id="btn-subir" class="admin-btn">🚀 SUBIR A LA LISTA</button>
         </div>
-        <div id="tab-perfil" style="display:none;">
-            <p style="color:#aaa; font-size:13px; text-align:center;">Cambia la Portada Principal.</p>
-            <input type="text" id="prof-titulo" class="admin-input" placeholder="Título Principal">
-            <input type="text" id="prof-subtitulo" class="admin-input" placeholder="Subtítulo / Artista">
-            <textarea id="prof-bio" class="admin-input" rows="4" placeholder="Escribe la Biografía..."></textarea>
-            <label style="color:#ccc; display:block; margin-top:10px;">📸 Imagen Portada (JPG/PNG)</label>
-            <input type="file" id="prof-img" class="admin-input" accept="image/*">
-            <label style="color:#ccc; display:block; margin-top:10px;">🔗 Audio Destacado</label>
-            <input type="text" id="prof-mp3-link" class="admin-input" placeholder="Pega aquí el link del MP3">
-            <button onclick="window.actualizarPerfil()" class="admin-btn" style="background:#ffdd00;">💾 ACTUALIZAR PORTADA</button>
-        </div>
-        <div id="upload-status" style="color:white; text-align:center; margin-top:10px;"></div>
-        <button onclick="window.cancelarEdicion(); document.getElementById('admin-panel').style.display='none'" style="background:#333; color:white; width:100%; padding:10px; border:none; border-radius:10px; margin-top:10px; cursor:pointer;">CERRAR</button>
+        <button onclick="document.getElementById('admin-panel').style.display='none'" style="background:#333; color:white; width:100%; padding:10px; border:none; border-radius:10px; margin-top:10px; cursor:pointer;">CERRAR</button>
     </div>
 </div>
 
@@ -253,7 +175,7 @@
                 <div id="hero-bio" class="hero-bio">Cargando...</div>
                 <div class="hero-actions">
                     <button id="hero-play-btn" class="hero-btn-play"></button>
-                    <button id="hero-fav-btn" style="background:none;border:none;font-size:35px;cursor:pointer;padding:0;transition:0.3s;">🤍</button>
+                    <button id="hero-fav-btn" style="background:none;border:none;font-size:35px;cursor:pointer;">🤍</button>
                 </div>
             </div>
         </div>
@@ -262,7 +184,7 @@
     <div id="feed-container">
         <div id="seccion-playlists">
             <h3 id="title-play" style="margin-left:20px; display:none; color: var(--neon);">📁 Tus Playlists</h3>
-            <div class="filter-scroll" id="carousel-play" style="display:none; margin-bottom:15px; padding-bottom: 5px;"></div>
+            <div class="filter-scroll" id="carousel-play"></div>
         </div>
 
         <div class="filter-scroll" id="main-filters">
@@ -270,31 +192,16 @@
             <button class="filter-btn" onclick="filtrar('Salsa', this)">Salsa</button>
             <button class="filter-btn" onclick="filtrar('Merengue', this)">Merengue</button>
             <button class="filter-btn" onclick="filtrar('Tropical', this)">Tropical</button>
-            <button class="filter-btn" onclick="filtrar('Funk', this)">Funk</button>
-            <button class="filter-btn" onclick="filtrar('Disco', this)">Disco</button>
-            <button class="filter-btn" onclick="filtrar('RockEsp', this)">Rock Español</button>
-            <button class="filter-btn" onclick="filtrar('BaladaEsp', this)">Baladas Español</button>
-            <button class="filter-btn" onclick="filtrar('BaladaIng', this)">Baladas Inglés</button>
-            <button class="filter-btn" onclick="filtrar('PopRock', this)">Pop/Rock</button>
-            <button class="filter-btn" onclick="filtrar('Rancheras', this)">Rancheras</button>
-            <button class="filter-btn" onclick="filtrar('Llanera', this)">Llanera</button>
-            <button class="filter-btn" onclick="filtrar('Jazz', this)">Jazz</button>
-            <button class="filter-btn" onclick="filtrar('Soul', this)">R&B/Soul</button>
-            <button class="filter-btn" onclick="filtrar('Remixes', this)">Remixes</button>
-            <button class="filter-btn" onclick="filtrar('Mix', this)">Mix</button>
-            <button class="filter-btn" onclick="filtrar('Podcast', this)">Podcast</button>
-            <button class="filter-btn" onclick="filtrar('IA', this)">I.A.</button>
             <button class="filter-btn" onclick="filtrar('Varios', this)">Varios</button>
         </div>
 
         <div id="secciones-extra">
             <h3 style="margin-left:20px; color: var(--neon);">💡 Sugerencias para ti</h3>
             <div id="carousel-sug" class="carousel"></div>
-
             <h3 id="title-fav" style="margin-left:20px; display:none; color: #ff4444;">❤️ Tus Favoritos</h3>
             <div id="carousel-fav" class="carousel" style="display:none;"></div>
-
-            <h3 style="margin-left:20px;">🔥 Novedades</h3><div id="carousel-new" class="carousel"></div>
+            <h3 style="margin-left:20px;">🔥 Novedades</h3>
+            <div id="carousel-new" class="carousel"></div>
         </div>
         
         <h3 id="titulo-catalogo" style="margin-left:20px;">📂 Catálogo Completo</h3>
@@ -303,98 +210,68 @@
     <div style="font-size:10px; color:#555; text-align:center; margin-top:20px; padding-bottom:10px;">v12.2 - Tarjeta de Presentación VIP</div>
 </div>
 
-<audio id="main-media"></audio>
+<audio id="main-media" preload="auto"></audio>
 
 <div id="mini-player">
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: #222;">
-        <div id="mini-progress" style="height: 100%; width: 0%; background: var(--neon); box-shadow: 0 0 5px var(--neon);"></div>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: #222;"><div id="mini-progress" style="height: 100%; width: 0%; background: var(--neon);"></div></div>
+    <div class="mini-main" onclick="window.openFullPlayer()"><div id="mini-art" class="mini-art"></div>
+        <div style="margin-left:10px;"><div id="mini-title" class="mini-title">...</div><div id="mini-artist" class="mini-artist">...</div></div>
     </div>
-    <div class="mini-main" onclick="window.openFullPlayer()">
-        <div id="mini-art" class="mini-art"></div>
-        <div class="mini-text">
-            <div id="mini-title" class="mini-title">...</div>
-            <div id="mini-artist" class="mini-artist">...</div>
-        </div>
-    </div>
-    <div class="mini-controls">
-        <button onclick="window.toggleMainPlay()" id="mini-play-btn" class="btn-round" style="background:var(--neon); color:black; border:none;"></button>
-    </div>
+    <button onclick="window.toggleMainPlay()" id="mini-play-btn" class="btn-round" style="background:var(--neon); color:black; border:none;"></button>
 </div>
 
 <div id="full-player">
-    <button onclick="window.closeFullPlayer()" class="btn-modern-down"><svg viewBox="0 0 24 24"><path d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg></button>
-    <div id="fp-art" class="fp-art"></div>
-    <div class="fp-info" style="width:100%; max-width:400px; display: flex; flex-direction: column; align-items: center; margin-top: 25px;">
-        <div style="display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%;">
-            <div id="fp-title" style="font-size:30px;font-weight:900;color:white; text-align: center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">...</div>
-            <button onclick="window.toggleFavoritoActual()" id="fp-fav-btn" style="font-size: 26px; border:none; background:transparent; cursor:pointer; padding:0; flex-shrink: 0; display:flex; transition:0.2s;">🤍</button>
-        </div>
-        <div id="fp-artist" style="font-size:18px;color:var(--neon);font-weight:700;margin-top:4px; text-align: center; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100%;">...</div>
-    </div>
+    <button onclick="window.closeFullPlayer()" class="btn-modern-down"><svg viewBox="0 0 24 24" width="24"><path fill="white" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg></button>
+    <div id="fp-art" class="fp-art" style="margin-top:20px;"></div>
+    <div id="fp-title" style="font-size:30px;font-weight:900;color:white; margin-top:25px; text-align:center;">...</div>
+    <div id="fp-artist" style="font-size:18px;color:var(--neon);font-weight:700;margin-top:4px; text-align:center;">...</div>
     <div style="width: 100%; max-width: 350px; margin-top: 25px; display: flex; align-items: center; gap: 15px;">
         <span id="time-current" style="font-size: 13px;">0:00</span>
         <input type="range" id="seek-bar" value="0" min="0" step="1">
         <span id="time-total" style="font-size: 13px;">0:00</span>
     </div>
-    <div class="fp-controls">
-        <button onclick="window.toggleMainPlay()" id="fp-play-btn" class="fp-btn-main"></button>
-        <button onclick="window.startCast()" id="btn-cast-fijo" class="btn-round btn-cast-pc" style="width:55px; height:55px;">
-            <svg viewBox="0 0 24 24"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg>
-        </button>
-    </div>
+    <button onclick="window.toggleMainPlay()" id="fp-play-btn" class="fp-btn-main" style="margin-top:30px;"></button>
 </div>
 
-<div id="pantalla-salida">
-    <img src="logo.jpg" alt="Logo" style="width:120px; height:120px; border-radius:20px; box-shadow: 0 0 30px rgba(0, 210, 255, 0.4); margin-bottom: 25px;" onerror="this.src='logo.png'">
-    <h2 style="color:white; margin:0; font-size:28px;">Música Detenida</h2>
-    <p style="color:#888; font-size:14px; margin-top:20px; max-width:85%; line-height:1.6;">Ya puedes cerrar la aplicación deslizando esta pantalla o usando el botón de inicio de tu celular.</p>
-    <button onclick="location.reload()" style="margin-top:40px; background:transparent; border:1px solid var(--neon); color:var(--neon); padding:10px 25px; border-radius:30px; cursor:pointer; font-weight:bold;">VOLVER A LA RADIO</button>
-</div>
-
-<a href="https://wa.me/584125852879" target="_blank" class="btn-wa">
-    <svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 19.84C10.57 19.84 9.14 19.45 7.9 18.71L7.61 18.54L4.47 19.36L5.31 16.3L5.12 16C4.33 14.78 3.91 13.36 3.91 11.91C3.91 7.43 7.56 3.79 12.05 3.79C14.22 3.79 16.27 4.64 17.8 6.18C19.34 7.71 20.19 9.76 20.19 11.92C20.19 16.4 16.54 20.04 12.05 20.04M16.52 13.79C16.27 13.67 15.06 13.07 14.83 12.99C14.6 12.91 14.43 12.87 14.27 13.11C14.1 13.36 13.64 13.92 13.5 14.09C13.36 14.27 13.21 14.29 12.96 14.17C12.72 14.04 11.92 13.78 10.97 12.94C10.23 12.28 9.72 11.45 9.58 11.2C9.43 10.96 9.56 10.82 9.69 10.7C9.8 10.59 9.94 10.42 10.06 10.28C10.18 10.13 10.23 10.03 10.3 9.87C10.39 9.7 10.34 9.56 10.28 9.44C10.22 9.32 9.72 8.1 9.52 7.6C9.32 7.12 9.12 7.18 8.97 7.18C8.83 7.18 8.66 7.18 8.5 7.18C8.34 7.18 8.08 7.24 7.85 7.5C7.63 7.76 7 8.35 7 9.55C7 10.75 7.88 11.91 8 12.08C8.13 12.25 9.73 14.71 12.18 15.76C12.76 16.01 13.22 16.16 13.58 16.27C14.16 16.45 14.69 16.41 15.11 16.35C15.58 16.28 16.52 15.78 16.72 15.22C16.92 14.66 16.92 14.18 16.85 14.09C16.78 13.99 16.63 13.93 16.38 13.8L16.52 13.79Z"/></svg>
-</a>
+<a href="https://wa.me/584125852879" target="_blank" class="btn-wa"><svg viewBox="0 0 24 24" width="35" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 19.84C10.57 19.84 9.14 19.45 7.9 18.71L7.61 18.54L4.47 19.36L5.31 16.3L5.12 16C4.33 14.78 3.91 13.36 3.91 11.91C3.91 7.43 7.56 3.79 12.05 3.79C14.22 3.79 16.27 4.64 17.8 6.18C19.34 7.71 20.19 9.76 20.19 11.92C20.19 16.4 16.54 20.04 12.05 20.04M16.52 13.79C16.27 13.67 15.06 13.07 14.83 12.99C14.6 12.91 14.43 12.87 14.27 13.11C14.1 13.36 13.64 13.92 13.5 14.09C13.36 14.27 13.21 14.29 12.96 14.17C12.72 14.04 11.92 13.78 10.97 12.94C10.23 12.28 9.72 11.45 9.58 11.2C9.43 10.96 9.56 10.82 9.69 10.7C9.8 10.59 9.94 10.42 10.06 10.28C10.18 10.13 10.23 10.03 10.3 9.87C10.39 9.7 10.34 9.56 10.28 9.44C10.22 9.32 9.72 8.1 9.52 7.6C9.32 7.12 9.12 7.18 8.97 7.18C8.83 7.18 8.66 7.18 8.5 7.18C8.34 7.18 8.08 7.24 7.85 7.5C7.63 7.76 7 8.35 7 9.55C7 10.75 7.88 11.91 8 12.08C8.13 12.25 9.73 14.71 12.18 15.76C12.76 16.01 13.22 16.16 13.58 16.27C14.16 16.45 14.69 16.41 15.11 16.35C15.58 16.28 16.52 15.78 16.72 15.22C16.92 14.66 16.92 14.18 16.85 14.09C16.78 13.99 16.63 13.93 16.38 13.8L16.52 13.79Z"/></svg></a>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, onSnapshot, query, orderBy, addDoc, setDoc, deleteDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot, query, orderBy, addDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = { apiKey: "AIzaSyBwBq4gLgv4DSfUidzUuC7Irmvj_4pCTtI", authDomain: "familia-yajure-app.firebaseapp.com", projectId: "familia-yajure-app", storageBucket: "familia-yajure-app.firebasestorage.app", messagingSenderId: "692035727386", appId: "1:692035727386:web:dfa3e39a481d56368a61a3" };
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const IMGBB_KEY = "07dd4f0a1180673510c5047ae8b5eec8";
 
     const media = document.getElementById('main-media');
     let canciones = []; let idActual = null; let perfilData = null; let filtroActual = 'Todo';
     let misFavoritos = JSON.parse(localStorage.getItem('ml_favoritos')) || [];
     let misPlaylists = JSON.parse(localStorage.getItem('ml_playlists')) || {};
-    let cancionA_Agregar = null;
 
     const SVG_PLAY = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>`;
     const SVG_PAUSE = `<svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>`;
 
-    // CORRECCIÓN 3: Reset del audio para saltar bloqueo
-    window.gestionarPlay = async (id) => {
-        let s = canciones.find(c => c.id === id) || (id === 'PERFIL_MAIN' ? perfilData : null);
-        if(s) {
-            if(idActual !== id) {
-                idActual = id; document.getElementById('mini-title').innerText = s.titulo; document.getElementById('mini-artist').innerText = s.artista; document.getElementById('mini-art').style.backgroundImage = `url('${s.imagenUrl}')`; document.getElementById('mini-player').style.display = 'flex'; document.getElementById('fp-title').innerText = s.titulo; document.getElementById('fp-artist').innerText = s.artista; document.getElementById('fp-art').style.backgroundImage = `url('${s.imagenUrl}')`;
-                
-                media.pause();
-                media.src = s.mp3Url;
-                media.load();
-                try { await media.play(); } catch(e) { media.play(); }
-                if(window.innerWidth > 768) window.openFullPlayer();
-            } else { media.paused ? media.play() : media.pause(); }
-        }
-        window.actualizarBotonesPlay(media.paused); renderFeeds(); 
+    window.filtrar = (cat, btn) => {
+        filtroActual = cat;
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        if(btn) btn.classList.add('active');
+        
+        // CORRECCIÓN: Si no es 'Todo', ocultamos las secciones de arriba
+        const seccionesExtra = document.getElementById('secciones-extra');
+        seccionesExtra.style.display = (cat === 'Todo') ? 'block' : 'none';
+        
+        const tituloCat = document.getElementById('titulo-catalogo');
+        tituloCat.innerText = (cat === 'Todo') ? '📂 Catálogo Completo' : '📂 Filtrado: ' + cat;
+        
+        renderFeeds();
     };
 
-    window.toggleMainPlay = () => { media.paused ? media.play() : media.pause(); window.actualizarBotonesPlay(media.paused); renderFeeds(); };
-    window.actualizarBotonesPlay = (isPaused) => { const icon = isPaused ? SVG_PLAY : SVG_PAUSE; [document.getElementById('mini-play-btn'), document.getElementById('fp-play-btn'), document.getElementById('hero-play-btn')].forEach(b => { if(b) b.innerHTML = icon; }); };
-
     onSnapshot(query(collection(db, "musicland_canciones")), (snap) => {
-        canciones = []; perfilData = null; snap.forEach(d => { const data = {id: d.id, ...d.data()}; if(d.id === "PERFIL_MAIN") perfilData = data; else canciones.push(data); });
+        canciones = []; perfilData = null;
+        snap.forEach(d => {
+            const data = {id: d.id, ...d.data()};
+            if(d.id === "PERFIL_MAIN") perfilData = data; else canciones.push(data);
+        });
         canciones.sort((a, b) => (b.fecha?.seconds || 0) - (a.fecha?.seconds || 0));
         renderHero(); renderPlaylists(); renderFeeds(); 
     });
@@ -408,54 +285,55 @@
         document.getElementById('hero-bio').innerText = f.bio || "Bienvenidos.";
         document.getElementById('hero-play-btn').innerHTML = (idActual === f.id && !media.paused) ? SVG_PAUSE : SVG_PLAY;
         document.getElementById('hero-play-btn').onclick = () => window.gestionarPlay(f.id);
-        const bFav = document.getElementById('hero-fav-btn'); if(perfilData) bFav.style.display = 'none'; else { bFav.style.display = 'block'; bFav.innerText = misFavoritos.includes(f.id) ? '❤️' : '🤍'; bFav.onclick = () => window.toggleFavorito(f.id); }
     }
 
     function renderFeeds() {
-        const createCard = (c) => `<div class="n-card" onclick="window.gestionarPlay('${c.id}')"><div class="n-img" style="background-image:url('${c.imagenUrl}')"><div class="btn-delete-card" onclick="event.stopPropagation(); window.borrarCancion('${c.id}')">🗑️</div><div class="btn-edit-card" onclick="event.stopPropagation(); window.editarCategoria('${c.id}')">✏️</div><button class="btn-add-list" onclick="event.stopPropagation(); window.abrirModalPlaylist('${c.id}')">➕</button><button class="btn-fav-card" onclick="event.stopPropagation(); window.toggleFavorito('${c.id}')">${misFavoritos.includes(c.id)?'❤️':'🤍'}</button><div class="n-overlay"><div class="n-play-icon">${idActual===c.id&&!media.paused?SVG_PAUSE:SVG_PLAY}</div></div></div><div style="font-size:14px;font-weight:700;color:white;margin-top:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${c.titulo}</div><div style="font-size:12px;color:var(--neon);">${c.artista}</div></div>`;
-        let filtradas = canciones;
-        if(filtroActual.startsWith('PLAYLIST:')) filtradas = canciones.filter(c => (misPlaylists[filtroActual.replace('PLAYLIST:','')]||[]).includes(c.id));
-        else if(filtroActual !== 'Todo') filtradas = canciones.filter(c => c.categoria === filtroActual || (!c.categoria && filtroActual === 'Varios'));
-        document.getElementById('carousel-new').innerHTML = canciones.slice(0, 10).map(c => createCard(c)).join('');
-        document.getElementById('carousel-all').innerHTML = filtradas.length ? filtradas.map(c => createCard(c)).join('') : `<p style="width:100%;text-align:center;color:#666;">Vacío.</p>`;
-        const fList = canciones.filter(c => misFavoritos.includes(c.id)); document.getElementById('title-fav').style.display = fList.length ? 'block' : 'none'; document.getElementById('carousel-fav').style.display = fList.length ? 'flex' : 'none'; document.getElementById('carousel-fav').innerHTML = fList.map(c => createCard(c)).join('');
+        const createCard = (c) => `<div class="n-card" onclick="window.gestionarPlay('${c.id}')"><div class="n-img" style="background-image:url('${c.imagenUrl}')"><div class="btn-delete-card">🗑️</div><button class="btn-fav-card">${misFavoritos.includes(c.id)?'❤️':'🤍'}</button><div class="n-overlay"><div class="n-play-icon">${idActual===c.id&&!media.paused?SVG_PAUSE:SVG_PLAY}</div></div></div><div style="font-size:14px;font-weight:700;color:white;margin-top:8px;">${c.titulo}</div><div style="font-size:12px;color:var(--neon);">${c.artista}</div></div>`;
         
-        let sug = [];
-        if (misFavoritos.length > 0) {
-            const arts = canciones.filter(c => misFavoritos.includes(c.id)).map(c => c.artista);
-            sug = canciones.filter(c => arts.includes(c.artista) && !misFavoritos.includes(c.id)).sort(() => 0.5 - Math.random());
-        }
-        if (sug.length < 10) {
-            const extra = canciones.filter(c => !misFavoritos.includes(c.id) && !sug.includes(c)).sort(() => 0.5 - Math.random());
-            sug = [...sug, ...extra].slice(0, 10);
-        }
-        document.getElementById('carousel-sug').innerHTML = sug.map(c => createCard(c)).join('');
+        let filtradas = (filtroActual === 'Todo') ? canciones : canciones.filter(c => c.categoria === filtroActual);
+        
+        document.getElementById('carousel-all').innerHTML = filtradas.map(c => createCard(c)).join('');
+        document.getElementById('carousel-new').innerHTML = canciones.slice(0, 10).map(c => createCard(c)).join('');
+        
+        const fList = canciones.filter(c => misFavoritos.includes(c.id));
+        document.getElementById('title-fav').style.display = fList.length ? 'block' : 'none';
+        document.getElementById('carousel-fav').style.display = fList.length ? 'flex' : 'none';
+        document.getElementById('carousel-fav').innerHTML = fList.map(c => createCard(c)).join('');
     }
 
-    // --- EL RESTO DE TUS FUNCIONES (SIN DESCONECTAR NADA) ---
-    window.filtrar = (cat, btn) => {
-        filtroActual = cat; document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active')); if(btn) btn.classList.add('active');
-        const seccionesExtra = document.getElementById('secciones-extra');
-        const tituloCatalogo = document.getElementById('titulo-catalogo');
-        if(cat === 'Todo') { seccionesExtra.style.display = 'block'; tituloCatalogo.innerText = '📂 Catálogo Completo'; }
-        else { seccionesExtra.style.display = 'none'; tituloCatalogo.innerText = cat.startsWith('PLAYLIST:') ? '📁 ' + cat.replace('PLAYLIST:', '') : '📂 Filtrado: ' + cat; }
+    window.gestionarPlay = async (id) => {
+        let s = canciones.find(c => c.id === id) || (id === 'PERFIL_MAIN' ? perfilData : null);
+        if(!s) return;
+        if(idActual !== id) {
+            idActual = id;
+            document.getElementById('mini-title').innerText = s.titulo;
+            document.getElementById('mini-artist').innerText = s.artista;
+            document.getElementById('mini-art').style.backgroundImage = `url('${s.imagenUrl}')`;
+            document.getElementById('mini-player').style.display = 'flex';
+            document.getElementById('fp-title').innerText = s.titulo;
+            document.getElementById('fp-artist').innerText = s.artista;
+            document.getElementById('fp-art').style.backgroundImage = `url('${s.imagenUrl}')`;
+            media.pause();
+            media.src = s.mp3Url;
+            media.load();
+            try { await media.play(); } catch(e) { media.play(); }
+        } else { media.paused ? media.play() : media.pause(); }
+        const icon = media.paused ? SVG_PLAY : SVG_PAUSE;
+        [document.getElementById('mini-play-btn'), document.getElementById('fp-play-btn'), document.getElementById('hero-play-btn')].forEach(b => b.innerHTML = icon);
         renderFeeds();
     };
 
-    window.toggleFavorito = (id) => { if(misFavoritos.includes(id)) misFavoritos = misFavoritos.filter(x => x !== id); else misFavoritos.push(id); localStorage.setItem('ml_favoritos', JSON.stringify(misFavoritos)); renderFeeds(); if(idActual === id) window.actualizarCorazonPlayer(); };
+    window.toggleMainPlay = () => { media.paused ? media.play() : media.pause(); window.gestionarPlay(idActual); };
     window.openFullPlayer = () => document.getElementById('full-player').classList.add('active');
     window.closeFullPlayer = () => document.getElementById('full-player').classList.remove('active');
-    window.triggerAdmin = () => { if(prompt("Acceso:") === "ticoadmin2026") { document.getElementById('admin-panel').style.display='block'; document.body.classList.add('admin-mode'); } };
-    window.confirmarSalida = () => { if(confirm("¿Salir?")) location.reload(); };
-
+    window.triggerAdmin = () => { if(prompt("Acceso:") === "ticoadmin2026") document.getElementById('admin-panel').style.display='block'; };
+    
     media.addEventListener('timeupdate', () => {
+        const perc = (media.currentTime / media.duration) * 100 || 0;
+        document.getElementById('mini-progress').style.width = perc + "%";
         document.getElementById('seek-bar').value = media.currentTime;
-        const fmt = (t) => isNaN(t) ? "0:00" : `${Math.floor(t/60)}:${Math.floor(t%60).toString().padStart(2,'0')}`;
-        document.getElementById('time-current').innerText = fmt(media.currentTime);
-        document.getElementById('mini-progress').style.width = (media.currentTime / media.duration) * 100 + "%";
     });
-    media.addEventListener('loadedmetadata', () => { document.getElementById('seek-bar').max = media.duration; document.getElementById('time-total').innerText = `${Math.floor(media.duration/60)}:${Math.floor(media.duration%60).toString().padStart(2,'0')}`; });
-    document.getElementById('seek-bar').addEventListener('input', (e) => media.currentTime = e.target.value);
+    media.addEventListener('loadedmetadata', () => document.getElementById('seek-bar').max = media.duration);
 </script>
 </body>
 </html>
