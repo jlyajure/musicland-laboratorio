@@ -9,11 +9,19 @@
     <meta property="og:title" content="MUSIC LAND PROJECT">
     <meta property="og:description" content="Tu rockola privada y catálogo musical exclusivo.">
     <meta property="og:image" itemprop="image" content="https://music-land-app-5kl2.vercel.app/logo.png">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="800">
     <meta property="og:site_name" content="Music Land">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MUSIC LAND PROJECT">
+    <meta name="twitter:description" content="Tu rockola privada y catálogo musical exclusivo.">
+    <meta name="twitter:image" content="https://music-land-app-5kl2.vercel.app/logo.png">
     
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#000000">
     <link rel="icon" href="logo.jpg" type="image/jpeg">
+    <link rel="icon" href="logo.png" type="image/png">
     <link rel="apple-touch-icon" href="logo.jpg">
 
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;900&display=swap" rel="stylesheet">
@@ -28,9 +36,10 @@
         ::-webkit-scrollbar-thumb { background: var(--neon); border-radius: 10px; box-shadow: 0 0 15px var(--neon); border: 2px solid #000; }
         
         header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid #222; height: 75px; }
-        .logo-box { width: 45px; height: 45px; background: #000; border: 2px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); cursor: pointer; transition: transform 0.1s; }
+        .logo-box { width: 45px; height: 45px; background: #000; border: 2px solid var(--neon); border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(0, 210, 255, 0.4); cursor: pointer; overflow: hidden; position: relative; flex-shrink: 0; transition: transform 0.1s; }
         .logo-box:active { transform: scale(0.9); }
-        .header-logo { width: 100%; height: 100%; object-fit: cover; border-radius: 10px; }
+        .header-logo { width: 100%; height: 100%; object-fit: cover; z-index: 2; position: relative; }
+        .logo-svg { position: absolute; width: 26px; height: 26px; fill: var(--neon); z-index: 1; filter: drop-shadow(0 0 5px var(--neon)); }
         .brand-title { color: var(--neon); font-size: 20px; font-weight: 900; text-transform: uppercase; margin-left: 12px; letter-spacing: 1px; white-space: nowrap; }
 
         #home-view { padding-top: 130px; padding-bottom: 150px; }
@@ -38,57 +47,110 @@
         #hero-section { min-height: 480px; width: 100%; position: relative; display: flex; align-items: center; justify-content: center; overflow: hidden; border-radius: 0 0 40px 40px; border-bottom: 1px solid #222; background: #000; }
         .hero-bg { position: absolute; inset: 0; background-size: cover; background-position: center; filter: blur(60px) brightness(0.2); }
         .hero-content { position: relative; z-index: 2; width: 90%; max-width: 1000px; display: flex; flex-direction: row; align-items: center; gap: 50px; padding: 20px; }
-        .hero-cover { width: 280px; height: 280px; border-radius: 20px; background-size: cover; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
+        .hero-cover { width: 280px; height: 280px; border-radius: 20px; background-size: cover; border: 1px solid rgba(255,255,255,0.1); flex-shrink: 0; box-shadow: 0 20px 50px rgba(0,0,0,0.8); }
         .hero-info { flex: 1; min-width: 0; }
         .hero-title { font-size: 40px; font-weight: 900; color: white; margin: 0; line-height: 1.2; }
         .hero-artist { color: var(--neon); font-size: 22px; font-weight: 700; margin: 10px 0; }
-        .hero-bio { font-size: 15px; color: #ccc; line-height: 1.6; border-left: 3px solid var(--neon); padding-left: 15px; max-height: 120px; overflow-y: auto; }
-        .hero-btn-play { background: var(--neon); border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px var(--neon); color: black; }
+        .hero-bio { font-size: 15px; color: #ccc; line-height: 1.6; margin-top: 15px; border-left: 3px solid var(--neon); padding-left: 15px; max-height: 100px; overflow-y: auto; }
+        .hero-actions { display: flex; align-items: center; gap: 20px; margin-top: 20px; }
+        .hero-btn-play { background: var(--neon); border: none; width: 60px; height: 60px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px var(--neon); color: black; transition: 0.3s; }
+        .hero-btn-play:hover { transform: scale(1.05); }
 
         .filter-scroll { display: flex; overflow-x: auto; padding: 10px 20px; gap: 10px; margin-bottom: 20px; scrollbar-width: none; }
         .filter-scroll::-webkit-scrollbar { display: none; }
         .filter-btn { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 8px 18px; border-radius: 20px; font-size: 14px; font-weight: bold; cursor: pointer; white-space: nowrap; transition: 0.3s; }
         .filter-btn.active { background: var(--neon); color: black; border-color: var(--neon); box-shadow: 0 0 15px rgba(0,210,255,0.3); }
 
-        .carousel { display: flex; overflow-x: auto; padding: 0 20px 30px 20px; gap: 20px; }
-        .n-card { min-width: 160px; cursor: pointer; transition: 0.3s; }
-        .n-img { width: 160px; height: 160px; border-radius: 15px; background-size: cover; background-position: center; border: 1px solid #222; position: relative; overflow: hidden; }
-        .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; }
+        .carousel { display: flex; overflow-x: auto; padding: 0 20px 30px 20px; gap: 20px; max-width: 1100px; margin: 0 auto; }
+        .n-card { min-width: 155px; cursor: pointer; transition: 0.3s; position: relative; }
+        .n-card:hover { transform: translateY(-5px); }
+        .n-img { width: 155px; height: 155px; border-radius: 15px; background-size: cover; background-position: center; border: 1px solid #222; position: relative; overflow: hidden; }
+        .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; border-radius: 15px; z-index: 1; }
         .n-card:hover .n-overlay { opacity: 1; }
+        .n-play-icon { width: 45px; height: 45px; background: var(--neon); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: black; }
         
-        .btn-fav-card { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.7); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 14px; color: white; border: 1px solid rgba(255,255,255,0.2); }
-        .btn-add-list { position: absolute; top: 8px; right: 45px; background: rgba(0,0,0,0.7); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 16px; color: white; border: 1px solid rgba(255,255,255,0.2); }
-        .btn-delete-card { display: none; position: absolute; top: 8px; left: 8px; background: #ff4444; border-radius: 50%; width: 32px; height: 32px; align-items: center; justify-content: center; }
+        .btn-fav-card { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; z-index: 3; backdrop-filter: blur(5px); color: white; transition: 0.2s; }
+        .btn-fav-card:hover { transform: scale(1.2); }
+        
+        .btn-add-list { position: absolute; top: 8px; right: 45px; background: rgba(0,0,0,0.7); border: 1px solid rgba(255,255,255,0.2); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font-size: 16px; cursor: pointer; z-index: 3; backdrop-filter: blur(5px); color: white; transition: 0.2s; font-weight: bold; }
+        .btn-add-list:hover { transform: scale(1.2); color: var(--neon); border-color: var(--neon); }
+        
+        .btn-delete-card { display: none; position: absolute; top: 8px; left: 8px; background: #ff4444; border: 1px solid white; border-radius: 50%; width: 32px; height: 32px; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; z-index: 4; color: white; box-shadow: 0 0 10px black; }
+        .btn-edit-card { display: none; position: absolute; top: 8px; left: 45px; background: var(--yellow); border: 1px solid black; border-radius: 50%; width: 32px; height: 32px; align-items: center; justify-content: center; font-size: 14px; cursor: pointer; z-index: 4; color: black; box-shadow: 0 0 10px black; font-weight: bold; }
+        
         body.admin-mode .btn-delete-card { display: flex; }
+        body.admin-mode .btn-edit-card { display: flex; }
 
-        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(20px); border-top: 1px solid #222; padding: 12px 40px; display: none; z-index: 5000; align-items: center; justify-content: space-between; }
-        .mini-art { width: 50px; height: 50px; border-radius: 8px; border: 1px solid #333; background-size: cover; }
-        .btn-round { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.2); color: white; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+        #mini-player { position: fixed; bottom: 0; left: 0; width: 100%; background: rgba(5,5,5,0.98); backdrop-filter: blur(20px); border-top: 1px solid #222; padding: 12px 40px; display: none; z-index: 5000; align-items: center; justify-content: space-between; gap: 15px; }
+        .mini-main { display: flex; align-items: center; gap: 15px; flex: 1; cursor: pointer; min-width: 0; }
+        .mini-art { width: 50px; height: 50px; border-radius: 8px; border: 1px solid #333; background-size: cover; flex-shrink: 0; }
+        .mini-text { flex: 1; min-width: 0; }
+        .mini-title { font-size: 15px; font-weight: 800; color: white; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .mini-artist { font-size: 12px; color: var(--neon); font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .mini-controls { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+        .btn-round { background: rgba(255,255,255,0.05); border: 1.5px solid rgba(255,255,255,0.2); color: white; width: 42px; height: 42px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; flex-shrink: 0; }
+        .btn-round:hover { transform: scale(1.1); color: var(--neon); border-color: var(--neon); }
+        .btn-round svg { width: 22px; height: 22px; fill: currentColor; }
 
-        #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a, #000); z-index: 6000; transition: 0.4s; display: flex; flex-direction: column; padding: 40px; align-items: center; overflow-y: auto; }
+        #full-player { position: fixed; top: 100%; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at center, #1a1a1a, #000); z-index: 6000; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1); display: flex; flex-direction: column; padding: 40px; align-items: center; overflow-y: auto; }
         #full-player.active { top: 0; }
-        .fp-art { width: 320px; height: 320px; border-radius: 30px; background-size: cover; box-shadow: 0 30px 60px rgba(0,0,0,0.8); border: 2px solid #333; }
+        .btn-modern-down { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; cursor: pointer; align-self: flex-start; flex-shrink: 0; }
+        .btn-modern-down svg { width: 26px; height: 26px; fill: currentColor; }
+        .fp-art { width: 350px; height: 350px; border-radius: 30px; background-size: cover; box-shadow: 0 30px 60px rgba(0,0,0,0.8); border: 2px solid #333; flex-shrink: 0; }
+        .fp-controls { display: flex; align-items: center; gap: 30px; margin-top: 30px; }
+        .fp-btn-main { width: 85px; height: 85px; border-radius: 50%; background: var(--neon); border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 30px var(--neon); color: black; flex-shrink: 0; }
         
-        #seek-bar { width: 100%; max-width: 350px; -webkit-appearance: none; background: #333; height: 6px; border-radius: 5px; margin: 20px 0; }
-        #seek-bar::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 10px var(--neon); }
+        #seek-bar { flex: 1; -webkit-appearance: none; background: #333; height: 6px; border-radius: 5px; cursor: pointer; outline: none; }
+        #seek-bar::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--neon); border-radius: 50%; box-shadow: 0 0 12px var(--neon); cursor: pointer; }
 
-        .btn-wa { position: fixed; bottom: 95px; right: 25px; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; z-index: 4000; box-shadow: 0 0 20px rgba(37,211,102,0.4); text-decoration: none; }
+        .btn-cast-pc { transition: 0.3s; }
+        .btn-cast-pc.cast-active { background: rgba(0, 210, 255, 0.1); color: var(--neon); border-color: var(--neon); box-shadow: 0 0 20px var(--neon); }
+        #pantalla-salida { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:#080808; z-index:99999; flex-direction:column; align-items:center; justify-content:center; text-align:center; padding:20px; }
+        .btn-wa { position: fixed; bottom: 95px; right: 25px; background: #25D366; color: white; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 0 20px rgba(37,211,102,0.4); z-index: 4000; transition: 0.3s; }
+        .btn-wa:hover { transform: scale(1.1); box-shadow: 0 0 30px rgba(37,211,102,0.8); }
+        .btn-wa svg { width: 35px; height: 35px; fill: currentColor; }
 
         #admin-panel { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:10000; overflow-y:auto; padding:20px; }
         .admin-box { background:#111; border:1px solid var(--neon); max-width:500px; margin:50px auto; padding:20px; border-radius:20px; }
-        .admin-input, .admin-select { width:100%; background:#222; border:1px solid #444; color:white; padding:10px; margin-bottom:10px; border-radius:10px; }
-        .admin-btn { width:100%; background:var(--neon); color:black; font-weight:bold; padding:12px; border:none; border-radius:10px; cursor:pointer; }
+        .admin-input, .admin-select { width:100%; background:#222; border:1px solid #444; color:white; padding:10px; margin-bottom:10px; border-radius:10px; outline:none; }
+        .admin-btn { width:100%; background:var(--neon); color:black; font-weight:bold; padding:12px; border:none; border-radius:10px; cursor:pointer; margin-top:10px; }
+        .tab-btn { background: #333; color: white; border: none; padding: 10px; flex: 1; cursor: pointer; border-radius: 8px; font-weight: bold; }
+        .tab-btn.active { background: var(--neon); color: black; }
 
-        #modal-playlist { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:11000; align-items:center; justify-content:center; }
-        .modal-pl-content { background:#111; border: 2px solid var(--neon); padding:25px; border-radius:25px; width:100%; max-width:350px; text-align:center; }
+        #modal-playlist { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); z-index:11000; align-items:center; justify-content:center; padding: 20px; backdrop-filter: blur(5px); }
+        .modal-pl-content { background:#111; border: 2px solid var(--neon); padding:25px; border-radius:25px; width:100%; max-width:350px; text-align:center; box-shadow: 0 10px 40px rgba(0,0,0,0.8); }
+        .pl-item { background:#222; border: 1px solid #333; padding:12px; border-radius:12px; margin-bottom:10px; cursor:pointer; font-weight:bold; transition:0.2s; display: flex; justify-content: space-between; align-items: center; }
+        .pl-item:hover { background:var(--neon); color:black; }
 
         @media (max-width: 768px) {
-            header { height: 65px; }
-            .brand-title { font-size: 15px; }
-            #home-view { padding-top: 80px; }
-            .hero-content { flex-direction: column; text-align: center; gap: 20px; }
-            .hero-cover { width: 220px; height: 220px; }
-            .fp-art { width: 280px; height: 280px; }
+            header { padding: 10px 15px; height: 65px; }
+            .logo-box { width: 38px; height: 38px; }
+            .brand-title { font-size: 15px; margin-left: 8px; letter-spacing: 0.5px; }
+            #home-view { padding-top: 80px; padding-bottom: 120px; }
+            #hero-section { min-height: auto; padding: 30px 10px; border-radius: 0 0 25px 25px; }
+            .hero-content { flex-direction: column; text-align: center; gap: 20px; padding: 10px; }
+            .hero-cover { width: 220px; height: 220px; margin: 0 auto; }
+            .hero-title { font-size: 28px; }
+            .hero-artist { font-size: 18px; }
+            .hero-bio { border-left: none; border-bottom: 2px solid var(--neon); padding-left: 0; padding-bottom: 15px; max-height: none; }
+            .hero-actions { justify-content: center; width: 100%; gap: 30px; }
+            .carousel { padding: 0 10px 20px 10px; gap: 12px; }
+            .n-card { min-width: 140px; width: 140px; }
+            .n-img { width: 140px; height: 140px; }
+            #carousel-all { gap: 15px; padding-bottom: 50px; }
+            #mini-player { padding: 10px 15px; gap: 10px; }
+            .mini-art { width: 45px; height: 45px; }
+            .mini-controls { gap: 12px; }
+            .btn-round { width: 38px; height: 38px; }
+            .btn-round svg { width: 20px; height: 20px; }
+            #full-player { padding: 25px 20px; }
+            .fp-art { width: 280px; height: 280px; margin-top: 15px; }
+            #fp-title { font-size: 26px !important; text-align: center; }
+            #fp-artist { font-size: 18px !important; text-align: center; }
+            .fp-controls { gap: 20px; width: 100%; justify-content: center; }
+            .fp-btn-main { width: 75px; height: 75px; }
+            .btn-wa { bottom: 85px; right: 20px; width: 55px; height: 55px; }
+            .btn-wa svg { width: 30px; height: 30px; }
         }
     </style>
 </head>
@@ -97,42 +159,86 @@
 <header>
     <div style="display:flex; align-items:center; cursor:pointer;" onclick="window.triggerAdmin()">
         <div class="logo-box">
-            <img src="logo.jpg" class="header-logo" alt="ML" onerror="this.src='logo.png'">
+            <svg class="logo-svg" id="svg-respaldo" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+            <img src="logo.jpg?v=100" class="header-logo" alt="ML" 
+                 onload="document.getElementById('svg-respaldo').style.display='none'" 
+                 onerror="this.src='logo.png?v=100'; this.onerror=null;">
         </div>
         <div class="brand-title">MUSIC LAND PROJECT</div>
     </div>
     <div style="display:flex; gap: 8px;">
-        <button id="btn-instalar" style="display:none; background:var(--neon); color:black; border:none; padding:5px 12px; border-radius:20px; font-weight:bold;">📥 INSTALAR</button>
+        <button id="btn-instalar" style="display:none; background:var(--neon); color:black; border:none; padding:5px 12px; border-radius:20px; font-weight:bold; cursor:pointer;">📥 INSTALAR</button>
         <button onclick="window.confirmarSalida()" style="background:transparent; border:1px solid #ff4444; color:#ff4444; padding:5px 12px; border-radius:20px; cursor:pointer;">SALIR</button>
     </div>
 </header>
 
 <div id="modal-playlist">
     <div class="modal-pl-content">
-        <h3 style="color:var(--neon); margin-top:0;">Guardar en Playlist</h3>
+        <h3 style="color:var(--neon); margin-top:0; font-size: 22px;">Guardar en Playlist</h3>
         <div id="pl-list" style="max-height:180px; overflow-y:auto; margin-bottom:15px; text-align: left;"></div>
-        <input type="text" id="pl-new-name" placeholder="Nombre nueva lista..." style="width:100%; padding:10px; border-radius:10px; border:1px solid #444; background:#000; color:white;">
-        <button onclick="window.crearPlaylist()" class="admin-btn" style="margin-top:10px;">➕ CREAR Y AGREGAR</button>
-        <button onclick="document.getElementById('modal-playlist').style.display='none'" style="width:100%; background:transparent; color:#888; border:none; margin-top:10px; cursor:pointer;">Cancelar</button>
+        <div style="border-top: 1px solid #333; padding-top: 15px; margin-top: 10px;">
+            <input type="text" id="pl-new-name" placeholder="Nombre nueva lista..." style="width:100%; padding:12px; border-radius:12px; border:1px solid #444; background:#000; color:white; margin-bottom:10px; font-family: inherit;">
+            <button onclick="window.crearPlaylist()" style="width:100%; padding:12px; background:var(--neon); color:black; font-weight:900; border:none; border-radius:12px; cursor:pointer;">➕ CREAR Y AGREGAR</button>
+        </div>
+        <button onclick="document.getElementById('modal-playlist').style.display='none'" style="width:100%; padding:10px; background:transparent; color:#888; border:none; margin-top:15px; cursor:pointer; font-weight: bold;">Cancelar</button>
     </div>
 </div>
 
 <div id="admin-panel">
     <div class="admin-box">
-        <h2 style="color:var(--neon); text-align:center;">DIRECTOR 🛠️</h2>
-        <input type="text" id="up-titulo" class="admin-input" placeholder="Título">
-        <input type="text" id="up-artista" class="admin-input" placeholder="Artista">
-        <select id="up-categoria" class="admin-select">
-            <option value="Salsa">Salsa</option><option value="Merengue">Merengue</option><option value="Tropical">Tropical</option>
-            <option value="Funk">Funk</option><option value="Disco">Disco</option><option value="RockEsp">Rock Esp</option>
-            <option value="BaladaEsp">Balada Esp</option><option value="BaladaIng">Balada Ing</option><option value="PopRock">Pop/Rock</option>
-            <option value="Rancheras">Rancheras</option><option value="Llanera">Llanera</option><option value="Jazz">Jazz</option>
-            <option value="Soul">Soul</option><option value="Remixes">Remixes</option><option value="Mix">Mix</option>
-            <option value="Podcast">Podcast</option><option value="IA">I.A.</option><option value="Varios">Varios</option>
-        </select>
-        <input type="text" id="up-mp3-link" class="admin-input" placeholder="Link MP3">
-        <button onclick="window.subirCancion()" class="admin-btn">🚀 SUBIR A LA RADIO</button>
-        <button onclick="document.getElementById('admin-panel').style.display='none'" style="width:100%; margin-top:10px; background:#333; color:white; border:none; padding:10px; border-radius:10px;">CERRAR</button>
+        <h2 style="color:var(--neon); text-align:center;">PANEL DE DIRECTOR 🛠️</h2>
+        <div style="display:flex; gap:10px; margin-bottom:20px;">
+            <button class="tab-btn active" onclick="verTab('cancion', this)">🎵 Subir/Editar</button>
+            <button class="tab-btn" onclick="verTab('perfil', this)">🖼️ Portada/Destacado</button>
+        </div>
+        <div id="tab-cancion">
+            <input type="hidden" id="edit-id" value="">
+            <input type="hidden" id="edit-img-url" value="">
+            <input type="text" id="up-titulo" class="admin-input" placeholder="Título de la Canción">
+            <input type="text" id="up-artista" class="admin-input" placeholder="Nombre del Artista">
+            <label style="color:#ccc; display:block; margin-top:5px;">📁 Categoría / Género:</label>
+            <select id="up-categoria" class="admin-select">
+                <option value="Salsa">Salsa</option>
+                <option value="Merengue">Merengue</option>
+                <option value="Tropical">Tropical</option>
+                <option value="Funk">Funk</option>
+                <option value="Disco">Disco</option>
+                <option value="RockEsp">Rock en Español</option>
+                <option value="BaladaEsp">Baladas en Español</option>
+                <option value="BaladaIng">Baladas en Inglés</option>
+                <option value="PopRock">Pop & Rock (Anglo)</option>
+                <option value="Rancheras">Rancheras</option>
+                <option value="Llanera">Música Llanera</option>
+                <option value="Jazz">Jazz</option>
+                <option value="Soul">R&B / Soul</option>
+                <option value="Remixes">Remixes</option>
+                <option value="Mix">Mix</option>
+                <option value="Podcast">Podcast</option>
+                <option value="IA">I.A.</option>
+                <option value="Varios">Varios / Otro</option>
+            </select>
+            <label id="lbl-up-img" style="color:#ccc; display:block; margin-top:10px;">📸 Portada Canción (JPG/PNG)</label>
+            <input type="file" id="up-img" class="admin-input" accept="image/*">
+            <label style="color:#ccc; display:block; margin-top:10px;">🔗 Enlace Audio</label>
+            <input type="text" id="up-mp3-link" class="admin-input" placeholder="Pega aquí el link del MP3">
+            <div style="display:flex; gap:10px; margin-top:15px;">
+                <button onclick="window.subirCancion()" id="btn-subir" class="admin-btn" style="flex:2; margin-top:0;">🚀 SUBIR A LA LISTA</button>
+                <button onclick="window.cancelarEdicion()" id="btn-cancelar-edit" class="admin-btn" style="flex:1; background:#444; color:white; display:none; margin-top:0;">❌ CANCELAR</button>
+            </div>
+        </div>
+        <div id="tab-perfil" style="display:none;">
+            <p style="color:#aaa; font-size:13px; text-align:center;">Cambia la Portada Principal.</p>
+            <input type="text" id="prof-titulo" class="admin-input" placeholder="Título Principal">
+            <input type="text" id="prof-subtitulo" class="admin-input" placeholder="Subtítulo / Artista">
+            <textarea id="prof-bio" class="admin-input" rows="4" placeholder="Escribe la Biografía..."></textarea>
+            <label style="color:#ccc; display:block; margin-top:10px;">📸 Imagen Portada (JPG/PNG)</label>
+            <input type="file" id="prof-img" class="admin-input" accept="image/*">
+            <label style="color:#ccc; display:block; margin-top:10px;">🔗 Audio Destacado</label>
+            <input type="text" id="prof-mp3-link" class="admin-input" placeholder="Pega aquí el link del MP3">
+            <button onclick="window.actualizarPerfil()" class="admin-btn" style="background:#ffdd00;">💾 ACTUALIZAR PORTADA</button>
+        </div>
+        <div id="upload-status" style="color:white; text-align:center; margin-top:10px;"></div>
+        <button onclick="window.cancelarEdicion(); document.getElementById('admin-panel').style.display='none'" style="background:#333; color:white; width:100%; padding:10px; border:none; border-radius:10px; margin-top:10px; cursor:pointer;">CERRAR</button>
     </div>
 </div>
 
@@ -144,10 +250,10 @@
             <div class="hero-info">
                 <div id="hero-title" class="hero-title">...</div>
                 <div id="hero-artist" class="hero-artist">...</div>
-                <div id="hero-bio" class="hero-bio">Cargando rockola...</div>
+                <div id="hero-bio" class="hero-bio">Cargando la rockola...</div>
                 <div class="hero-actions">
                     <button id="hero-play-btn" class="hero-btn-play"></button>
-                    <button id="hero-fav-btn" style="background:none;border:none;font-size:35px;cursor:pointer;">🤍</button>
+                    <button id="hero-fav-btn" style="background:none;border:none;font-size:35px;cursor:pointer;padding:0;transition:0.3s;">🤍</button>
                 </div>
             </div>
         </div>
@@ -156,7 +262,7 @@
     <div id="feed-container">
         <div id="seccion-playlists">
             <h3 id="title-play" style="margin-left:20px; display:none; color: var(--neon);">📁 Tus Playlists</h3>
-            <div class="filter-scroll" id="carousel-play"></div>
+            <div class="filter-scroll" id="carousel-play" style="display:none; margin-bottom:15px; padding-bottom: 5px;"></div>
         </div>
 
         <div class="filter-scroll" id="main-filters">
@@ -184,10 +290,9 @@
         <div id="secciones-extra">
             <h3 style="margin-left:20px; color: var(--neon);">💡 Sugerencias para ti</h3>
             <div id="carousel-sug" class="carousel"></div>
-            <h3 id="title-fav" style="margin-left:20px; display:none; color: #ff4444;">❤️ Mis Favoritos</h3>
+            <h3 id="title-fav" style="margin-left:20px; display:none; color: #ff4444;">❤️ Tus Favoritos</h3>
             <div id="carousel-fav" class="carousel" style="display:none;"></div>
-            <h3 style="margin-left:20px;">🔥 Novedades</h3>
-            <div id="carousel-new" class="carousel"></div>
+            <h3 style="margin-left:20px;">🔥 Novedades</h3><div id="carousel-new" class="carousel"></div>
         </div>
         
         <h3 id="titulo-catalogo" style="margin-left:20px;">📂 Catálogo Completo</h3>
@@ -200,38 +305,48 @@
 
 <div id="mini-player">
     <div style="position: absolute; top: 0; left: 0; width: 100%; height: 2px; background: #222;">
-        <div id="mini-progress" style="height: 100%; width: 0%; background: var(--neon);"></div>
+        <div id="mini-progress" style="height: 100%; width: 0%; background: var(--neon); box-shadow: 0 0 5px var(--neon);"></div>
     </div>
     <div class="mini-main" onclick="window.openFullPlayer()">
         <div id="mini-art" class="mini-art"></div>
-        <div style="margin-left:10px;">
-            <div id="mini-title" style="font-size:14px; font-weight:bold; color:white;">...</div>
-            <div id="mini-artist" style="font-size:11px; color:var(--neon);">...</div>
+        <div class="mini-text">
+            <div id="mini-title" class="mini-title">...</div>
+            <div id="mini-artist" class="mini-artist">...</div>
         </div>
     </div>
-    <button onclick="window.toggleMainPlay()" id="mini-play-btn" class="btn-round" style="background:var(--neon); color:black; border:none;"></button>
+    <div class="mini-controls">
+        <button onclick="window.toggleMainPlay()" id="mini-play-btn" class="btn-round" style="background:var(--neon); color:black; border:none;"></button>
+    </div>
 </div>
 
 <div id="full-player">
-    <button onclick="window.closeFullPlayer()" style="background:none; border:none; color:white; font-size:30px; align-self:flex-start;">✕</button>
+    <button onclick="window.closeFullPlayer()" class="btn-modern-down"><svg viewBox="0 0 24 24" width="24"><path fill="white" d="M7.41 8.59L12 13.17l4.59-4.58L18 10l-6 6-6-6 1.41-1.41z"/></svg></button>
     <div id="fp-art" class="fp-art" style="margin-top:20px;"></div>
-    <div id="fp-title" style="font-size:28px; font-weight:900; color:white; margin-top:20px; text-align:center;">...</div>
-    <div id="fp-artist" style="font-size:18px; color:var(--neon); text-align:center;">...</div>
+    <div id="fp-title" style="font-size:30px;font-weight:900;color:white; margin-top:25px; text-align:center;">...</div>
+    <div id="fp-artist" style="font-size:18px;color:var(--neon);font-weight:700;margin-top:4px; text-align:center;">...</div>
     <div style="width: 100%; max-width: 350px; margin-top: 25px; display: flex; align-items: center; gap: 15px;">
         <span id="time-current" style="font-size: 13px;">0:00</span>
         <input type="range" id="seek-bar" value="0" min="0" step="1">
         <span id="time-total" style="font-size: 13px;">0:00</span>
     </div>
-    <button onclick="window.toggleMainPlay()" id="fp-play-btn" class="btn-round" style="width:70px; height:70px; background:var(--neon); color:black; margin-top:30px;"></button>
+    <button onclick="window.toggleMainPlay()" id="fp-play-btn" class="fp-btn-main" style="margin-top:30px;"></button>
+    <button onclick="window.startCast()" id="btn-cast-fijo" class="btn-round btn-cast-pc" style="width:55px; height:55px; margin-top:20px;">
+        <svg viewBox="0 0 24 24"><path d="M1 18v3h3c0-1.66-1.34-3-3-3zm0-4v2c2.76 0 5 2.24 5 5h2c0-3.87-3.13-7-7-7zm0-4v2c4.97 0 9 4.03 9 9h2c0-6.08-4.93-11-11-11zm9 11v-7l9 3.5-9 3.5z"/></svg>
+    </button>
+</div>
+
+<div id="pantalla-salida">
+    <img src="logo.jpg" alt="Logo" style="width:120px; height:120px; border-radius:20px; box-shadow: 0 0 30px rgba(0, 210, 255, 0.4); margin-bottom: 25px;" onerror="this.src='logo.png'">
+    <h2 style="color:white; margin:0; font-size:28px;">Música Detenida</h2>
+    <button onclick="location.reload()" style="margin-top:40px; background:transparent; border:1px solid var(--neon); color:var(--neon); padding:10px 25px; border-radius:30px; cursor:pointer; font-weight:bold;">VOLVER A LA RADIO</button>
 </div>
 
 <a href="https://wa.me/584125852879" target="_blank" class="btn-wa">
-    <svg viewBox="0 0 24 24" width="35" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 19.84C10.57 19.84 9.14 19.45 7.9 18.71L7.61 18.54L4.47 19.36L5.31 16.3L5.12 16C4.33 14.78 3.91 13.36 3.91 11.91C3.91 7.43 7.56 3.79 12.05 3.79C14.22 3.79 16.27 4.64 17.8 6.18C19.34 7.71 20.19 9.76 20.19 11.92C20.19 16.4 16.54 20.04 12.05 20.04M16.52 13.79C16.27 13.67 15.06 13.07 14.83 12.99C14.6 12.91 14.43 12.87 14.27 13.11C14.1 13.36 13.64 13.92 13.5 14.09C13.36 14.27 13.21 14.29 12.96 14.17C12.72 14.04 11.92 13.78 10.97 12.94C10.23 12.28 9.72 11.45 9.58 11.2C9.43 10.96 9.56 10.82 9.69 10.7C9.8 10.59 9.94 10.42 10.06 10.28C10.18 10.13 10.23 10.03 10.3 9.87C10.39 9.7 10.34 9.56 10.28 9.44C10.22 9.32 9.72 8.1 9.52 7.6C9.32 7.12 9.12 7.18 8.97 7.18C8.83 7.18 8.66 7.18 8.5 7.18C8.34 7.18 8.08 7.24 7.85 7.5C7.63 7.76 7 8.35 7 9.55C7 10.75 7.88 11.91 8 12.08C8.13 12.25 9.73 14.71 12.18 15.76C12.76 16.01 13.22 16.16 13.58 16.27C14.16 16.45 14.69 16.41 15.11 16.35C15.58 16.28 16.52 15.78 16.72 15.22C16.92 14.66 16.92 14.18 16.85 14.09C16.78 13.99 16.63 13.93 16.38 13.8L16.52 13.79Z"/></svg>
-</a>
+    <svg viewBox="0 0 24 24" width="35" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91C2.13 13.66 2.59 15.36 3.45 16.86L2.05 22L7.3 20.62C8.75 21.41 10.38 21.83 12.04 21.83C17.5 21.83 21.95 17.38 21.95 11.92C21.95 9.27 20.92 6.78 19.05 4.91C17.18 3.03 14.69 2 12.04 2M12.05 19.84C10.57 19.84 9.14 19.45 7.9 18.71L7.61 18.54L4.47 19.36L5.31 16.3L5.12 16C4.33 14.78 3.91 13.36 3.91 11.91C3.91 7.43 7.56 3.79 12.05 3.79C14.22 3.79 16.27 4.64 17.8 6.18C19.34 7.71 20.19 9.76 20.19 11.92C20.19 16.4 16.54 20.04 12.05 20.04M16.52 13.79C16.27 13.67 15.06 13.07 14.83 12.99C14.6 12.91 14.43 12.87 14.27 13.11C14.1 13.36 13.64 13.92 13.5 14.09C13.36 14.27 13.21 14.29 12.96 14.17C12.72 14.04 11.92 13.78 10.97 12.94C10.23 12.28 9.72 11.45 9.58 11.2C9.43 10.96 9.56 10.82 9.69 10.7C9.8 10.59 9.94 10.42 10.06 10.28C10.18 10.13 10.23 10.03 10.3 9.87C10.39 9.7 10.34 9.56 10.28 9.44C10.22 9.32 9.72 8.1 9.52 7.6C9.32 7.12 9.12 7.18 8.97 7.18C8.83 7.18 8.66 7.18 8.5 7.18C8.34 7.18 8.08 7.24 7.85 7.5C7.63 7.76 7 8.35 7 9.55C7 10.75 7.88 11.91 8 12.08C8.13 12.25 9.73 14.71 12.18 15.76C12.76 16.01 13.22 16.16 13.58 16.27C14.16 16.45 14.69 16.41 15.11 16.35C15.58 16.28 16.52 15.78 16.72 15.22C16.92 14.66 16.92 14.18 16.85 14.09C16.78 13.99 16.63 13.93 16.38 13.8L16.52 13.79Z"/></svg></a>
 
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, onSnapshot, query, orderBy, addDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getFirestore, collection, onSnapshot, query, orderBy, addDoc, setDoc, deleteDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = { apiKey: "AIzaSyBwBq4gLgv4DSfUidzUuC7Irmvj_4pCTtI", authDomain: "familia-yajure-app.firebaseapp.com", projectId: "familia-yajure-app", storageBucket: "familia-yajure-app.firebasestorage.app", messagingSenderId: "692035727386", appId: "1:692035727386:web:dfa3e39a481d56368a61a3" };
     const app = initializeApp(firebaseConfig);
@@ -249,8 +364,14 @@
         filtroActual = cat;
         document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
         if(btn) btn.classList.add('active');
-        document.getElementById('secciones-extra').style.display = (cat === 'Todo') ? 'block' : 'none';
-        document.getElementById('titulo-catalogo').innerText = (cat === 'Todo') ? '📂 Catálogo Completo' : '📂 Filtrado: ' + cat;
+        
+        // CORRECCIÓN 3: Si no es 'Todo', ocultamos las secciones de arriba para que no estorben
+        const seccionesExtra = document.getElementById('secciones-extra');
+        seccionesExtra.style.display = (cat === 'Todo') ? 'block' : 'none';
+        
+        const tituloCat = document.getElementById('titulo-catalogo');
+        tituloCat.innerText = (cat === 'Todo') ? '📂 Catálogo Completo' : '📂 Filtrado: ' + cat;
+        
         renderFeeds();
     };
 
@@ -277,15 +398,31 @@
 
     function renderFeeds() {
         const createCard = (c) => `<div class="n-card" onclick="window.gestionarPlay('${c.id}')"><div class="n-img" style="background-image:url('${c.imagenUrl}')"><div class="btn-delete-card">🗑️</div><button class="btn-fav-card">${misFavoritos.includes(c.id)?'❤️':'🤍'}</button><div class="n-overlay"><div class="n-play-icon">${idActual===c.id&&!media.paused?SVG_PAUSE:SVG_PLAY}</div></div></div><div style="font-size:14px;font-weight:700;color:white;margin-top:8px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${c.titulo}</div><div style="font-size:12px;color:var(--neon);">${c.artista}</div></div>`;
+        
         let filtradas = (filtroActual === 'Todo') ? canciones : canciones.filter(c => c.categoria === filtroActual);
+        
         document.getElementById('carousel-all').innerHTML = filtradas.map(c => createCard(c)).join('');
         document.getElementById('carousel-new').innerHTML = canciones.slice(0, 10).map(c => createCard(c)).join('');
+        
         const fList = canciones.filter(c => misFavoritos.includes(c.id));
         document.getElementById('title-fav').style.display = fList.length ? 'block' : 'none';
         document.getElementById('carousel-fav').style.display = fList.length ? 'flex' : 'none';
         document.getElementById('carousel-fav').innerHTML = fList.map(c => createCard(c)).join('');
+
+        // Sugerencias (Fija para no perder cable)
+        let sug = canciones.slice(0, 10).sort(() => 0.5 - Math.random());
+        document.getElementById('carousel-sug').innerHTML = sug.map(c => createCard(c)).join('');
     }
 
+    // --- CARPETAS / PLAYLISTS ---
+    function renderPlaylists() {
+        const container = document.getElementById('carousel-play');
+        const lists = Object.keys(misPlaylists);
+        document.getElementById('title-play').style.display = lists.length ? 'block' : 'none';
+        container.innerHTML = lists.map(n => `<button class="filter-btn" onclick="window.filtrar('PLAYLIST:${n}', this)">📁 ${n}</button>`).join('');
+    }
+
+    // --- REPRODUCTOR (CORRECCIÓN VITAL) ---
     window.gestionarPlay = async (id) => {
         let s = canciones.find(c => c.id === id) || (id === 'PERFIL_MAIN' ? perfilData : null);
         if(!s) return;
@@ -298,9 +435,14 @@
             document.getElementById('fp-title').innerText = s.titulo;
             document.getElementById('fp-artist').innerText = s.artista;
             document.getElementById('fp-art').style.backgroundImage = `url('${s.imagenUrl}')`;
-            media.pause(); media.removeAttribute('crossorigin'); media.src = s.mp3Url; media.load();
+            
+            media.pause();
+            media.removeAttribute('crossorigin'); // Aquí saltamos el bloqueo de Archive
+            media.src = s.mp3Url;
+            media.load();
             try { await media.play(); } catch(e) { media.play(); }
         } else { media.paused ? media.play() : media.pause(); }
+        
         const icon = media.paused ? SVG_PLAY : SVG_PAUSE;
         [document.getElementById('mini-play-btn'), document.getElementById('fp-play-btn'), document.getElementById('hero-play-btn')].forEach(b => b.innerHTML = icon);
         renderFeeds();
@@ -309,8 +451,9 @@
     window.toggleMainPlay = () => { media.paused ? media.play() : media.pause(); window.gestionarPlay(idActual); };
     window.openFullPlayer = () => document.getElementById('full-player').classList.add('active');
     window.closeFullPlayer = () => document.getElementById('full-player').classList.remove('active');
-    window.triggerAdmin = () => { if(prompt("Clave:") === "ticoadmin2026") document.body.classList.add('admin-mode'); document.getElementById('admin-panel').style.display='block'; };
+    window.triggerAdmin = () => { if(prompt("Acceso:") === "ticoadmin2026") { document.body.classList.add('admin-mode'); document.getElementById('admin-panel').style.display='block'; } };
     window.confirmarSalida = () => { if(confirm("¿Salir?")) location.reload(); };
+
     media.addEventListener('timeupdate', () => {
         document.getElementById('mini-progress').style.width = (media.currentTime / media.duration) * 100 + "%";
         document.getElementById('seek-bar').value = media.currentTime;
