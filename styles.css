@@ -32,7 +32,10 @@ header { background: rgba(0,0,0,0.98); backdrop-filter: blur(10px); padding: 10p
 .filter-btn.active { background: var(--neon); color: black; border-color: var(--neon); box-shadow: 0 0 15px rgba(0,210,255,0.3); }
 
 .carousel { display: flex; overflow-x: auto; padding: 0 20px 30px 20px; gap: 20px; max-width: 1100px; margin: 0 auto; }
-.n-card { min-width: 155px; cursor: pointer; transition: 0.3s; position: relative; }
+
+/* 🔥 AQUÍ ESTÁ LA MAGIA: Obligamos a la tarjeta a medir exactamente 155px 🔥 */
+.n-card { width: 155px; min-width: 155px; max-width: 155px; cursor: pointer; transition: 0.3s; position: relative; }
+
 .n-card:hover { transform: translateY(-5px); }
 .n-img { width: 155px; height: 155px; border-radius: 15px; background-size: cover; background-position: center; border: 1px solid #222; position: relative; overflow: hidden; }
 .n-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: 0.2s; }
